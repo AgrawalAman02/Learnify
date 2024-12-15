@@ -1,3 +1,4 @@
+import { useLoginUserMutation, useRegisterUserMutation } from "@/apis/authApi";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,7 +11,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import React, { useState } from "react";
+import { Loader2 } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export function SignInOut() {
   const [signUpInput, setSignUpInput] = useState({
@@ -24,6 +27,44 @@ export function SignInOut() {
     password: "",
   });
 
+  const [
+    registerUser,
+    {
+      data: registerData,
+      error: registerError,
+      isLoading: isRegisterLoading,
+      isSuccess: isRegisterSuccess,
+    },
+  ] = useRegisterUserMutation();
+
+  const [
+    loginUser,
+    {
+      data: loginData,
+      error: loginError,
+      isLoading: isLoginLoading,
+      isSuccess: isLoginSuccess,
+    },
+  ] = useLoginUserMutation();
+
+  useEffect(()=>{
+    if(isRegisterSuccess && registerData){
+      toast.success(registerData.message || "User sign-up successful!");
+    }
+    else if(registerError ){
+      toast.success(registerData.data.message || "Sign Up Falied!");
+    }
+    else if(loginError ){
+      toast.success(loginData.data.message || "Login In Falied!");
+    }
+    else if(isLoginSuccess && loginData){
+      toast.success(loginData.message || "Login successful!");
+    }
+  },
+  [
+    isLoginLoading,isRegisterLoading,loginData,registerData,loginError, registerError
+  ])
+
   const changeInputHandler = (e, type) => {
     const { name, value } = e.target;
     if (type === "signUp") {
@@ -33,8 +74,10 @@ export function SignInOut() {
     }
   };
 
-  const buttonHandler  = (type)=>{
-    const inputData = type==="signUp" ? signUpInput : signInInput;
+  const buttonHandler = async (type) => {
+    const inputData = type === "signUp" ? signUpInput : signInInput;
+    const action = type ==="signUp" ? registerUser : loginUser;
+    await action(inputData);
     setSignInInput({
       email: "",
       password: "",
@@ -44,7 +87,7 @@ export function SignInOut() {
       email: "",
       password: "",
     });
-  }
+  };
 
   return (
     <div className="flex items-center justify-center mt-32">
@@ -96,7 +139,17 @@ export function SignInOut() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button onClick={()=>buttonHandler()}>Register</Button>
+              <Button 
+                disabled = {isRegisterLoading}
+                onClick={() => buttonHandler("signUp")}>
+                  {
+                    isRegisterLoading? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin "/> Please Wait...
+                      </>
+                    ) : "Register"
+                  }
+              </Button>
             </CardFooter>
           </Card>
         </TabsContent>
@@ -133,7 +186,17 @@ export function SignInOut() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button onClick={()=>buttonHandler()}>Sign In</Button>
+              <Button 
+                disabled = {isLoginLoading}
+                onClick={() => buttonHandler("signIn")}>
+                  {
+                    isLoginLoading? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin "/> Logging...
+                      </>
+                    ) : "Login"
+                  }
+              </Button>
             </CardFooter>
           </Card>
         </TabsContent>
