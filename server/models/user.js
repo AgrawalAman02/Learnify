@@ -1,4 +1,7 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose, {Error, Schema} from "mongoose";
+import validator from "validator";
+import jwt from "jsonwebtoken"
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 const userSchema = new mongoose.Schema({
     name :{
@@ -32,11 +35,21 @@ const userSchema = new mongoose.Schema({
     ],
     photoUrl:{
         type : String,
-        default : 'https://img.freepik.com/free-psd/3d-rendering-boy-avatar-emoji_23-2150603408.jpg?t=st=1734248876~exp=1734252476~hmac=9af3ef85c9cbeca42226f4d919d6be1ea5bd5397f813674a733049d4cad42e26&w=740'
+        default : 'https://img.freepik.com/free-psd/3d-rendering-boy-avatar-emoji_23-2150603408.jpg?t=st=1734248876~exp=1734252476~hmac=9af3ef85c9cbeca42226f4d919d6be1ea5bd5397f813674a733049d4cad42e26&w=740',
+        validate(value){
+            if(!validator.isURL(value)) throw new Error("Invalid photo url");
+        }
     }
 },{
     timestamps:true,
 });
+
+userSchema.methods.getJWT= function(){
+    const user = this;
+    const token = jwt.sign({id : user._id}, JWT_SECRET_KEY, {expiresIn : "1d" });
+    return token;
+}
+
 
 export const User = mongoose.model("User",userSchema);
 
