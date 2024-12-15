@@ -47,10 +47,7 @@ export const login = async (req , res)=>{
             httpOnly : true,
             sameSite :'strict',
         });
-        return res.status(200).json({
-            success : true,
-            message : "User logged in  successfully"
-        });
+        res.send(user);
         
     } catch (error) {
         return res.status(500).json({
