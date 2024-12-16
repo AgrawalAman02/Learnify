@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export function SignInOut() {
@@ -47,9 +48,11 @@ export function SignInOut() {
     },
   ] = useLoginUserMutation();
 
+  const navigate = useNavigate();
   useEffect(()=>{
     if(isRegisterSuccess && registerData){
       toast.success(registerData.message || "User sign-up successful!");
+      navigate("/");
     }
     else if(registerError ){
       toast.success(registerData.data.message || "Sign Up Falied!");
@@ -59,6 +62,7 @@ export function SignInOut() {
     }
     else if(isLoginSuccess && loginData){
       toast.success(loginData.message || "Login successful!");
+      navigate("/")
     }
   },
   [
@@ -90,10 +94,10 @@ export function SignInOut() {
   };
 
   return (
-    <div className="flex items-center justify-center mt-32">
-      <Tabs defaultValue="signIn" className="w-[400px]">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="signUp">SignUp</TabsTrigger>
+    <div className="flex items-center justify-center mt-28">
+      <Tabs defaultValue="signIn" className="w-[420px]">
+        <TabsList className="grid w-full grid-cols-2 ">
+          <TabsTrigger value="signUp" >SignUp</TabsTrigger>
           <TabsTrigger value="signIn">SignIn</TabsTrigger>
         </TabsList>
         <TabsContent value="signUp">

@@ -1,19 +1,31 @@
-// import { Routes, Route } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
 import './App.css'
-import NavBar from './components/NavBar'
 import SignInOut from './pages/SignInOut'
-import { ThemeProvider } from "@/components/themeProvider"
+import MainLayout from './Layout/MainLayout'
+import HomePage from './pages/student/HomePage'
+import { RouterProvider } from 'react-router'
+
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout/>,
+    children :[
+      {
+        path: "/",
+        element : <HomePage/>,
+      },
+      {
+        path : "/auth",
+        element : <SignInOut/>
+      }
+    ]
+  }
+])
+
 
 function App() {
-
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <div className='flex flex-col'>
-      <NavBar/>
-      <SignInOut/>
-    </div>
-    </ThemeProvider>
-    
+    <RouterProvider router={appRouter}/>
   )
 }
 
