@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 
 const HeroSection = () => {
   return (
-    <div className="relative bg-gradient-to-r from-blue-500 to-indigo-700 dark:from-slate-700 dark:to-slate-950 px-4 py-16 text-center  ">
+    <div className="relative bg-gradient-to-tr from-blue-500 to-indigo-700 dark:from-slate-600 dark:to-slate-950 px-4 py-24 text-center  ">
       <div className="max-w-3xl mx-auto">
         <h1 className=" text-white text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
           {" "}
