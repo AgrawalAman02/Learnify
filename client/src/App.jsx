@@ -1,22 +1,19 @@
 // import { Routes, Route } from 'react-router-dom'
 import './App.css'
+import NavBar from './components/NavBar'
 import SignInOut from './pages/SignInOut'
-import AuthPage from './pages/auth'
+import { ThemeProvider } from "@/components/themeProvider"
 
 function App() {
 
   return (
-    <SignInOut/>
-    // <div>
-    //   <Routes>
-    //     <Route path="/auth"  element={<AuthPage/>} />
-    //     <Route path='/login' element={<SignInOut/>} />
-    //   </Routes>
-    // </div>
-
-    // <div className='flex flex-col justify-center items-center'>
-    //   <SignInOut/>
-    // </div>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <div className='flex flex-col'>
+      <NavBar/>
+      <SignInOut/>
+    </div>
+    </ThemeProvider>
+    
   )
 }
 
