@@ -55,10 +55,10 @@ export function SignInOut() {
       navigate("/");
     }
     else if(registerError ){
-      toast.success(registerData.data.message || "Sign Up Falied!");
+      toast.error(registerError.data.message || "Sign Up Failed!");
     }
     else if(loginError ){
-      toast.success(loginData.data.message || "Login In Falied!");
+      toast.error(loginError.data.message || "Login In Falied!");
     }
     else if(isLoginSuccess && loginData){
       toast.success(loginData.message || "Login successful!");

@@ -34,6 +34,8 @@ export const login = async (req , res)=>{
 
     try {
         const {email, password} = req.body;
+        if(!email || !password) 
+            throw new Error("Please enter all the field...");
         if(!validator.isEmail(email)) throw new Error("Email Id is not valid ");
     
         const user = await User.findOne({email : email});
@@ -52,7 +54,7 @@ export const login = async (req , res)=>{
     } catch (error) {
         return res.status(500).json({
             success : false,
-            message : `ERROR : ${error.message} ` 
+            message : `ERROR : ${error.message} `  || "Error while login"
         });
     }
     
