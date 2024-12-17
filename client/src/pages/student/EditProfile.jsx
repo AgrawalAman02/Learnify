@@ -1,5 +1,4 @@
-import { useGetUserQuery } from "@/apis/authApi";
-import Courses from "@/components/student/Courses";
+import { useGetUserQuery } from "@/apis/profileApi";
 import CoursesCard from "@/components/student/CoursesCard";
 import EditProfileDialog from "@/components/student/EditProfileDialog";
 import ShimmerCard from "@/components/student/ShimmerCard";
@@ -89,9 +88,9 @@ const EditProfile = () => {
           <ShimmerCard />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {myCourses.map((Courses)=>{
-              <CoursesCard key={User._id} />
-            })}
+            {myCourses.map((course) => (
+              <CoursesCard key={course._id} />
+            ))}
             
           </div>
         )}
