@@ -65,11 +65,26 @@ export const logout = (req, res) => {
     res.status(200).json({
       success: true,
       message: "Logged out successfully",
-    }); 
+    });
   } catch (error) {
     return res.status(500).json({
-        success : false,
-        message : `ERROR : Failed to logout...`
+      success: false,
+      message: `ERROR : Failed to logout...`,
+    });
+  }
+};
+
+export const getProfile = async (req, res) => {
+  try {
+    const loggedInUser = req.user;
+    if (!loggedInUser) throw new Error("User is not logged in...");
+
+    const user = await User.findById(loggedInUser._id).select("-password");
+    res.send(user);
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: `ERROR : ${error.message} `,
     });
   }
 };
