@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Link } from "react-router-dom";
 
 const NavBarDropDown = () => {
   const role = "instructor";
@@ -28,8 +29,8 @@ const NavBarDropDown = () => {
             {role === "instructor" && (
               <DropdownMenuItem>Dashboard</DropdownMenuItem>
             )}
-            <DropdownMenuItem>My Learning</DropdownMenuItem>
-            <DropdownMenuItem>Edit Profile</DropdownMenuItem>
+            <DropdownMenuItem><Link to="/learning">My Learning</Link></DropdownMenuItem>
+            <DropdownMenuItem><Link to="/profile">Edit Profile</Link></DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem>Log Out</DropdownMenuItem>

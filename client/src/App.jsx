@@ -4,6 +4,8 @@ import SignInOut from './pages/SignInOut'
 import MainLayout from './Layout/MainLayout'
 import HomePage from './pages/student/HomePage'
 import { RouterProvider } from 'react-router'
+import MyLearning from './pages/student/MyLearning'
+import EditProfile from './pages/student/EditProfile'
 
 const appRouter = createBrowserRouter([
   {
@@ -17,6 +19,14 @@ const appRouter = createBrowserRouter([
       {
         path : "/auth",
         element : <SignInOut/>
+      },
+      {
+        path: "/learning",
+        element: <MyLearning/>  
+      },
+      {
+        path:"/profile",
+        element : <EditProfile/>
       }
     ]
   }
