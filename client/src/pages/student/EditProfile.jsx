@@ -1,24 +1,17 @@
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import Courses from "@/components/student/Courses";
+import CoursesCard from "@/components/student/CoursesCard";
+import EditProfileDialog from "@/components/student/EditProfileDialog";
+import ShimmerCard from "@/components/student/ShimmerCard";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { Loader2 } from "lucide-react";
 import React from "react";
 
 const EditProfile = () => {
   const email = "aman@gmail.com";
   const isLoading = false;
+  const myCourses = ["ejfne","jfew"];
+  const isCourseLoading =false;
   return (
-    <div className="max-w-3xl lg:max-w-[50rem]  mx-auto px-4 md:px-0 my-20">
+    <div className="max-w-3xl lg:max-w-[55rem]  mx-auto px-4 md:px-0 my-20">
       <h2 className="font-bold text-3xl text-center underline underline-offset-8 decoration-double decoration-1">
         Profile
       </h2>
@@ -49,7 +42,10 @@ const EditProfile = () => {
               Email :{" "}
             </h3>
             <h4 className="text-gray-700 dark:text-gray-200 font-mono font-medium">
-              <a href={`mailto:${email}`} className="hover:underline">
+              <a
+                href={`mailto:${email}`}
+                className="hover:underline underline-offset-2"
+              >
                 {email}
               </a>
             </h4>
@@ -63,51 +59,28 @@ const EditProfile = () => {
             </h4>
           </div>
 
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="w-32 mt-4">Edit Profile</Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-[390px] sm:max-w-[425px] md:max-w-[460px]">
-              <DialogHeader>
-                <DialogTitle>Edit profile</DialogTitle>
-                <DialogDescription>
-                  Make changes to your profile here. Click save when you're
-                  done.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4 ">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="name" className="text-right">
-                    Name
-                  </Label>
-                  <Input
-                    id="name"
-                    value="Pedro Duarte"
-                    className="col-span-3"
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="username" className="text-right">
-                    Profile Photo
-                  </Label>
-                  <Input type="file" accept="image/*" className="col-span-3" />
-                </div>
-              </div>
-              <DialogFooter>
-                <Button type="submit">
-                  {isLoading ? (
-                    <div className="flex items-center">
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
-                      Saving...
-                    </div>
-                  ) : (
-                    <div>Save changes</div>
-                  )}
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+          <EditProfileDialog isLoading={isLoading} />
         </div>
+      </div>
+
+      <h2 className="font-semibold text-2xl  underline underline-offset-8  decoration-2 mb-7">
+        Enrolled Courses...
+      </h2>
+
+      <div>
+        {myCourses.length === 0 ? (
+          <p className="font-mono font-semibold text-sm text-gray-600 dark:text-gray-400 underline underline-offset-4 max-w-3xl  mx-auto">
+            You hadn't enrolled to any courses until now! Please enroll to some
+            courses to enjoy the learning experience at our platform! {" "}
+            <br /> Hehe! Then this page will not look empty...{" "}
+          </p>
+        ) : isCourseLoading ? (
+          <ShimmerCard />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <CoursesCard />
+          </div>
+        )}
       </div>
     </div>
   );

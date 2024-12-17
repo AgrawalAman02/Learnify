@@ -11,7 +11,7 @@ const MyLearning = () => {
 
       <div className="my-10">
         { myCourses.length === 0 ? (
-            <p className="font-mono font-semibold text-base underline underline-offset-4 max-w-3xl  mx-auto">
+            <p className="font-mono font-semibold text-sm underline underline-offset-4 max-w-3xl  mx-auto">
             You hadn't enrolled to any courses until now! Please enroll to some
             courses to enjoy the learning experience at our platform! <br /> <br />{" "}
             Hehe! Then this page will not look empty...{" "}
