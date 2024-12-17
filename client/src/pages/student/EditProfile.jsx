@@ -1,4 +1,3 @@
-import Courses from "@/components/student/Courses";
 import CoursesCard from "@/components/student/CoursesCard";
 import EditProfileDialog from "@/components/student/EditProfileDialog";
 import ShimmerCard from "@/components/student/ShimmerCard";
