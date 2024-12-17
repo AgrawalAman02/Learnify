@@ -1,13 +1,25 @@
+import { useGetUserQuery } from "@/apis/authApi";
+import Courses from "@/components/student/Courses";
 import CoursesCard from "@/components/student/CoursesCard";
 import EditProfileDialog from "@/components/student/EditProfileDialog";
 import ShimmerCard from "@/components/student/ShimmerCard";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { Loader2 } from "lucide-react";
 import React from "react";
 
 const EditProfile = () => {
-  const email = "aman@gmail.com";
-  const isLoading = false;
-  const myCourses = ["ejfne","jfew"];
+  const {data,isLoading,isError}  = useGetUserQuery();
+  if (isLoading) {
+    return <div className="flex justify-center mt-20 animate-spin mx-auto"> <Loader2/> </div> ;
+  }
+
+  if (isError) {
+    return <p>Error fetching user data: {error.message}</p>;
+  }
+  const {name,email,photoUrl,role,enrolledAt} = data;
+  
+  // const email = "aman"
+  const myCourses = enrolledAt;
   const isCourseLoading =false;
   return (
     <div className="max-w-3xl lg:max-w-[55rem]  mx-auto px-4 md:px-0 my-20">
@@ -19,7 +31,7 @@ const EditProfile = () => {
         <div className="flex flex-col items-center justify-center">
           <Avatar className="cursor-pointer w-56 h-60  ">
             <AvatarImage
-              src="https://github.com/shadcn.png"
+              src={photoUrl}
               className="w-52 h-60 p-0.5 border-4 rounded-lg"
             />
             <AvatarFallback>AM</AvatarFallback>
@@ -29,11 +41,11 @@ const EditProfile = () => {
         <div className="border-2 flex flex-col  gap-4 px-8 md:px-5 py-8 h-60 rounded-lg w-[22rem] md:w-[35rem]">
           <div className="flex gap-2 ">
             <h3 className="font-medium text-gray-950 dark:text-gray-50 ">
-              Name :{" "}
+              Name :
             </h3>
             <h4 className="text-gray-700 dark:text-gray-200 font-mono font-medium">
-              {" "}
-              AMAN AGRAWAL
+              {name}
+              
             </h4>
           </div>
           <div className="flex gap-2 ">
@@ -54,7 +66,7 @@ const EditProfile = () => {
               Role :{" "}
             </h3>
             <h4 className="text-gray-700 dark:text-gray-200 font-mono font-medium">
-              INSTRUCTOR{" "}
+              {role.toUpperCase()}
             </h4>
           </div>
 
@@ -77,7 +89,10 @@ const EditProfile = () => {
           <ShimmerCard />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <CoursesCard />
+            {myCourses.map((Courses)=>{
+              <CoursesCard key={User._id} />
+            })}
+            
           </div>
         )}
       </div>
