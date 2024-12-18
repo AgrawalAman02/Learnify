@@ -12,11 +12,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogoutUserMutation } from "@/apis/authApi";
 import { toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import { removeUser } from "@/store/authSlice";
 
 const NavBarDropDown = () => {
   const [logoutUser,{data,isSuccess , isError,error}] = useLogoutUserMutation();
   const navigate = useNavigate();
-  const role = "instructor";
+  const dispatch = useDispatch();
+  const user = useSelector((store)=>store.auth.user);
+  const role = user?.role;
   
   useEffect(()=>{
     if(isSuccess){
@@ -32,6 +36,8 @@ const NavBarDropDown = () => {
 
   const handleLogOut = async ()=>{
     await logoutUser();
+    dispatch(removeUser());
+    
   }
 
  
@@ -41,7 +47,7 @@ const NavBarDropDown = () => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar className="cursor-pointer">
-            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarImage src={user?.photoUrl || "https://github.com/shadcn.png"} />
             <AvatarFallback>AM</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>

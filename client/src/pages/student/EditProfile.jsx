@@ -5,9 +5,11 @@ import ShimmerCard from "@/components/student/ShimmerCard";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Loader2 } from "lucide-react";
 import React from "react";
+import { useSelector } from "react-redux";
 
 const EditProfile = () => {
   const {data,isLoading,isError,refetch}  = useGetUserQuery();
+  const loggedInUser= useSelector((store)=>store.auth.user);
   if (isLoading) {
     return <div className="flex justify-center mt-20 animate-spin mx-auto"> <Loader2/> </div> ;
   }
@@ -30,7 +32,7 @@ const EditProfile = () => {
         <div className="flex flex-col items-center justify-center">
           <Avatar className="cursor-pointer w-56 h-60  ">
             <AvatarImage
-              src={photoUrl}
+              src={loggedInUser?.photoUrl}
               className="w-52 h-60 p-0.5 border-4 rounded-lg"
             />
             <AvatarFallback>AM</AvatarFallback>
@@ -43,7 +45,7 @@ const EditProfile = () => {
               Name :
             </h3>
             <h4 className="text-gray-700 dark:text-gray-200 font-mono font-medium">
-              {name}
+              {loggedInUser?.name}
               
             </h4>
           </div>
@@ -56,7 +58,7 @@ const EditProfile = () => {
                 href={`mailto:${email}`}
                 className="hover:underline underline-offset-2"
               >
-                {email}
+                {loggedInUser?.email}
               </a>
             </h4>
           </div>
@@ -65,7 +67,7 @@ const EditProfile = () => {
               Role :{" "}
             </h3>
             <h4 className="text-gray-700 dark:text-gray-200 font-mono font-medium">
-              {role.toUpperCase()}
+              {loggedInUser?.role.toUpperCase()}
             </h4>
           </div>
 
