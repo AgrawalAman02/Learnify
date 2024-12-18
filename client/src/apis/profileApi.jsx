@@ -14,10 +14,19 @@ export const profileApi = createApi({
                 url : "getProfile",
                 method : "GET",
             }),
+        }),
+        updateUser : builder.mutation({
+            query: (formData)=>({
+                url:"update",
+                method : "PUT",
+                body : formData,
+                credentials : "include",
+            })
         })
     })
 })
 
 export const {
     useGetUserQuery,
+    useUpdateUserMutation,
 } = profileApi

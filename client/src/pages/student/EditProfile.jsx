@@ -7,13 +7,13 @@ import { Loader2 } from "lucide-react";
 import React from "react";
 
 const EditProfile = () => {
-  const {data,isLoading,isError}  = useGetUserQuery();
+  const {data,isLoading,isError,refetch}  = useGetUserQuery();
   if (isLoading) {
     return <div className="flex justify-center mt-20 animate-spin mx-auto"> <Loader2/> </div> ;
   }
 
   if (isError) {
-    return <p>Error fetching user data: {error.message}</p>;
+    return <p>Error fetching user data: {isError.message}</p>;
   }
   const {name,email,photoUrl,role,enrolledAt} = data;
   
@@ -69,7 +69,7 @@ const EditProfile = () => {
             </h4>
           </div>
 
-          <EditProfileDialog isLoading={isLoading} />
+          <EditProfileDialog name = {name} refetch={refetch}/>
         </div>
       </div>
 
