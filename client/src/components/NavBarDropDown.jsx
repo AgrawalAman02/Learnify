@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,10 +9,33 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useLogoutUserMutation } from "@/apis/authApi";
+import { toast } from "sonner";
 
 const NavBarDropDown = () => {
+  const [logoutUser,{data,isSuccess , isError,error}] = useLogoutUserMutation();
+  const navigate = useNavigate();
   const role = "instructor";
+  
+  useEffect(()=>{
+    if(isSuccess){
+      toast.success(data.message);
+      navigate("/");
+    }
+    if(isError){
+      toast.error(error?.data?.message || "An error occurred");
+      navigate("/auth")
+    }
+    
+  },[isSuccess, isError, error])
+
+  const handleLogOut = async ()=>{
+    await logoutUser();
+  }
+
+ 
+
   return (
     <div>
       <DropdownMenu>
@@ -33,7 +56,7 @@ const NavBarDropDown = () => {
             <DropdownMenuItem><Link to="/profile">Edit Profile</Link></DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Log Out</DropdownMenuItem>
+          <DropdownMenuItem><div className="cursor-pointer" onClick={handleLogOut}>Log Out</div></DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

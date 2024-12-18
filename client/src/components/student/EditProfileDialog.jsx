@@ -18,6 +18,7 @@ import { toast } from "sonner";
 const EditProfileDialog = ({ name , refetch}) => {
   const [newName, setNewName] = useState(name);
   const [profilePhoto, setProfilePhoto] = useState("");
+  const [open, setOpen] = useState(false);
   const [updateUser, { data, isLoading,isError,isSuccess,error }] = useUpdateUserMutation();
 
   const handleEditProfileButton = async () => {
@@ -34,6 +35,7 @@ const EditProfileDialog = ({ name , refetch}) => {
       refetch();
       console.log(data);
       toast.success(data.message);
+      setOpen(false);
     }
     if(isError){
       toast.error(error.message || "Unable to update profile");
@@ -42,7 +44,7 @@ const EditProfileDialog = ({ name , refetch}) => {
 
   return (
     <div>
-      <Dialog>
+      <Dialog  open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button className="w-32 mt-4">Edit Profile</Button>
         </DialogTrigger>
