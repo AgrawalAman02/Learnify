@@ -1,4 +1,5 @@
 import { v2 as cloudinary } from "cloudinary";
+import fs from "fs";
 import dotenv from "dotenv";
 dotenv.config({});
 
@@ -15,6 +16,7 @@ export const uploadMedia = async (file) => {
     });
     return uploadResponse;
   } catch (error) {
+    fs.unlinkSync(file); // remove the locally saved temporary file  as the upload operation failed 
     console.log(error);
   }
 };
