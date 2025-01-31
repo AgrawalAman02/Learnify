@@ -18,6 +18,7 @@ const AddCourse = () => {
 
   const createCourseBtnHandler = async () => {
     await addCourse({courseTitle, category,price});
+    navigate("/admin/course");
   };
 
   const handleSelectChange = (value) => {
@@ -28,15 +29,16 @@ const AddCourse = () => {
     if(isError){
       toast.error(`${error?.data?.message}`);
       console.log(error);
+      setPrice("");
+      setCourseTitle("");
     }
     else if(isSuccess){
       toast.success("Course Added successfully...");
-    }
-    else if(isSuccess){
       setCategory("");
       setPrice("");
       setCourseTitle("");
     }
+    
   },[isLoading,isSuccess,isError])
   return (
     <div>

@@ -56,7 +56,7 @@ const NavBarDropDown = () => {
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             {role === "Instructor" && (
-              <DropdownMenuItem>Dashboard</DropdownMenuItem>
+              <DropdownMenuItem><Link to="/admin/dashboard">Dashboard</Link> </DropdownMenuItem>
             )}
             <DropdownMenuItem><Link to="/learning">My Learning</Link></DropdownMenuItem>
             <DropdownMenuItem><Link to="/profile">Edit Profile</Link></DropdownMenuItem>

@@ -6,8 +6,8 @@ export const createCourse = async (req,res)=>{
         if(!courseTitle || !category || !price) throw new Error("Please provide all the details about the new course...");
 
         if(req?.user?.role ==="Student") throw new Error("Only Instructor can create course");
-        const isPresent = Course.findOne({
-            creater:req?.user?._id,
+        const isPresent =await Course.findOne({
+            creator:req?.user?._id,
             courseTitle,
             category,
         });
