@@ -9,8 +9,6 @@ const AddCourse = () => {
         So you are at right page. Lets add new course. Please provide full
         description of the course{" "}
       </p>
-
-      
     </div>
   );
 };

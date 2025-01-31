@@ -17,6 +17,7 @@ const EditProfile = () => {
   if (isError) {
     return <p>Error fetching user data: {isError.message}</p>;
   }
+  
   const {name,email,photoUrl,role,enrolledAt} = data;
   
   // const email = "aman"
@@ -67,7 +68,7 @@ const EditProfile = () => {
               Role :{" "}
             </h3>
             <h4 className="text-gray-700 dark:text-gray-200 font-mono font-medium">
-              {loggedInUser?.role.toUpperCase()}
+              {loggedInUser?.role}
             </h4>
           </div>
 

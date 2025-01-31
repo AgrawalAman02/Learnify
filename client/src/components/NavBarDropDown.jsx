@@ -37,7 +37,7 @@ const NavBarDropDown = () => {
   const handleLogOut = async ()=>{
     await logoutUser();
     dispatch(removeUser());
-    
+    navigate("/auth");
   }
 
  
@@ -55,7 +55,7 @@ const NavBarDropDown = () => {
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            {role === "instructor" && (
+            {role === "Instructor" && (
               <DropdownMenuItem>Dashboard</DropdownMenuItem>
             )}
             <DropdownMenuItem><Link to="/learning">My Learning</Link></DropdownMenuItem>

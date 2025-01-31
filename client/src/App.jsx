@@ -9,6 +9,7 @@ import EditProfile from "./pages/student/EditProfile";
 import SideBar from "./pages/admin/SideBar";
 import CourseTable from "./pages/admin/course/CourseTable";
 import DashBoard from "./pages/admin/DashBoard";
+import AddCourse from "./pages/admin/course/AddCourse";
 
 const appRouter = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const appRouter = createBrowserRouter([
           {
             path: "dashboard",
             element: <DashBoard />,
+          },
+          {
+            path : "course/create",
+            element : <AddCourse/>
           },
         ],
       },
