@@ -22,11 +22,11 @@ const courseSchema = new mongoose.Schema({
     courseLevel : {
         type : String,
         enum : ["Beginner","Intermediate","Advance"],
-        required: true,
+        // required: true,
     },
     thumbnail : {
         type : String, 
-        required: true,
+        // required: true,
     },
     enrolledStudents : [
         {
