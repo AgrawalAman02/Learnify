@@ -1,93 +1,65 @@
+import { useGetCourseQuery } from "@/apis/courseApi";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import React from "react";
-
-const invoices = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-];
+import LoaderSpinner from "@/pages/LoaderSpinner";
+import { Edit } from "lucide-react";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 const CourseListTable = () => {
+  const { data, isLoading, isSuccess, error, isError } = useGetCourseQuery();
+
+  useEffect(()=>{
+    if(isError) toast.error(error.message);
+  },[isError]);
+
   return (
     <div className="w-[1150px]">
-      <Table>
-        {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[350px] text-start">Title</TableHead>
-            <TableHead className="w-[350px]">Price</TableHead>
-            <TableHead className="w-[350px]">Status</TableHead>
-            <TableHead className="text-right">Action</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {invoices.map((invoice) => (
-            <TableRow key={invoice.invoice}>
-              <TableCell className="font-medium text-start">{invoice.invoice}</TableCell>
-              <TableCell>{invoice.paymentStatus}</TableCell>
-              <TableCell>{invoice.paymentMethod}</TableCell>
-              <TableCell className="text-right">
-                    <Button variant="outline" className="w-15 items-end">Edit</Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-        {/* <TableFooter>
-          <TableRow>
-            <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">$2,500.00</TableCell>
-          </TableRow>
-        </TableFooter> */}
-      </Table>
+      {isLoading ? (
+        <LoaderSpinner />
+      ) : (
+        <>
+          <Table>
+            <TableCaption>A list of your courses...</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[300px] text-start">Title</TableHead>
+                <TableHead className="w-[200px]">Price</TableHead>
+                <TableHead className="w-[300px]">Category</TableHead>
+                <TableHead className="w-[200px]">Status</TableHead>
+                <TableHead className="text-right">Action</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {data?.courseList?.map((course) => (
+                <TableRow key={course._id}>
+                  <TableCell className="font-medium text-start">
+                    {course.courseTitle}
+                  </TableCell>
+                  <TableCell>{ course?.price || "Free"}</TableCell>
+                  <TableCell>{ course?.category.toUpperCase() }</TableCell>
+                  <TableCell><Badge>{course?.isPublished || "Draft"}</Badge></TableCell>
+                  <TableCell className="text-right">
+                    <Button variant="ghost" className="w-15 items-end">
+                      <Link to={course._id}><Edit/></Link>
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </>
+      )}
     </div>
   );
 };

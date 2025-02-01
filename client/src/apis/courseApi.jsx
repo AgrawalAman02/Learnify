@@ -8,6 +8,7 @@ export const courseApi = createApi({
         baseUrl : COURSE_URL,
         credentials : "include",
     }),
+    tagTypes : ["refetchListOfCourse"],
     
     endpoints : (builder)=>({
         addCourse : builder.mutation({
@@ -16,9 +17,18 @@ export const courseApi = createApi({
                 method : "POST",
                 body: {courseTitle,category,price},
             }),
+            invalidatesTags:['refetchListOfCourse'],
+        }),
+
+        getCourse : builder.query({
+            query : ()=>({
+                url : "/getCourse",
+                method : "GET",
+            }),
+            providesTags: ['refetchListOfCourse'],
         })
     })
 
 })
 
-export const { useAddCourseMutation } = courseApi;
+export const { useAddCourseMutation ,useGetCourseQuery} = courseApi;

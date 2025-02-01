@@ -43,8 +43,8 @@ const AddCourse = () => {
   return (
     <div>
       <div className="p-4 flex flex-col items-start flex-1">
-        <p className="text-xl font-bold">Do You wanna add new course?</p>
-        <p className="text-sm font-medium">
+        <p className="text-2xl font-bold">Do You wanna add new course?</p>
+        <p className="text-sm font-medium mt-2 mb-2">
           {" "}
           So you are at right page. Lets add new course. Please provide full
           description of the course{" "}
@@ -65,7 +65,7 @@ const AddCourse = () => {
       <div className="p-2 flex flex-col gap-3 ml-4 flex-1 w-80">
         <Label htmlFor="CoursePrice">Price</Label>
         <Input
-          type="Number"
+          type="text"
           id="CoursePrice"
           placeholder="Enter the amount for the course..."
           value={price}

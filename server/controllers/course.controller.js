@@ -30,3 +30,22 @@ export const createCourse = async (req,res)=>{
         })
     }
 }
+
+export const getAllCourse  = async (req,res)=>{
+    try {
+        const loggedInUser = req?.user;
+        if(!loggedInUser) throw new Error("Please sign in...");
+        if(!loggedInUser?.role === "Student") throw new Error("Only Instructor have the access");
+        
+        const listOfCourses = await Course.find({creator:loggedInUser?._id});
+        return res.status(200).json({
+            success : true,
+            courseList : listOfCourses,
+        });
+    } catch (error) {
+        res.status(400).json({
+            success : false,
+            message : "ERROR : "+ error.message,
+        })
+    }
+}
