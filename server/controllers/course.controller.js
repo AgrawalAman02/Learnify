@@ -2,6 +2,8 @@ import { Course} from "../models/course.js";
 
 export const createCourse = async (req,res)=>{
     try {
+        const loggedInUser = req?.user;
+        if(!loggedInUser) throw new Error("Please sign in...");
         const {courseTitle , category , price} = req?.body;
         if(!courseTitle || !category || !price) throw new Error("Please provide all the details about the new course...");
 
@@ -35,7 +37,7 @@ export const getAllCourse  = async (req,res)=>{
     try {
         const loggedInUser = req?.user;
         if(!loggedInUser) throw new Error("Please sign in...");
-        if(!loggedInUser?.role === "Student") throw new Error("Only Instructor have the access");
+        if(loggedInUser?.role === "Student") throw new Error("Only Instructor have the access");
         
         const listOfCourses = await Course.find({creator:loggedInUser?._id});
         return res.status(200).json({

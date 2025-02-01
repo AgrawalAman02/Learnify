@@ -65,7 +65,7 @@ const AddCourse = () => {
       <div className="p-2 flex flex-col gap-3 ml-4 flex-1 w-80">
         <Label htmlFor="CoursePrice">Price</Label>
         <Input
-          type="text"
+          type="number"
           id="CoursePrice"
           placeholder="Enter the amount for the course..."
           value={price}
