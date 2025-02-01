@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 
 const CourseTab = () => {
   const navigate = useNavigate();
+  const [previewThumbnail , setPreviewThumbnail] = useState("");
   const [input, setInput] = useState({
     courseTitle: "",
     courseSubtitle: "",
@@ -36,7 +37,19 @@ const CourseTab = () => {
   const handleSelectChange = (value) => {
     setInput({ ...input, category: value });
   };
+  const handleFile = (e)=>{
+    const file = e.target.files?.[0];
+    if(file) {
+        setInput({...input,thumbnail:file});
+        const fileReader = new FileReader();
+        fileReader.onloadend=()=>setPreviewThumbnail(fileReader.result);
+        fileReader.readAsDataURL(file);
+    }
+  }
 
+  const handleSaveBtn = ()=>{
+    console.log(input);
+  }
 
   const isPublished = true;
   const isLoading = false;
@@ -149,7 +162,13 @@ const CourseTab = () => {
                   id="thumbnail"
                   className="w-fit mt-1"
                   accept="image/*"
+                  onChange={handleFile}
                 />
+                {
+                    previewThumbnail && (
+                        <img src={previewThumbnail} alt="thumbnailPreview" className="max-w-60 max-h-44 aspect-auto" />
+                    )
+                }
               </div>
               <div className="flex gap-4 mt-2 ">
                 <Button
@@ -164,7 +183,7 @@ const CourseTab = () => {
                 <Button
                   size="sm"
                   disabled={isLoading}
-                  onClick={() => handleSaveBtn}
+                  onClick={handleSaveBtn}
                 >
                   {isLoading ? (
                     <>
