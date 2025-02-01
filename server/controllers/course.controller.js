@@ -1,4 +1,5 @@
 import { Course} from "../models/course.js";
+import { deleteMediaFromCloud, uploadMedia } from "../utils/cloudinary.js";
 
 export const createCourse = async (req,res)=>{
     try {
@@ -44,6 +45,51 @@ export const getAllCourse  = async (req,res)=>{
             success : true,
             courseList : listOfCourses,
         });
+    } catch (error) {
+        res.status(400).json({
+            success : false,
+            message : "ERROR : "+ error.message,
+        })
+    }
+}
+
+export const updateCourse = async(req,res)=>{
+    try {
+        const loggedInUser = req?.user;
+        if(!loggedInUser)  throw new Error("Please sign in...");
+        if(loggedInUser?.role === "Student") throw new Error("Only Instructor have the access");
+        
+        const courseId = req.params.courseId;
+        if(!courseId) throw new Error("Please select any course first.");
+
+        const {courseTitle,courseSubTitle,description,category,courseLevel,price} = req.body;
+        const thumbnail = req?.file;
+
+        const course = await Course.findById(courseId);
+        if(!course) throw new Error("Course not found");
+
+        let updatedThumbnail;
+        if(thumbnail){  // delete the existing media from the cloud;
+            if(course.thumbnail){
+                const publicId  = course.thumbnail.split("/").pop().split(".")[0];
+                await deleteMediaFromCloud(publicId);
+            }
+            updatedThumbnail = await uploadMedia(thumbnail.path);
+        }
+
+        const updatedCourse = await Course.findByIdAndUpdate(
+            courseId,
+            {
+            courseTitle,courseSubTitle,description,category,courseLevel,price,thumbnail:updatedThumbnail?.secure_url
+            },
+            {new : true}
+        )
+        return res.status(200).json({
+            success : true,
+            message : "Course Updated successfully",
+            course : updateCourse,
+        });
+        
     } catch (error) {
         res.status(400).json({
             success : false,

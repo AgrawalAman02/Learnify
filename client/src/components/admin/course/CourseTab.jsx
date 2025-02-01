@@ -20,10 +20,10 @@ const CourseTab = () => {
   const [previewThumbnail , setPreviewThumbnail] = useState("");
   const [input, setInput] = useState({
     courseTitle: "",
-    courseSubtitle: "",
+    courseSubTitle: "",
     description: "",
     category: "",
-    level: "",
+    courseLevel: "",
     price: "",
     thumbnail: "",
   });
@@ -87,13 +87,13 @@ const CourseTab = () => {
             </div>
 
             <div>
-              <Label htmlFor="courseSubtitle">Subtitle</Label>
+              <Label htmlFor="courseSubTitle">Subtitle</Label>
               <Input
                 type="text"
-                id="courseSubtitle"
-                name="courseSubtitle"
+                id="courseSubTitle"
+                name="courseSubTitle"
                 placeholder="Enter the appropriate subtitle"
-                value={input.courseSubtitle}
+                value={input.courseSubTitle}
                 onChange={handleInputChange}
               />
             </div>
@@ -123,13 +123,13 @@ const CourseTab = () => {
 
             <div className="flex items-center gap-5 pt-2">
               <div>
-                <Label htmlFor="level">Level</Label>
+                <Label htmlFor="courseLevel">Level</Label>
               </div>
-              <div id="level">
+              <div id="courseLevel">
                 <SelectOneCourseLevel
-                  name="level"
+                  name="courseLevel"
                   onSelectChange={(value) =>
-                    setInput({ ...input, level: value })
+                    setInput({ ...input, courseLevel: value })
                   }
                 />
               </div>
