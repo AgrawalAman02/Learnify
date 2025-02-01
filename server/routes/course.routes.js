@@ -6,5 +6,5 @@ const router = express.Router();
 
 router.post("/",userAuth,createCourse);
 router.get("/getCourse",userAuth, getAllCourse);
-router.put("/updateCourse",userAuth,upload.single("updatedThumbnail"),updateCourse)
+router.put("/updateCourse/:courseId",userAuth,upload.single("updatedThumbnail"),updateCourse)
 export default router;

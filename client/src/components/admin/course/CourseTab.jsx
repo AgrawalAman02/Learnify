@@ -8,16 +8,19 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RichTextEditor from "./RichTextEditor";
 import SelectOne from "./SelectOne";
 import SelectOneCourseLevel from "./SelectOneCourseLevel";
 import { Loader2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useUpdateCourseMutation } from "@/apis/courseApi";
+import { toast } from "sonner";
 
 const CourseTab = () => {
   const navigate = useNavigate();
   const [previewThumbnail , setPreviewThumbnail] = useState("");
+  const [updateCourse,{data,isLoading,isSuccess , isError, error}] = useUpdateCourseMutation();
   const [input, setInput] = useState({
     courseTitle: "",
     courseSubTitle: "",
@@ -27,6 +30,15 @@ const CourseTab = () => {
     price: "",
     thumbnail: "",
   });
+
+  const params = useParams();
+  const courseId = params.courseId;
+
+  useEffect(()=>{
+    if(isError) toast.error(error.message);
+    else if(isSuccess) toast.success(data?.message);
+    
+  },[isError,isSuccess,error]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -47,12 +59,21 @@ const CourseTab = () => {
     }
   }
 
-  const handleSaveBtn = ()=>{
-    console.log(input);
+  const handleSaveBtn = async ()=>{
+    const formData = new FormData();
+    formData.append("courseTitle", input.courseTitle);
+    formData.append("courseSubTitle", input.courseSubTitle);
+    formData.append("description", input.description);
+    formData.append("price", input.price);
+    formData.append("category", input.category);
+    formData.append("courseLevel", input.courseLevel);
+    formData.append("thumbnail", input.thumbnail);
+
+    await updateCourse({updatedData: formData,courseId});
+    navigate("/admin/course");
   }
 
   const isPublished = true;
-  const isLoading = false;
   return (
     <div>
       <Card className="flex flex-col p-4 gap-6">
