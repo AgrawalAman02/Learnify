@@ -1,0 +1,42 @@
+import { Course } from "../models/course.js";
+import { Lecture } from "../models/lecture.js";
+
+export const createLecture = async (req, res) => {
+  try {
+    const loggedInUser = req?.user;
+    if (!loggedInUser) throw new Error("Please sign in...");
+    if (loggedInUser?.role === "Student")
+      throw new Error("Only Instructor have the access");
+
+    const courseId = req.params.courseId;
+    if (!courseId) throw new Error("Please select any course first.");
+
+    const { lectureTitle } = req?.body;
+    if (!lectureTitle)
+      throw new Error(
+        "Atleast provide the lecture title to create a lecture..."
+      );
+
+    const lecture = new Lecture ({
+      lectureTitle
+    });
+
+    const savedLecture = await lecture.save();
+
+    const course = await Course.findById(courseId);
+    if(!course) throw new Error("There is an issue with the course...");
+    course.lectures.push(savedLecture._id);
+    await course.save();
+
+    return res.status(201).json({
+      status : true,
+      lecture : savedLecture,
+    });
+
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "ERROR : " + error.message,
+    });
+  }
+};

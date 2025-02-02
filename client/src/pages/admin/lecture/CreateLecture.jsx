@@ -1,4 +1,4 @@
-import { useAddCourseMutation } from "@/apis/courseApi";
+import { useAddCourseMutation, useCreateLectureMutation } from "@/apis/courseApi";
 import SelectOne from "@/components/admin/course/SelectOne";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,10 +14,18 @@ const CreateLecture = () => {
   const navigate = useNavigate();
   const params = useParams();
   const{ courseId }= params;
-  const createLectureBtnHandler=()=>{
-    
+
+  const [createLecture, {data,isLoading, isError , error,isSuccess}] = useCreateLectureMutation();
+  const createLectureBtnHandler=async ()=>{
+    await createLecture({courseId,lectureTitle});
   }
-  const isLoading = false;
+
+  useEffect(()=>{
+    if(isError) toast.error("Kuch toh gadbad hai! Sayad " , error.message);
+    else if(isSuccess) toast.success("Bravo! Lecture added successfully");
+
+  },[isSuccess, error, isError])
+  
   return (
     <div>
       <div className="p-4 flex flex-col items-start flex-1">
