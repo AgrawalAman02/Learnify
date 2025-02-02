@@ -17,22 +17,48 @@ export const createLecture = async (req, res) => {
         "Atleast provide the lecture title to create a lecture..."
       );
 
-    const lecture = new Lecture ({
-      lectureTitle
+    const lecture = new Lecture({
+      lectureTitle,
     });
 
     const savedLecture = await lecture.save();
 
     const course = await Course.findById(courseId);
-    if(!course) throw new Error("There is an issue with the course...");
+    if (!course) throw new Error("There is an issue with the course...");
     course.lectures.push(savedLecture._id);
     await course.save();
 
     return res.status(201).json({
-      status : true,
-      lecture : savedLecture,
+      status: true,
+      message: "Lecture Created Successfully",
+      lecture: savedLecture,
     });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "ERROR : " + error.message,
+    });
+  }
+};
 
+export const getLecture = async (req, res) => {
+  try {
+    const loggedInUser = req?.user;
+    if (!loggedInUser) throw new Error("Please sign in...");
+    if (loggedInUser?.role === "Student")
+      throw new Error("Only Instructor have the access");
+
+    const courseId = req.params.courseId;
+    if (!courseId) throw new Error("Please select any course first.");
+
+    const course = await Course.findById(courseId).populate("lectures");
+    if (!course) throw new Error("Arre bhai aisa koi course nhi hai...");
+
+    return res.status(200).json({
+      success: true,
+      message: "Lecture Fetched successfully...",
+      lectures: course.lectures,
+    });
   } catch (error) {
     res.status(400).json({
       success: false,

@@ -8,7 +8,7 @@ export const courseApi = createApi({
     baseUrl: COURSE_URL,
     credentials: "include",
   }),
-  tagTypes: ["refetchListOfCourse"],
+  tagTypes: ["refetchListOfCourse", "refetchLectures"],
 
   endpoints: (builder) => ({
     addCourse: builder.mutation({
@@ -51,9 +51,18 @@ export const courseApi = createApi({
         url : `${courseId}/createLecture`,
         method : "POST",
         body : {lectureTitle},
-    })
+      }),
+      invalidatesTags : ["refetchLectures"],
+    }),
+
+    getLecture : builder.query({
+      query : (courseId)=>({
+        url : `${courseId}/getLecture`,
+        method : "GET",
+      }),
+      providesTags : ["refetchLectures"],
     })
   }),
 });
 
-export const { useAddCourseMutation, useGetCourseQuery ,useUpdateCourseMutation, useGetCourseDetailsQuery, useCreateLectureMutation} = courseApi;
+export const { useAddCourseMutation, useGetCourseQuery ,useUpdateCourseMutation, useGetCourseDetailsQuery, useCreateLectureMutation, useGetLectureQuery} = courseApi;
