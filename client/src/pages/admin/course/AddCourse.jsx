@@ -38,8 +38,8 @@ const AddCourse = () => {
       setPrice("");
       setCourseTitle("");
     }
-    
   },[isLoading,isSuccess,isError])
+  
   return (
     <div>
       <div className="p-4 flex flex-col items-start flex-1">
