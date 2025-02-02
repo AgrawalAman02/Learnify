@@ -36,7 +36,14 @@ export const courseApi = createApi({
       }),
       invalidatesTags: ["refetchListOfCourse"],
     }),
+
+    getCourseDetails : builder.query({
+      query : (courseId)=>({
+        url : `/getCourse/${courseId}`,
+        method : "GET",
+      }),
+    })
   }),
 });
 
-export const { useAddCourseMutation, useGetCourseQuery ,useUpdateCourseMutation} = courseApi;
+export const { useAddCourseMutation, useGetCourseQuery ,useUpdateCourseMutation, useGetCourseDetailsQuery} = courseApi;

@@ -14,13 +14,20 @@ import SelectOne from "./SelectOne";
 import SelectOneCourseLevel from "./SelectOneCourseLevel";
 import { Loader2 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useUpdateCourseMutation } from "@/apis/courseApi";
+import {
+  useGetCourseDetailsQuery,
+  useUpdateCourseMutation,
+} from "@/apis/courseApi";
 import { toast } from "sonner";
+import LoaderSpinner from "@/pages/LoaderSpinner";
 
 const CourseTab = () => {
+  const params = useParams();
+  const courseId = params.courseId;
   const navigate = useNavigate();
-  const [previewThumbnail , setPreviewThumbnail] = useState("");
-  const [updateCourse,{data,isLoading,isSuccess , isError, error}] = useUpdateCourseMutation();
+  const [previewThumbnail, setPreviewThumbnail] = useState("");
+  const [updateCourse, { data, isLoading, isSuccess, isError, error }] =
+    useUpdateCourseMutation();
   const [input, setInput] = useState({
     courseTitle: "",
     courseSubTitle: "",
@@ -30,16 +37,31 @@ const CourseTab = () => {
     price: "",
     thumbnail: "",
   });
+  useEffect(() => {
+    if (isError) toast.error(error.message);
+    else if (isSuccess) toast.success(data?.message);
+  }, [isError, isSuccess, error]);
 
-  const params = useParams();
-  const courseId = params.courseId;
+  const { data: courseData, isLoading: CourseLoading } =
+    useGetCourseDetailsQuery(courseId,{refetchOnMountOrArgChange : true});
 
-  useEffect(()=>{
-    if(isError) toast.error(error.message);
-    else if(isSuccess) toast.success(data?.message);
-    
-  },[isError,isSuccess,error]);
 
+  useEffect(() => {
+    if (courseData?.course) {
+      const course = courseData?.course;
+      setInput({
+        courseTitle: course.courseTitle,
+        courseSubTitle: course.courseSubTitle,
+        description: course.description,
+        category: course.category,
+        courseLevel: course.courseLevel,
+        price: course.price,
+        thumbnail: course.thumbnail,
+      });
+    }
+  }, [courseData]);
+
+  if(CourseLoading) return <LoaderSpinner/>
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
@@ -49,17 +71,17 @@ const CourseTab = () => {
   const handleSelectChange = (value) => {
     setInput({ ...input, category: value });
   };
-  const handleFile = (e)=>{
+  const handleFile = (e) => {
     const file = e.target.files?.[0];
-    if(file) {
-        setInput({...input,thumbnail:file});
-        const fileReader = new FileReader();
-        fileReader.onloadend=()=>setPreviewThumbnail(fileReader.result);
-        fileReader.readAsDataURL(file);
+    if (file) {
+      setInput({ ...input, thumbnail: file });
+      const fileReader = new FileReader();
+      fileReader.onloadend = () => setPreviewThumbnail(fileReader.result);
+      fileReader.readAsDataURL(file);
     }
-  }
+  };
 
-  const handleSaveBtn = async ()=>{
+  const handleSaveBtn = async () => {
     const formData = new FormData();
     formData.append("courseTitle", input.courseTitle);
     formData.append("courseSubTitle", input.courseSubTitle);
@@ -69,9 +91,9 @@ const CourseTab = () => {
     formData.append("courseLevel", input.courseLevel);
     formData.append("thumbnail", input.thumbnail);
 
-    await updateCourse({updatedData: formData,courseId});
+    await updateCourse({ updatedData: formData, courseId });
     navigate("/admin/course");
-  }
+  };
 
   const isPublished = true;
   return (
@@ -185,11 +207,13 @@ const CourseTab = () => {
                   accept="image/*"
                   onChange={handleFile}
                 />
-                {
-                    previewThumbnail && (
-                        <img src={previewThumbnail} alt="thumbnailPreview" className="max-w-60 max-h-44 aspect-auto" />
-                    )
-                }
+                {previewThumbnail && (
+                  <img
+                    src={previewThumbnail}
+                    alt="thumbnailPreview"
+                    className="max-w-60 max-h-44 aspect-auto"
+                  />
+                )}
               </div>
               <div className="flex gap-4 mt-2 ">
                 <Button
@@ -201,11 +225,7 @@ const CourseTab = () => {
                 >
                   Cancel
                 </Button>
-                <Button
-                  size="sm"
-                  disabled={isLoading}
-                  onClick={handleSaveBtn}
-                >
+                <Button size="sm" disabled={isLoading} onClick={handleSaveBtn}>
                   {isLoading ? (
                     <>
                       <Loader2 className=" h-2 w-2 animate-spin" />
