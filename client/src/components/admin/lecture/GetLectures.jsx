@@ -1,7 +1,8 @@
 import { useGetLectureQuery } from "@/apis/courseApi";
-import { Edit } from "lucide-react";
-import React from "react";
+import { Edit, Loader2 } from "lucide-react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 const GetLectures = () => {
   const params = useParams();
@@ -13,10 +14,12 @@ const GetLectures = () => {
   const navigate = useNavigate();
   console.log(data);
 
+  if(isLoading) return <div className="flex mt-4 justify-center"> <Loader2 className="animate-spin text-blue-900 text-lg "/></div>
+ 
   return (
     <div className="flex flex-col gap-2 w-full ml-6 ">
       {!lectures || lectures.length === 0 ? (
-        <p>No lectures found</p>
+        <p className="font-mono">No lectures found</p>
       ) : (
         lectures.map((lecture, index) => (
           <div

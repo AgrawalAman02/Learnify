@@ -18,7 +18,7 @@ const SideBar = () => {
           </Link>
         </div>
       </div>
-      <div className="mt-8">
+      <div className="mt-8 w-[400px] md:w-[700px] lg:w-[1100px] ">
         <Outlet/>
       </div>
     </div>
