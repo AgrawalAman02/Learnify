@@ -2,7 +2,7 @@ import express from 'express';
 import userAuth from '../middlewares/userAuth.js';
 import { createCourse, getAllCourse, getCourseDetails, updateCourse } from '../controllers/course.controller.js';
 import upload from '../utils/multer.js';
-import { createLecture, getLecture } from '../controllers/lecture.controller.js';
+import { createLecture, editLecture, getLecture, getLectureById, removeLecture } from '../controllers/lecture.controller.js';
 const router = express.Router();
 
 router.post("/",userAuth,createCourse);
@@ -13,5 +13,8 @@ router.get("/getCourse/:courseId",userAuth,getCourseDetails);
 // routes for lecture 
 router.post("/:courseId/createLecture",userAuth,createLecture);
 router.get("/:courseId/getLecture",userAuth,getLecture );
+router.post("/:courseId/getLecture/:lectureId",userAuth,editLecture);
+router.delete("/:courseId/getLecture/:lectureId",userAuth,removeLecture );
+router.get("/:courseId/getLecture/:lectureId",userAuth,getLectureById );
 
 export default router;

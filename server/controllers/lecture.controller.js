@@ -134,3 +134,24 @@ export const removeLecture = async (req, res) => {
     });
   }
 };
+
+
+export const getLectureById = async (req, res)=>{
+  try {
+    const {lectureId , courseId} = useParams();
+    if(!lectureId, !courseId) throw new Error("Issue While Fetching...");
+  
+    const lecture = Lecture.findById(lectureId);
+    if(!lecture ) throw new Error("Lecture is not present...");
+    return res.status(200).json({
+      success : true ,
+      message : "Data fetched successfully",
+      data : lecture,
+    })  
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "ERROR : " + error.message,
+    });
+  }
+}
