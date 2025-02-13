@@ -1,5 +1,6 @@
 import { Course } from "../models/course.js";
 import { Lecture } from "../models/lecture.js";
+import { deleteVideoFromCloud } from "../utils/cloudinary.js";
 
 export const createLecture = async (req, res) => {
   try {
@@ -81,8 +82,9 @@ export const editLecture = async (req, res) => {
     const { lectureTitle, videoInfo, isPreviewFree } = req.body;
     const { videoUrl, publicId } = videoInfo;
 
-    if(!lectureTitle || !isPreviewFree || !videoInfo || !videoUrl || !publicId) throw new Error("All field are mandatory...")
-    const lecture = Lecture.findByIdAndUpdate(lectureId,{
+    if (!lectureTitle || !isPreviewFree || !videoInfo || !videoUrl || !publicId)
+      throw new Error("All field are mandatory...");
+    const lecture = await Lecture.findByIdAndUpdate(lectureId, {
       lectureTitle,
       videoUrl,
       publicId,
@@ -90,11 +92,41 @@ export const editLecture = async (req, res) => {
     });
 
     return res.status(200).json({
-      status : true,
-      message : "Lecture Updated successfully",
-      data : lecture,
+      status: true,
+      message: "Lecture Updated successfully",
+      data: lecture,
     });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "ERROR : " + error.message,
+    });
+  }
+};
 
+export const removeLecture = async (req, res) => {
+  try {
+    const { courseId, lectureId } = req.params;
+    if (!courseId || !lectureId) throw new Error("something went wrong");
+
+    const course = await Course.findById(courseId);
+    if (!course) throw new Error("Course not found");
+    const lecture = await Lecture.findByIdAndDelete(lectureId);
+
+    // delete lecture form the cloudinary as well
+    if (lecture.publicId) {
+      await deleteVideoFromCloud(lecture.publicId);
+    }
+    // delete the lecture reference from the course as well
+    await Course.updateOne(
+      { lectures: lectureId }, // find the course that contain that lecture
+      { $pull: { lectures: lectureId } } // remove the lecture id from that course
+    );
+
+    return res.status(200).json({
+      message: "Lecture removed successsfully...",
+      status: true,
+    });
   } catch (error) {
     res.status(400).json({
       success: false,
