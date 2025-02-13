@@ -44,6 +44,14 @@ export const courseApi = createApi({
       }),
     }),
 
+    publishCourse : builder.mutation({
+      query : ({courseId,query})=>({
+        url : `publishCourse/${courseId}?publish=${query}`,
+        method : "PUT",
+      }),
+      invalidatesTags : ["refetchListOfCourse"],
+    }),
+
     // creating api for lectures here ...
 
     createLecture: builder.mutation({
@@ -101,6 +109,7 @@ export const {
   useGetCourseQuery,
   useUpdateCourseMutation,
   useGetCourseDetailsQuery,
+  usePublishCourseMutation,
   useCreateLectureMutation,
   useGetLectureQuery,
   useEditLectureMutation,

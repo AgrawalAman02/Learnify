@@ -48,7 +48,7 @@ const CourseListTable = () => {
                   </TableCell>
                   <TableCell>{ course?.price || "Free"}</TableCell>
                   <TableCell>{ course?.category.toUpperCase() }</TableCell>
-                  <TableCell><Badge>{course?.isPublished || "Draft"}</Badge></TableCell>
+                  <TableCell> {course?.isPublished? <Badge className="bg-green-600 dark:bg-green-400">Published </Badge> : <Badge className="bg-red-600 dark:bg-red-400">Draft</Badge>}</TableCell>
                   <TableCell className="text-right">
                     <Button variant="ghost" className="w-15 items-end">
                       <Link to={course._id}><Edit/></Link>

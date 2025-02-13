@@ -16,6 +16,7 @@ import { Loader2 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   useGetCourseDetailsQuery,
+  usePublishCourseMutation,
   useUpdateCourseMutation,
 } from "@/apis/courseApi";
 import { toast } from "sonner";
@@ -44,7 +45,8 @@ const CourseTab = () => {
 
   const { data: courseData, isLoading: CourseLoading } =
     useGetCourseDetailsQuery(courseId,{refetchOnMountOrArgChange : true});
-
+  
+  const [publishCourse] = usePublishCourseMutation();
 
   useEffect(() => {
     if (courseData?.course) {
@@ -95,7 +97,16 @@ const CourseTab = () => {
     navigate("/admin/course");
   };
 
-  const isPublished = true;
+  const handlePublish = async (action)=>{
+    try {
+      const response = await publishCourse({courseId, query:action});
+      navigate("/admin/course");
+      if(response?.data) toast.success(response?.data?.message);
+    } catch (error) {
+      toast.error("Unable to publish course...");
+    }
+  }
+
   return (
     <div>
       <Card className="flex flex-col p-4 gap-6">
@@ -108,8 +119,8 @@ const CourseTab = () => {
           </div>
 
           <div className="flex gap-2">
-            <Button variant="outline">
-              {isPublished ? "Unpublish" : "Publish"}
+            <Button variant="outline" onClick={()=>handlePublish(courseData?.course?.isPublished ? false : true)}>
+              {courseData?.course?.isPublished ? "Unpublish" : "Publish"}
             </Button>
             <Button>Remove Course</Button>
           </div>

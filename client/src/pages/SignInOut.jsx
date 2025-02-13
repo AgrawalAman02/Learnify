@@ -51,17 +51,17 @@ export function SignInOut() {
   const navigate = useNavigate();
   useEffect(()=>{
     if(isRegisterSuccess && registerData){
-      toast.success(registerData.message || "User sign-up successful!");
+      toast.success(registerData?.message || "User sign-up successful!");
       navigate("/");
     }
     else if(registerError ){
-      toast.error(registerError.data.message || "Sign Up Failed!");
+      toast.error(registerError?.data?.message || "Sign Up Failed!");
     }
     else if(loginError ){
-      toast.error(loginError.data.message || "Login In Falied!");
+      toast.error(loginError?.data?.message || "Login In Falied!");
     }
     else if(isLoginSuccess && loginData){
-      toast.success(loginData.message || "Login successful!");
+      toast.success(loginData?.message || "Login successful!");
       navigate("/")
     }
   },

@@ -141,3 +141,29 @@ export const getCourseDetails = async (req, res) => {
     });
   }
 };
+
+export const publishCourse = async (req,res)=>{
+  try {
+    const {courseId} = req.params;
+    const {publish} = req.query;
+    const course = await Course.findById(courseId);
+    if(!course) res.status(404).json({
+      success: false,
+      message: "Course Not Found",
+    });
+    course.isPublished  = publish === "true";
+
+    await course.save();
+    const statusMsg = course.isPublished ? "Published" : "Not Published";
+    return res.status(200).json({
+      success : true,
+      message : `Course Is ${statusMsg}`,
+    })
+    
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "ERROR : " + error.message,
+    }); 
+  }
+}
