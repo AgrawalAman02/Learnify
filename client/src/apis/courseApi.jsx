@@ -8,7 +8,7 @@ export const courseApi = createApi({
     baseUrl: COURSE_URL,
     credentials: "include",
   }),
-  tagTypes: ["refetchListOfCourse", "refetchLectures"],
+  tagTypes: ["refetchListOfCourse", "refetchLectures","refetchLectureDetails"],
 
   endpoints: (builder) => ({
     addCourse: builder.mutation({
@@ -29,7 +29,7 @@ export const courseApi = createApi({
     }),
 
     updateCourse: builder.mutation({
-      query: ({updatedData,courseId}) => ({
+      query: ({ updatedData, courseId }) => ({
         url: `/updateCourse/${courseId}`,
         method: "PUT",
         body: updatedData,
@@ -37,32 +37,73 @@ export const courseApi = createApi({
       invalidatesTags: ["refetchListOfCourse"],
     }),
 
-    getCourseDetails : builder.query({
-      query : (courseId)=>({
-        url : `/getCourse/${courseId}`,
-        method : "GET",
+    getCourseDetails: builder.query({
+      query: (courseId) => ({
+        url: `/getCourse/${courseId}`,
+        method: "GET",
       }),
     }),
 
     // creating api for lectures here ...
 
-    createLecture : builder.mutation({
-      query : ({courseId,lectureTitle})=>({
-        url : `${courseId}/createLecture`,
-        method : "POST",
-        body : {lectureTitle},
+    createLecture: builder.mutation({
+      query: ({ courseId, lectureTitle }) => ({
+        url: `${courseId}/createLecture`,
+        method: "POST",
+        body: { lectureTitle },
       }),
-      invalidatesTags : ["refetchLectures"],
+      invalidatesTags: ["refetchLectures"],
     }),
 
-    getLecture : builder.query({
-      query : (courseId)=>({
-        url : `${courseId}/getLecture`,
-        method : "GET",
+    getLecture: builder.query({
+      query: (courseId) => ({
+        url: `${courseId}/getLecture`,
+        method: "GET",
       }),
-      providesTags : ["refetchLectures"],
-    })
+      providesTags: ["refetchLectures"],
+    }),
+
+    editLecture: builder.mutation({
+      query: ({
+        courseId,
+        lectureId,
+        lectureTitle,
+        videoInfo,
+        isPreviewFree,
+      }) => ({
+        url: `${courseId}/lecture/${lectureId}`,
+        method: "POST",
+        body: { lectureTitle, videoInfo, isPreviewFree },
+      }),
+      invalidatesTags: ["refetchLectures", "refetchLectureDetails"],
+    }),
+
+    deleteLecture: builder.mutation({
+      query: ({ courseId, lectureId }) => ({
+        url: `${courseId}/lecture/${lectureId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["refetchLectures"],
+    }),
+
+    getLectureById: builder.query({
+      query: ({ courseId, lectureId }) => ({
+        url: `${courseId}/getLecture/${lectureId}`,
+        method: "GET",
+      }),
+      providesTags: ["refetchLectureDetails"],
+    }),
   }),
 });
 
-export const { useAddCourseMutation, useGetCourseQuery ,useUpdateCourseMutation, useGetCourseDetailsQuery, useCreateLectureMutation, useGetLectureQuery} = courseApi;
+export const {
+  useAddCourseMutation,
+  useGetCourseQuery,
+  useUpdateCourseMutation,
+  useGetCourseDetailsQuery,
+  useCreateLectureMutation,
+  useGetLectureQuery,
+  useEditLectureMutation,
+  useDeleteLectureMutation,
+  useGetLectureByIdQuery,
+} = courseApi;

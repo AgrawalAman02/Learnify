@@ -22,6 +22,7 @@ const CreateLecture = () => {
     useCreateLectureMutation();
   const createLectureBtnHandler = async () => {
     await createLecture({ courseId, lectureTitle });
+    setLectureTitle("");
   };
 
   useEffect(() => {

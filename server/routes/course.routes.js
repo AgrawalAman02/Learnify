@@ -13,8 +13,8 @@ router.get("/getCourse/:courseId",userAuth,getCourseDetails);
 // routes for lecture 
 router.post("/:courseId/createLecture",userAuth,createLecture);
 router.get("/:courseId/getLecture",userAuth,getLecture );
-router.post("/:courseId/getLecture/:lectureId",userAuth,editLecture);
-router.delete("/:courseId/getLecture/:lectureId",userAuth,removeLecture );
+router.post("/:courseId/lecture/:lectureId",userAuth,editLecture);
+router.delete("/:courseId/lecture/:lectureId",userAuth,removeLecture );
 router.get("/:courseId/getLecture/:lectureId",userAuth,getLectureById );
 
 export default router;

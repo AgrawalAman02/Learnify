@@ -80,9 +80,11 @@ export const editLecture = async (req, res) => {
     if (!courseId || !lectureId) throw new Error("Something got wrong..");
 
     const { lectureTitle, videoInfo, isPreviewFree } = req.body;
-    const { videoUrl, publicId } = videoInfo;
+    // const { videoUrl, publicId } = videoInfo;
+    const videoUrl = videoInfo?.videoUrl;
+    const publicId = videoInfo?.publicId;
 
-    if (!lectureTitle || !isPreviewFree || !videoInfo || !videoUrl || !publicId)
+    if (!lectureTitle ||  !videoInfo || !videoUrl || !publicId)
       throw new Error("All field are mandatory...");
     const lecture = await Lecture.findByIdAndUpdate(lectureId, {
       lectureTitle,
@@ -138,10 +140,10 @@ export const removeLecture = async (req, res) => {
 
 export const getLectureById = async (req, res)=>{
   try {
-    const {lectureId , courseId} = useParams();
+    const {lectureId , courseId} = req.params;
     if(!lectureId, !courseId) throw new Error("Issue While Fetching...");
   
-    const lecture = Lecture.findById(lectureId);
+    const lecture = await Lecture.findById(lectureId);
     if(!lecture ) throw new Error("Lecture is not present...");
     return res.status(200).json({
       success : true ,

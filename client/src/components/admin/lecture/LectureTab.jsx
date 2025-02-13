@@ -7,22 +7,34 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import axios from "axios";
 import { toast } from "sonner";
 import { Progress } from "@/components/ui/progress";
+import { useDeleteLectureMutation, useEditLectureMutation, useGetLectureByIdQuery } from "@/apis/courseApi";
+import { useNavigate, useParams } from "react-router-dom";
+import LoaderSpinner from "@/pages/LoaderSpinner";
+import { Loader, Loader2 } from "lucide-react";
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const LectureTab = () => {
-  const [isPreviewFree, setIsPreviewFree] = useState(false);
-  const [title, setTitle] = useState("");
+  const {courseId, lectureId} = useParams();
+  const navigate = useNavigate();
+  const {data:lectureData, isLoading:isLectureLoading, isError: isLectureError, isSuccess:isLectureSuccess,error:lectureError} = useGetLectureByIdQuery({courseId, lectureId});
+  const [isPreviewFree, setIsPreviewFree] = useState(lectureData?.data?.isPreviewFree);
+  const [lectureTitle, setLectureTitle] = useState(lectureData?.data?.lectureTitle);
   const [videoInfo, setVideoInfo] = useState(null);
   const [mediaProgress, setMediaProgess] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [btnDisable, setBtnDisable] = useState(true);
 
+  // API Hooks
+  const [editLecture, {data, isLoading, isError,isSuccess, error }] = useEditLectureMutation();
+  const [removeLecture , {isLoading:deleteLoader, isError: isDeleteError , error : deleteError, isSuccess: deleteSuccess}] = useDeleteLectureMutation();
+  console.log(lectureData);
+  
   const MEDIA_API = SERVER_URL+"upload";
 
   const fileInputHandler = async (e) => {
@@ -56,8 +68,44 @@ const LectureTab = () => {
     }
   };
 
-  const handleLectureEdit = () => {};
+  const handleLectureEdit = async () => {
+    await editLecture({courseId, lectureId, lectureTitle, videoInfo, isPreviewFree});
+    navigate(`/admin/course/${courseId}/lecture`);
+  };
 
+  const handleRemoveLecture=async()=>{
+    await removeLecture({courseId, lectureId});
+    navigate(`/admin/course/${courseId}/lecture`);
+  }
+
+  useEffect(()=>{
+    // if(isSuccess){
+    //   toast.success(data.message);
+    // }
+    if(isError) 
+      toast.error(error.data.message);
+  },[isError, isSuccess]);
+
+  useEffect(() => {
+    if (lectureData?.data) {
+      setLectureTitle(lectureData.data.lectureTitle || "");
+      setIsPreviewFree(lectureData.data.isPreviewFree || false);
+    }
+    if(isLectureSuccess){
+      toast.success(lectureData.message);
+    }
+    if(isLectureError) 
+      toast.error(lectureError.data.message);
+  }, [lectureData, lectureError, isLectureError,isLectureSuccess]);
+
+  useEffect(()=>{
+    if(isDeleteError) toast.error(deleteError.data.message);
+    if(deleteSuccess) toast.success("Lecture deletion successfull...");
+  },[isDeleteError, deleteError,deleteSuccess])
+
+  if( isLectureLoading) {
+    return <LoaderSpinner />
+  }
   return (
     <div className="flex flex-col gap-4">
       <Card>
@@ -68,7 +116,9 @@ const LectureTab = () => {
               Make changes and click save when done...
             </CardDescription>
           </div>
-          <Button variant="destructive">Remove Lecture</Button>
+          <Button variant="destructive" onClick={handleRemoveLecture}>{
+          deleteLoader  ? <><Loader2 className="w-4 h-4 animate-spin text-blue-600"/>Removing...</> : <>Remove Lecture</>
+          }</Button>
         </CardHeader>
 
         <CardContent className="flex flex-col gap-6 ">
@@ -79,8 +129,8 @@ const LectureTab = () => {
             <Input
               type="text"
               id="title"
-              value = {title}
-              onChange={(e)=>setTitle(e.target.value)}
+              value = {lectureTitle}
+              onChange={(e)=>setLectureTitle(e.target.value)}
               placeHolder="Enter the lecture title"
             />
           </div>
@@ -121,8 +171,8 @@ const LectureTab = () => {
             </div>
           </div>
           <div>
-            <Button variant="secondary" onClick={handleLectureEdit} disabled={btnDisable}>
-              Update Lecture
+            <Button variant="secondary" onClick={handleLectureEdit} disabled={btnDisable && isLoading}>
+              {isLoading? <><Loader className="w-4 h-4 animate-spin " /> Updating...</>: <>Update Lecture</>}
             </Button>
           </div>
         </CardContent>
