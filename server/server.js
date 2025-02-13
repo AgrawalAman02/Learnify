@@ -7,6 +7,7 @@ import userRouter from "./routes/user.routes.js";
 import profileRouter from "./routes/profile.routes.js";
 import cookieParser from 'cookie-parser';
 import courseRouter from "./routes/course.routes.js"
+import uploadMediaRoute from "./routes/media.routes.js"
 
 const PORT = process.env.PORT || 5000;
 
@@ -26,6 +27,7 @@ app.use(cookieParser());
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/profile", profileRouter);
 app.use("/api/v1/course", courseRouter);
+app.use("/api/v1/upload", uploadMediaRoute);
 
 
 connectDb()

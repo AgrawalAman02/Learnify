@@ -66,3 +66,39 @@ export const getLecture = async (req, res) => {
     });
   }
 };
+
+export const editLecture = async (req, res) => {
+  try {
+    const loggedInUser = req?.user;
+    if (!loggedInUser) throw new Error("Please sign in...");
+    if (loggedInUser?.role === "Student")
+      throw new Error("Only Instructor have the access");
+
+    const courseId = req.params.courseId,
+      lectureId = req.params.lectureId;
+    if (!courseId || !lectureId) throw new Error("Something got wrong..");
+
+    const { lectureTitle, videoInfo, isPreviewFree } = req.body;
+    const { videoUrl, publicId } = videoInfo;
+
+    if(!lectureTitle || !isPreviewFree || !videoInfo || !videoUrl || !publicId) throw new Error("All field are mandatory...")
+    const lecture = Lecture.findByIdAndUpdate(lectureId,{
+      lectureTitle,
+      videoUrl,
+      publicId,
+      isPreviewFree,
+    });
+
+    return res.status(200).json({
+      status : true,
+      message : "Lecture Updated successfully",
+      data : lecture,
+    });
+
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "ERROR : " + error.message,
+    });
+  }
+};
