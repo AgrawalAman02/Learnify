@@ -119,7 +119,7 @@ const CourseTab = () => {
           </div>
 
           <div className="flex gap-2">
-            <Button variant="outline" onClick={()=>handlePublish(courseData?.course?.isPublished ? false : true)}>
+            <Button variant="outline" disabled={courseData?.course.lectures.length===0} onClick={()=>handlePublish(courseData?.course?.isPublished ? false : true)}>
               {courseData?.course?.isPublished ? "Unpublish" : "Publish"}
             </Button>
             <Button>Remove Course</Button>
