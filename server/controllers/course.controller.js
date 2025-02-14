@@ -167,3 +167,25 @@ export const publishCourse = async (req,res)=>{
     }); 
   }
 }
+
+export const getPublishedCourse = async (req, res) =>{
+  try {
+    const courses =await Course.find({isPublished : true}).populate({path : "creator", select : "name photoUrl"});
+    
+    if(!courses || courses.length == 0 ) return res.status(404).json({
+      success : false,
+      message : "No Course found",
+    });
+    
+    return res.status(200).json({
+      success : true,
+      message : "Course Fetched Successfully...",
+      courses
+    })
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "ERROR : " + error.message,
+    });
+  }
+}
