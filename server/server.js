@@ -6,8 +6,9 @@ import connectDb from './config/database.js';
 import userRouter from "./routes/user.routes.js";
 import profileRouter from "./routes/profile.routes.js";
 import cookieParser from 'cookie-parser';
-import courseRouter from "./routes/course.routes.js"
-import uploadMediaRoute from "./routes/media.routes.js"
+import courseRouter from "./routes/course.routes.js";
+import uploadMediaRoute from "./routes/media.routes.js";
+import paymentRoutes from "./routes/payment.routes.js";
 
 const PORT = process.env.PORT || 5000;
 
@@ -28,7 +29,7 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/profile", profileRouter);
 app.use("/api/v1/course", courseRouter);
 app.use("/api/v1/upload", uploadMediaRoute);
-
+app.use("/api/v1/payment", paymentRoutes);
 
 connectDb()
     .then(()=>{

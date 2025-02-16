@@ -18,15 +18,21 @@ const transactionsSchema = new mongoose.Schema({
         required : true,
     },
 
-    stauts : {
+    status : {
         type : String ,
-        enum : ['pending','completed','failed'],
+        enum : ['pending','completed','created','failed'],
         default : 'pending',
     },
-    paymentId :{
+    orderId :{
         type : String,
         required : true,
+        unique : true,
     },
+    receipt : {
+        type : String ,
+        required : true,
+        unique : true,
+    }
 },
 {
     timestamps : true,

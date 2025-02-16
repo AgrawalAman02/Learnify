@@ -4,4 +4,6 @@ import { createOrder } from "../controllers/payment.controller.js";
 
 const router = express.Router();
 
-router.post("/payment/createOrder", userAuth,createOrder);
+router.post("/createOrder", userAuth,createOrder);
+
+export default router;
