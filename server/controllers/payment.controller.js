@@ -1,7 +1,7 @@
 import express from "express";
 import instance from "../utils/razorpay.js";
 import { Course } from "../models/course.js";
-import { Transactions } from "../models/transactions.js";
+import { Payment } from "../models/payment.js";
 
 export const createOrder = async (req, res) => {
   try {
@@ -28,7 +28,7 @@ export const createOrder = async (req, res) => {
     
     const {amount, id, notes, receipt,status} = order;
     // save the order in the database 
-    const transaction = new Transactions({
+    const payment = new Payment({
       amount: amount/100,
       courseId : notes?.courseId,
       userId : notes?.userId,
@@ -36,12 +36,12 @@ export const createOrder = async (req, res) => {
       status,
       orderId : id,
     });
-    const savedTransaction = await transaction.save();
+    const savedPayment = await payment.save();
     // return back my response to the frontend
     res.json({ 
       success : true,
       message : "Order Created Succcessfully",
-      savedTransaction,
+      savedPayment,
      });
   } catch (error) {
     return res.status(400).json({

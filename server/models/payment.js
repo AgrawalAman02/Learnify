@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const transactionsSchema = new mongoose.Schema({
+const paymentSchema = new mongoose.Schema({
     courseId :{
         type : mongoose.Schema.Types.ObjectId,
         ref : 'Course',
@@ -38,4 +38,4 @@ const transactionsSchema = new mongoose.Schema({
     timestamps : true,
 });
 
-export const Transactions = mongoose.model("Transactions", transactionsSchema);
+export const Payment = mongoose.model("Payment", paymentSchema);
