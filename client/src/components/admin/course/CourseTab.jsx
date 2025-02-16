@@ -52,13 +52,13 @@ const CourseTab = () => {
     if (courseData?.course) {
       const course = courseData?.course;
       setInput({
-        courseTitle: course.courseTitle,
-        courseSubTitle: course.courseSubTitle,
-        description: course.description,
-        category: course.category,
-        courseLevel: course.courseLevel,
-        price: course.price,
-        thumbnail: course.thumbnail,
+        courseTitle: course?.courseTitle,
+        courseSubTitle: course?.courseSubTitle,
+        description: course?.description,
+        category: course?.category,
+        courseLevel: course?.courseLevel,
+        price: course?.price,
+        thumbnail: course?.thumbnail,
       });
     }
   }, [courseData]);

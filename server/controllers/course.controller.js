@@ -1,4 +1,5 @@
 import { Course } from "../models/course.js";
+import { Payment } from "../models/payment.js";
 import { deleteMediaFromCloud, uploadMedia } from "../utils/cloudinary.js";
 
 export const createCourse = async (req, res) => {
@@ -182,6 +183,30 @@ export const getPublishedCourse = async (req, res) =>{
       message : "Course Fetched Successfully...",
       courses
     })
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "ERROR : " + error.message,
+    });
+  }
+}
+
+
+export const getCoursePurchasedDetails = async (req,res)=>{
+  try {
+    const { courseId }= req.params;
+    const userId = req.user?._id;
+  
+    const course =await Course.findById(courseId).populate({path:"creator",select : "_id name photoUrl email "}).populate({path : "lectures"});
+    if(!course) throw new Error("Cant find course related to your choice...");
+  
+    const isPurchased =await Payment.findOne({courseId,userId});
+  
+    return res.status(200).json({
+      success: true,
+      course,
+      isPurchased : isPurchased ? true: false,
+    });
   } catch (error) {
     res.status(400).json({
       success: false,
