@@ -11,7 +11,7 @@ router.get("/getCourse",userAuth, getAllCourse);
 router.put("/updateCourse/:courseId",userAuth,upload.single("updatedThumbnail"),updateCourse)
 router.get("/getCourse/:courseId",userAuth,getCourseDetails);
 router.put("/publishCourse/:courseId", userAuth, publishCourse);
-router.get("/getPublishedCourse", userAuth, getPublishedCourse);
+router.get("/getPublishedCourse",  getPublishedCourse);
 
 // routes for lecture 
 router.post("/:courseId/createLecture",userAuth,createLecture);
