@@ -1,5 +1,6 @@
 import { Course } from "../models/course.js";
 import { Payment } from "../models/payment.js";
+import { User } from "../models/user.js";
 import { deleteMediaFromCloud, uploadMedia } from "../utils/cloudinary.js";
 
 export const createCourse = async (req, res) => {
@@ -199,13 +200,15 @@ export const getCoursePurchasedDetails = async (req,res)=>{
   
     const course =await Course.findById(courseId).populate({path:"creator",select : "_id name photoUrl email "}).populate({path : "lectures"});
     if(!course) throw new Error("Cant find course related to your choice...");
-  
+    
+    const user = await User.findById(userId).select("name email");
     const isPurchased =await Payment.findOne({courseId,userId});
   
     return res.status(200).json({
       success: true,
       course,
       isPurchased : isPurchased ? true: false,
+      user,
     });
   } catch (error) {
     res.status(400).json({

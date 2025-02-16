@@ -1,5 +1,6 @@
 import { useGetCoursePurchasedDetailsQuery } from "@/apis/courseApi";
 import CourseIntroSection from "@/components/student/CourseIntroSection";
+import PaymentButton from "@/components/student/PaymentButton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -11,6 +12,7 @@ const CourseDetails = () => {
   const { courseId } = useParams();
   const { data } = useGetCoursePurchasedDetailsQuery(courseId);
   const course = data?.course;
+  const loggedInUser = data?.user;
   const isPurchased = data?.isPurchased;
   const description =
     course?.description ||
@@ -51,9 +53,7 @@ const CourseDetails = () => {
               </CardContent>
 
               <CardFooter>
-                <Button>
-                  {isPurchased ? "Continue Course" : "Purchase Course"}
-                </Button>
+                <PaymentButton isPurchased = {isPurchased} loggedInUser = {loggedInUser} />
               </CardFooter>
             </Card>
           </div>

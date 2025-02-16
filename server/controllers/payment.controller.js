@@ -6,7 +6,7 @@ import { Payment } from "../models/payment.js";
 export const createOrder = async (req, res) => {
   try {
 
-    const {courseId} = req?.body ;
+    const {courseId} = req?.body;
     if(!courseId) throw new Error("CourseId is not available..");
     const loggedInUser = req?.user;
     const userId = loggedInUser?._id;
@@ -41,7 +41,8 @@ export const createOrder = async (req, res) => {
     res.json({ 
       success : true,
       message : "Order Created Succcessfully",
-      savedPayment,
+      ...savedPayment.toJSON(),
+      key_id: process.env.RAZORPAY_KEY_ID,
      });
   } catch (error) {
     return res.status(400).json({
