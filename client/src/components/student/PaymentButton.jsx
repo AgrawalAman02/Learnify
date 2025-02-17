@@ -34,7 +34,7 @@ const PaymentButton = ({ isPurchased, loggedInUser }) => {
         key: orderResponse?.key_id,
         amount: orderResponse?.amount,
         currency: orderResponse?.currency,
-        name: "uDummy-A LMS",
+        name: "uDummy: A LMS",
         description:
           "Explore a unique learning experience by gaining knowledge",
         order_id: orderResponse?.orderId,
