@@ -131,7 +131,7 @@ const LectureTab = () => {
               id="title"
               value = {lectureTitle}
               onChange={(e)=>setLectureTitle(e.target.value)}
-              placeHolder="Enter the lecture title"
+              placeholder="Enter the lecture title"
             />
           </div>
 

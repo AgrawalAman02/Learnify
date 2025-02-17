@@ -17,7 +17,7 @@ const HeroSection = () => {
           <Input
             type="text"
             className="rounded-s-full bg-white dark:bg-gray-50 text-black max-w-xl focus-visible:ring-0 px-6 py-3 ml-4 md:ml-16 shadow-lg"
-            placeHolder="Ahh! You can even find your desired courses"
+            placeholder="Ahh! You can even find your desired courses"
           />
           <Button className="text-white rounded-e-full focus-within:ring-0 bg-indigo-700 hover:bg-blue-600 dark:hover:bg-indigo-600 shadow-lg">Search</Button>
         </form>
