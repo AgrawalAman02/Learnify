@@ -34,9 +34,9 @@ const PaymentButton = ({ isPurchased, loggedInUser }) => {
         key: orderResponse?.key_id,
         amount: orderResponse?.amount,
         currency: orderResponse?.currency,
-        name: "uDummy: A LMS",
+        name: "Learnify",
         description:
-          "Explore a unique learning experience by gaining knowledge",
+          "Turning learning into a lifestyle",
         order_id: orderResponse?.orderId,
         // callback_url: 'http://localhost:3000/payment-success',
         prefill: {

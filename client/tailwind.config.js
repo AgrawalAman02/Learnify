@@ -4,6 +4,16 @@ module.exports = {
     content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
   theme: {
   	extend: {
+		fontFamily: {
+			audiowide: ['Audiowide', 'sans-serif'],
+			chewy: ['Chewy', 'sans-serif'],
+			handjet: ['Handjet', 'sans-serif'],
+			lekton: ['Lekton', 'serif'],
+			permanentMarker: ['Permanent Marker', 'cursive'],
+			protestGuerrilla: ['Protest Guerrilla', 'sans-serif'],
+			silkscreen: ['Silkscreen', 'sans-serif'],
+			urbanist: ['Urbanist', 'sans-serif'],
+		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',

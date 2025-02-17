@@ -14,8 +14,8 @@ const NavBar = () => {
       <Link to="/">
         <div className="flex items-center gap-2 ">
           <GraduationCap size={35} />
-          <span className="hidden md:block text-2xl font-semibold font-serif">
-            uDummy
+          <span className="hidden md:block text-3xl font-semibold font-chewy">
+            LEARNIFY
           </span>
         </div>
       </Link>
