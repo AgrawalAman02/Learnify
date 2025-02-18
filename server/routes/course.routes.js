@@ -8,7 +8,7 @@ const router = express.Router();
 // router for course
 router.post("/",userAuth,createCourse);
 router.get("/getCourse",userAuth, getAllCourse);
-router.put("/updateCourse/:courseId",userAuth,upload.single("updatedThumbnail"),updateCourse)
+router.put("/updateCourse/:courseId",userAuth,upload.single("thumbnail"),updateCourse)
 router.get("/getCourse/:courseId",userAuth,getCourseDetails);
 router.put("/publishCourse/:courseId", userAuth, publishCourse);
 router.get("/getPublishedCourse",  getPublishedCourse);
