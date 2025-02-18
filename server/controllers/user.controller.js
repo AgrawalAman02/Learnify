@@ -44,7 +44,8 @@ export const login = async (req, res) => {
     res.cookie("token", token, {
       expires: new Date(Date.now() + 8 * 3600000),
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      secure: process.env.NODE_ENV === "production",
     });
     res.send(user);
   } catch (error) {
@@ -73,4 +74,3 @@ export const logout = (req, res) => {
     });
   }
 };
-
