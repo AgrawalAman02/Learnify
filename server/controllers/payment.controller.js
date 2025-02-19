@@ -5,49 +5,94 @@ import { Payment } from "../models/payment.js";
 
 export const createOrder = async (req, res) => {
   try {
-
-    const {courseId} = req?.body;
-    if(!courseId) throw new Error("CourseId is not available..");
+    const { courseId } = req?.body;
+    if (!courseId) throw new Error("CourseId is not available..");
     const loggedInUser = req?.user;
     const userId = loggedInUser?._id;
     const course = await Course.findById(courseId);
-    if(!course) throw new Error("Course is not available...");
+    if (!course) throw new Error("Course is not available...");
     const price = course?.price;
     const options = {
-      amount: price*100, 
+      amount: price * 100,
       currency: "INR",
       receipt: `${courseId}_${Date.now()}`,
       notes: {
-        courseId ,
+        courseId,
         userId,
-      }
+      },
     };
-    
+
     const order = await instance.orders.create(options);
-    if(!order) throw new Error("Order hadn't been created!");
-    
-    const {amount, id, notes, receipt,status} = order;
-    // save the order in the database 
+    if (!order) throw new Error("Order hadn't been created!");
+
+    const { amount, id, notes, receipt, status } = order;
+    // save the order in the database
     const payment = new Payment({
-      amount: amount/100,
-      courseId : notes?.courseId,
-      userId : notes?.userId,
+      amount: amount / 100,
+      courseId: notes?.courseId,
+      userId: notes?.userId,
       receipt,
       status,
-      orderId : id,
+      orderId: id,
     });
     const savedPayment = await payment.save();
     // return back my response to the frontend
-    res.json({ 
-      success : true,
-      message : "Order Created Succcessfully",
+    res.json({
+      success: true,
+      message: "Order Created Succcessfully",
       ...savedPayment.toJSON(),
       key_id: process.env.RAZORPAY_KEY_ID,
-     });
+    });
   } catch (error) {
     return res.status(400).json({
       success: false,
       message: `ERROR : ${error.message} `,
     });
   }
-}
+};
+
+export const verifyPayment = async (req, res) => {
+  try {
+    const webhookSignature = req.headers["X-Razorpay-Signature"];
+
+    const isWebhookValid= validateWebhookSignature(
+      JSON.stringify(req.body),
+      webhookSignature,
+      process.env.RAZORPAY_WEBHOOK_SECRET
+    );
+
+    if(!isWebhookValid) return res.status(400).json({
+      message : "Webhook signature is invalid",
+    });
+
+    // if valid then what to do ?
+    // we will update the payment status 
+    const paymentDetails = req.body.payload.payment.activity;
+    const payment =await Payment.findOne({orderId : paymentDetails.order_id});
+    if (!payment) throw new Error("Payment record not found.");
+    payment.status = paymentDetails.status;
+    await payment.save();
+
+    // make the lecture of the course preview free
+    const course = await Course.findById(payment.courseId).populate({path : "lectures", select :"isPreviewFree"});
+    if (!course) throw new Error("Course not found.");
+
+    const previewStatus = paymentDetails.status === "captured";
+    await Lecture.updateMany(   // or we can use the normal map or for each method
+      { _id: { $in: course.lectures.map((lecture) => lecture._id) } },
+      { $set: { isPreviewFree: previewStatus } }
+    );
+
+    await course.save();
+
+    // return  the success status
+    return res.status(200).json({
+      success : true,
+      message : "Order verified successfully...",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
