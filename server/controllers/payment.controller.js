@@ -3,6 +3,7 @@ import instance from "../utils/razorpay.js";
 import { Course } from "../models/course.js";
 import { Payment } from "../models/payment.js";
 import { validateWebhookSignature } from "../utils/validateWebhookSignature.js";
+import { Lecture } from "../models/lecture.js";
 
 export const createOrder = async (req, res) => {
   try {
@@ -54,10 +55,10 @@ export const createOrder = async (req, res) => {
 
 export const verifyPayment = async (req, res) => {
   try {
-    const webhookSignature = req.headers["X-Razorpay-Signature"];
+    const webhookSignature = req.headers["x-razorpay-signature"];
 
     const isWebhookValid= validateWebhookSignature(
-      JSON.stringify(req.body),
+      req.body,
       webhookSignature,
       process.env.RAZORPAY_WEBHOOK_SECRET
     );
@@ -68,10 +69,12 @@ export const verifyPayment = async (req, res) => {
 
     // if valid then what to do ?
     // we will update the payment status 
-    const paymentDetails = req.body.payload.payment.activity;
+    const paymentDetails = req.body.payload.payment.entity;
     const payment =await Payment.findOne({orderId : paymentDetails.order_id});
     if (!payment) throw new Error("Payment record not found.");
     payment.status = paymentDetails.status;
+    console.log(paymentDetails);
+    console.log(paymentDetails.status);
     await payment.save();
 
     // make the lecture of the course preview free
@@ -79,6 +82,8 @@ export const verifyPayment = async (req, res) => {
     if (!course) throw new Error("Course not found.");
 
     const previewStatus = paymentDetails.status === "captured";
+    console.log(previewStatus);
+    
     await Lecture.updateMany(   // or we can use the normal map or for each method
       { _id: { $in: course.lectures.map((lecture) => lecture._id) } },
       { $set: { isPreviewFree: previewStatus } }

@@ -30,10 +30,12 @@ const PaymentButton = ({ isPurchased, loggedInUser }) => {
     if (!isPurchased) {
       const response = await createOrder(courseId);
       const orderResponse = response.data;
+      console.log(orderResponse);
+      
       const options = {
-        key: orderResponse?.key_id,
-        amount: orderResponse?.amount,
-        currency: orderResponse?.currency,
+        key: orderResponse.key_id,
+        amount: orderResponse.amount,
+        // currency: orderResponse.currency,
         name: "Learnify",
         description:
           "Turning learning into a lifestyle",
@@ -49,6 +51,8 @@ const PaymentButton = ({ isPurchased, loggedInUser }) => {
         },
       };
 
+      console.log(options);
+      
       const rzp = new window.Razorpay(options);
       rzp.open();
     }

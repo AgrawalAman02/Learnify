@@ -1,10 +1,10 @@
 import crypto from "crypto";
 
-export const validateWebhookSignature = (payload, signature, secret) => {
+export const validateWebhookSignature = (rawBody, signature, secret) => {
   const expectedSignature = crypto
     .createHmac("sha256", secret)
-    .update(payload)
+    .update(rawBody)
     .digest("hex");
-  return expectedSignature === signature;
+  return expectedSignature === signature; 
 };
 
