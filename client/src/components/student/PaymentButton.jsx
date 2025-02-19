@@ -28,35 +28,56 @@ const PaymentButton = ({ isPurchased, loggedInUser }) => {
 
   const handlePaymentBtn = async () => {
     if (!isPurchased) {
-      const response = await createOrder(courseId);
-      const orderResponse = response.data;
-      console.log(orderResponse);
-      
-      const options = {
-        key: orderResponse.key_id,
-        amount: orderResponse.amount,
-        // currency: orderResponse.currency,
-        name: "Learnify",
-        description:
-          "Turning learning into a lifestyle",
-        order_id: orderResponse?.orderId,
-        // callback_url: 'http://localhost:3000/payment-success',
-        prefill: {
-          name: loggedInUser?.name,
-          email: loggedInUser?.email,
-          contact: "9999999999",
-        },
-        theme: {
-          color: "#F37254",
-        },
-      };
+      try {
+        const response = await createOrder(courseId);
+        console.log("Order API Response:", response);
 
-      console.log(options);
-      
-      const rzp = new window.Razorpay(options);
-      rzp.open();
+        if (!response?.data?.orderId) {
+          toast.error("Failed to create order. Try again!");
+          return;
+        }
+
+        const orderResponse = response.data;
+        const options = {
+          key: orderResponse?.key_id, // Ensure this exists
+          amount: orderResponse?.amount * 100, // Convert to paise if needed
+          currency: "INR",
+          name: "Learnify",
+          description: "Turning learning into a lifestyle",
+          order_id: orderResponse?.orderId, // Ensure this exists
+          prefill: {
+            name: loggedInUser?.name || "Anonymous",
+            email: loggedInUser?.email || "unknown@example.com",
+            contact: "9999999999",
+          },
+          theme: {
+            color: "#F37254",
+          },
+          handler: function (response) {
+            console.log("Payment Success:", response);
+            toast.success("Payment Successful!");
+          },
+          modal: {
+            ondismiss: function () {
+              toast.error("Payment popup closed.");
+            },
+          },
+        };
+
+        if (!window.Razorpay) {
+          toast.error("Razorpay SDK not loaded. Try again.");
+          return;
+        }
+
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+      } catch (error) {
+        console.error("Payment Error:", error);
+        toast.error("Something went wrong!");
+      }
     }
   };
+
   return (
     <div>
       {isLoading && <Loader2 className="animate-spin" />}
