@@ -2,6 +2,7 @@ import express from "express";
 import instance from "../utils/razorpay.js";
 import { Course } from "../models/course.js";
 import { Payment } from "../models/payment.js";
+import { validateWebhookSignature } from "razorpay";
 
 export const createOrder = async (req, res) => {
   try {
