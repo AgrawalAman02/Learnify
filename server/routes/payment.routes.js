@@ -5,6 +5,6 @@ import { createOrder, verifyPayment } from "../controllers/payment.controller.js
 const router = express.Router();
 
 router.post("/createOrder", userAuth,createOrder);
-router.post("/webhook", verifyWebhookPayment);
+router.post("/webhook", verifyPayment);
 
 export default router;
