@@ -63,6 +63,7 @@ export const verifyPayment = async (req, res) => {
       process.env.RAZORPAY_WEBHOOK_SECRET
     );
 
+    console.log(isWebhookValid);
     if(!isWebhookValid) return res.status(400).json({
       message : "Webhook signature is invalid",
     });
