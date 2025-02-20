@@ -86,6 +86,7 @@ export const verifyPayment = async (req, res) => {
       throw new Error("Failed to parse webhook payload");
     }
     const payment =await Payment.findOne({orderId : paymentDetails.order_id});
+    console.log("8. payment : " , payment);
     if (!payment) throw new Error("Payment record not found.");
     payment.status = paymentDetails.status;
     console.log(paymentDetails);
