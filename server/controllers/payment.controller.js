@@ -85,36 +85,54 @@ export const verifyPayment = async (req, res) => {
       console.log("Parse Error:", parseError);
       throw new Error("Failed to parse webhook payload");
     }
-    const payment =await Payment.findOne({orderId : paymentDetails.order_id});
-    console.log("8. payment : " , payment);
-    if (!payment) throw new Error("Payment record not found.");
-    payment.status = paymentDetails.status;
-    console.log(paymentDetails);
-    console.log(paymentDetails.status);
-    await payment.save();
+    console.log("Looking up payment with orderId:", paymentDetails.order_id);
+    const payment = await Payment.findOne({orderId: paymentDetails.order_id});
+    console.log("8. Payment found:", payment);
 
-    // make the lecture of the course preview free
-    const course = await Course.findById(payment.courseId).populate({path : "lectures", select :"isPreviewFree"});
-    if (!course) throw new Error("Course not found.");
+    if (!payment) {
+      console.log("Payment not found for orderId:", paymentDetails.order_id);
+      throw new Error("Payment record not found.");
+    }
+
+    console.log("9. Updating payment status to:", paymentDetails.status);
+    payment.status = paymentDetails.status;
+    const updatedPayment = await payment.save();
+    console.log("10. Payment updated:", updatedPayment);
+
+    console.log("11. Finding course:", payment.courseId);
+    const course = await Course.findById(payment.courseId).populate({
+      path: "lectures",
+      select: "isPreviewFree"
+    });
+    console.log("12. Course found:", course?._id);
+
+    if (!course) {
+      console.log("Course not found for ID:", payment.courseId);
+      throw new Error("Course not found.");
+    }
 
     const previewStatus = paymentDetails.status === "captured";
-    console.log(previewStatus);
+    console.log("13. Setting preview status to:", previewStatus);
     
-    await Lecture.updateMany(   // or we can use the normal map or for each method
-      { _id: { $in: course.lectures.map((lecture) => lecture._id) } },
+    
+    const updateResult = await Lecture.updateMany(
+      { _id: { $in: course.lectures.map(lecture => lecture._id) } },
       { $set: { isPreviewFree: previewStatus } }
     );
+    console.log("14. Lectures updated:", updateResult);
 
     await course.save();
+    console.log("15. Course saved");
 
-    // return  the success status
     return res.status(200).json({
-      success : true,
-      message : "Order verified successfully...",
+      success: true,
+      message: "Order verified successfully..."
     });
+
   } catch (error) {
+    console.error("Error in verifyPayment:", error);
     res.status(500).json({
-      message: error.message,
+      message: error.message
     });
   }
 };
