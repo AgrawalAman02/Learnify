@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import courseRouter from "./routes/course.routes.js";
 import uploadMediaRoute from "./routes/media.routes.js";
 import paymentRoutes from "./routes/payment.routes.js";
+import { verifyPayment } from './controllers/payment.controller.js';
 
 const PORT = process.env.PORT || 5000;
 
@@ -20,6 +21,12 @@ app.use(cors({
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
 }));
+
+// Add webhook route BEFORE express.json middleware
+app.post("/api/v1/payment/webhook", 
+    express.raw({ type: 'application/json' }), 
+    verifyPayment
+);
 
 app.use(express.json());
 app.use(cookieParser());

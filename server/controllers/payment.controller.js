@@ -55,23 +55,36 @@ export const createOrder = async (req, res) => {
 
 export const verifyPayment = async (req, res) => {
   try {
-    console.log("we are verify the payment ");
+    console.log("1. Starting payment verification...");
     const webhookSignature = req.headers["x-razorpay-signature"];
+    console.log("2. Webhook Signature:", webhookSignature);
 
-    const isWebhookValid= validateWebhookSignature(
-      req.body,
+    const rawBody = req.body.toString();
+    console.log("3. Raw Body:", rawBody);
+
+    const isWebhookValid = validateWebhookSignature(
+      rawBody,
       webhookSignature,
       process.env.RAZORPAY_WEBHOOK_SECRET
     );
-
-    console.log(isWebhookValid);
-    if(!isWebhookValid) return res.status(400).json({
-      message : "Webhook signature is invalid",
-    });
-
-    // if valid then what to do ?
-    // we will update the payment status 
-    const paymentDetails = req.body.payload.payment.entity;
+    
+    console.log("4. Is Webhook Valid:", isWebhookValid);
+    if(!isWebhookValid) {
+      console.log("5. Invalid webhook signature");
+      return res.status(400).json({
+        message : "Webhook signature is invalid",
+      });
+    }
+    
+    try {
+      const parsedBody = JSON.parse(rawBody);
+      console.log("6. Parsed Body:", parsedBody);
+      const paymentDetails = parsedBody.payload.payment.entity;
+      console.log("7. Payment Details:", paymentDetails);
+    } catch (parseError) {
+      console.log("Parse Error:", parseError);
+      throw new Error("Failed to parse webhook payload");
+    }
     const payment =await Payment.findOne({orderId : paymentDetails.order_id});
     if (!payment) throw new Error("Payment record not found.");
     payment.status = paymentDetails.status;
