@@ -14,7 +14,8 @@ import { useLogoutUserMutation } from "@/apis/authApi";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "@/store/authSlice";
-
+import { motion } from "framer-motion";
+import { BookOpen, Layout, LogOut, User } from "lucide-react"; // Added missing Lucide icons
 const NavBarDropDown = () => {
   const [logoutUser,{data,isSuccess , isError,error}] = useLogoutUserMutation();
   const navigate = useNavigate();
@@ -46,23 +47,39 @@ const NavBarDropDown = () => {
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Avatar className="cursor-pointer">
-            <AvatarImage src={user?.photoUrl || "https://github.com/shadcn.png"} />
-            <AvatarFallback>AM</AvatarFallback>
-          </Avatar>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Avatar className="cursor-pointer border-2 border-indigo-500/20 hover:border-indigo-500/50 transition-colors">
+              <AvatarImage src={user?.photoUrl || "https://github.com/shadcn.png"} />
+              <AvatarFallback className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white">
+                {user?.name?.split(" ").map(n => n[0]).join("") || "A"}
+              </AvatarFallback>
+            </Avatar>
+          </motion.div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuContent className="w-56 backdrop-blur-lg bg-white/90 dark:bg-slate-950/90">
+          <DropdownMenuLabel className="font-outfit">My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             {role === "Instructor" && (
-              <DropdownMenuItem><Link to="/admin/dashboard">Dashboard</Link> </DropdownMenuItem>
+              <DropdownMenuItem className="gap-2">
+                <Layout size={16} />
+                <Link to="/admin/dashboard">Dashboard</Link>
+              </DropdownMenuItem>
             )}
-            <DropdownMenuItem><Link to="/learning">My Learning</Link></DropdownMenuItem>
-            <DropdownMenuItem><Link to="/profile">Edit Profile</Link></DropdownMenuItem>
+            <DropdownMenuItem className="gap-2">
+              <BookOpen size={16} />
+              <Link to="/learning">My Learning</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="gap-2">
+              <User size={16} />
+              <Link to="/profile">Edit Profile</Link>
+            </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem><div className="cursor-pointer" onClick={handleLogOut}>Log Out</div></DropdownMenuItem>
+          <DropdownMenuItem className="gap-2 text-red-500 dark:text-red-400" onClick={handleLogOut}>
+            <LogOut size={16} />
+            <span>Log Out</span>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

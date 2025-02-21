@@ -13,6 +13,7 @@ module.exports = {
 			protestGuerrilla: ['Protest Guerrilla', 'sans-serif'],
 			silkscreen: ['Silkscreen', 'sans-serif'],
 			urbanist: ['Urbanist', 'sans-serif'],
+			outfit: ['Outfit', 'sans-serif'],
 		},
   		borderRadius: {
   			lg: 'var(--radius)',
