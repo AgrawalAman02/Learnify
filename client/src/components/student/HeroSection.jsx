@@ -2,7 +2,7 @@ import React from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { motion } from "framer-motion";
-import { Sparkles. ArrowDownCircle } from "lucide-react";
+import { Sparkles, ArrowDownCircle } from "lucide-react";
 
 const HeroSection = ({ onExplore }) => {
   return (
