@@ -4,6 +4,7 @@ import { Course } from "../models/course.js";
 import { Payment } from "../models/payment.js";
 import { validateWebhookSignature } from "../utils/validateWebhookSignature.js";
 import { Lecture } from "../models/lecture.js";
+import { User } from "../models/user.js";
 
 export const createOrder = async (req, res) => {
   try {
@@ -89,13 +90,21 @@ export const verifyPayment = async (req, res) => {
 
       const course = await Course.findById(payment.courseId).populate({
         path: "lectures",
-        select: "isPreviewFree"
+        select: "isPreviewFree enrolledStudents"
       });
 
       if (!course) {
-        throw new Error(`Course not found for ID: ${payment.courseId}`);
+        throw new Error(`Course not found`);
       }
 
+      const user = await User.findById(payment.userId).select("enrolledAt");
+      if(!user) throw new Error("User is not logged in...");
+      user.enrolledAt.push(course._id);
+      course.enrolledStudents.push(user._id);
+
+      await user.save();
+      await course.save();
+      
       const previewStatus = paymentDetails.status === "captured";
       await Lecture.updateMany(
         { _id: { $in: course.lectures.map(lecture => lecture._id) } },
