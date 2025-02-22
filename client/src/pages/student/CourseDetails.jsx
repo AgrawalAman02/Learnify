@@ -4,7 +4,7 @@ import PaymentButton from "@/components/student/PaymentButton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { PlayCircle } from "lucide-react";
+import { Lock, PlayCircle } from "lucide-react";
 import React from "react";
 import { useParams } from "react-router-dom";
 
@@ -36,7 +36,7 @@ const CourseDetails = () => {
               <div>
                 {course?.lectures.map((lecture) => (
                   <div key={lecture._id}  className="flex gap-2 items-center mb-2 border p-2 rounded-xl">
-                    <PlayCircle size={16} /> <span>{lecture?.lectureTitle}</span>
+                    {lecture?.isPreviewFree ? <PlayCircle size={16} /> : <Lock size={16}/>} <span>{lecture?.lectureTitle}</span>
                   </div>
                 ))}
               </div>

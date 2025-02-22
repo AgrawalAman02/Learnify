@@ -4,9 +4,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Badge } from "../ui/badge";
 import { useNavigate } from "react-router-dom";
 import { Clock, Users, Star } from "lucide-react";
+import { useSelector } from "react-redux";
 
 const CoursesCard = ({course}) => {
   const navigate = useNavigate();
+  const isAuthenticated = useSelector((store)=>store.auth.isAuthenticated);
   
   return (
     <Card className="group overflow-hidden rounded-xl dark:bg-slate-800/50 bg-white shadow-lg hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-300 flex flex-col">
@@ -27,7 +29,7 @@ const CoursesCard = ({course}) => {
         {/* Course Title */}
         <h1 
           className="font-bold text-lg hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer line-clamp-2"
-          onClick={() => navigate(`courseDetails/${course?._id}`)}
+          onClick={() => (isAuthenticated ? navigate(`courseDetails/${course?._id}`): navigate("auth"))}
         >
           {course?.courseTitle || "No Course Title Available..."}
         </h1>
