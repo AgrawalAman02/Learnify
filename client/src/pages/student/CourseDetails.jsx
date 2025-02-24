@@ -7,16 +7,19 @@ import { Separator } from "@/components/ui/separator";
 import { Lock, PlayCircle } from "lucide-react";
 import React from "react";
 import { useParams } from "react-router-dom";
+import LoaderSpinner from "../LoaderSpinner";
 
 const CourseDetails = () => {
   const { courseId } = useParams();
-  const { data } = useGetCoursePurchasedDetailsQuery(courseId);
+  const { data, isLoading } = useGetCoursePurchasedDetailsQuery(courseId);
   const course = data?.course;
   const loggedInUser = data?.user;
   const isPurchased = data?.isPurchased;
   const description =
     course?.description ||
     "<h3>No description available for this course.</h3> </hr> <p> So please help us to update our description based on your experience and comments.Please explore our course because the instructor had done a lots of hardword for your bright future. </hr> Have a nice Experience! </p>";
+
+    if(isLoading ) return <LoaderSpinner/>
   return (
     <div>
       <CourseIntroSection course={course} />
