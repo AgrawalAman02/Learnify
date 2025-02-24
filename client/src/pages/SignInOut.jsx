@@ -73,6 +73,7 @@ export function SignInOut() {
   ]);
 
   const changeInputHandler = (e, type) => {
+    if(!e || !e.target ) return;
     const { name, value } = e.target;
     if (type === "signUp") {
       setSignUpInput({ ...signUpInput, [name]: value });
