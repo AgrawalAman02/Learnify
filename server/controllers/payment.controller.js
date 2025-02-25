@@ -106,10 +106,12 @@ export const verifyPayment = async (req, res) => {
       await course.save();
       
       const previewStatus = paymentDetails.status === "captured";
-      await Lecture.updateMany(
-        { _id: { $in: course.lectures.map(lecture => lecture._id) } },
-        { $set: { isPreviewFree: previewStatus } }
-      );
+      if(payment.courseId && payment.courseId.lectures.length >0) {
+        await Lecture.updateMany(
+          { _id: { $in: course.lectures.map(lecture => lecture._id) } },
+          { $set: { isPreviewFree: previewStatus } }
+        );
+      }
 
       return res.status(200).json({
         success: true,
@@ -126,3 +128,39 @@ export const verifyPayment = async (req, res) => {
     });
   }
 };
+
+export const getCoursePaymentStatus = async (req,res)=>{
+  try {
+    const loggedInUser  = req.user;
+    if(!loggedInUser) throw new Error("User is not logged in...");
+    const {courseId} = req.body;
+    if(!courseId) return res.status(404).json({ message : "course is not present"});
+  
+    const payment = await Payment.findOne({courseId, userId : loggedInUser._id});
+    if(!payment) return res.status(404).json({message : "No transaction found..."});
+  
+    const status = payment.status;
+    if(!status ) throw new Error("Cant get status");
+  
+    const course =await Course.findById(courseId).populate([{
+      path: "lectures",
+      select: "isPreviewFree enrolledStudents"
+    },{
+      path : "creator",
+      select : "name email photoUrl"
+    }]);
+  
+    if(!course ) return res.status(404).json({message : "Course not found"});
+    
+    return res.status(200).json({
+      success : true,
+      status,
+      course,
+      message : "Course status fetched successfully...",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message
+    });
+  }
+}

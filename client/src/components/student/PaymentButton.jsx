@@ -5,7 +5,7 @@ import { useCreateOrderMutation } from "@/apis/paymentApi";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
-const PaymentButton = ({ isPurchased, loggedInUser }) => {
+const PaymentButton = ({  loggedInUser,courseStatusData , getCoursePaymentStatus ,loadingCourseStatus}) => {
   const { courseId } = useParams();
   const [createOrder, { data, isLoading, isSuccess, isError, error }] =
     useCreateOrderMutation();
@@ -27,16 +27,16 @@ const PaymentButton = ({ isPurchased, loggedInUser }) => {
   }, [isError, error]);
 
   const handlePaymentBtn = async () => {
-    if (!isPurchased) {
+    if (!courseStatusData ||  courseStatusData?.status != "captured") {
       try {
         const response = await createOrder(courseId);
         console.log("Order API Response:", response);
-
+        
         if (!response?.data?.orderId) {
           toast.error("Failed to create order. Try again!");
           return;
         }
-
+        
         const orderResponse = response.data;
         const options = {
           key: orderResponse?.key_id, // Ensure this exists
@@ -55,6 +55,7 @@ const PaymentButton = ({ isPurchased, loggedInUser }) => {
           },
           handler: function (response) {
             console.log("Payment Success:", response);
+            getCoursePaymentStatus(courseId);
             toast.success("Payment Successful!");
           },
           modal: {
@@ -63,7 +64,7 @@ const PaymentButton = ({ isPurchased, loggedInUser }) => {
             },
           },
         };
-
+        
         if (!window.Razorpay) {
           toast.error("Razorpay SDK not loaded. Try again.");
           return;
@@ -80,9 +81,15 @@ const PaymentButton = ({ isPurchased, loggedInUser }) => {
 
   return (
     <div>
-      {isLoading && <Loader2 className="animate-spin" />}
-      <Button onClick={handlePaymentBtn}>
-        {isPurchased ? "Continue Course" : "Purchase Course"}
+      
+      <Button onClick={handlePaymentBtn} className="flex" >
+        {loadingCourseStatus ? <><Loader2 className="animate-spin" /></> : 
+          <>
+          {(isLoading) &&  <Loader2 className="animate-spin" />}
+          {courseStatusData?.status ==="captured" ? "Continue Course" : "Purchase Course"}
+          </>
+        }
+      
       </Button>
     </div>
   );

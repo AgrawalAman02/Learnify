@@ -16,7 +16,16 @@ export const paymentApi = createApi({
                 body : {courseId},
             }),
         }),
+        getCoursePaymentStatus : builder.mutation({
+            query : (courseId)=>({
+                url : "/getCoursePaymentStatus",
+                method : "POST",
+                body : {courseId},
+            }),
+        }),
     })
 })
 
-export const { useCreateOrderMutation } = paymentApi;
+export const { useCreateOrderMutation ,
+    useGetCoursePaymentStatusMutation,
+} = paymentApi;
