@@ -26,26 +26,26 @@ export const createOrder = async (req, res) => {
       },
     };
 
-    const existingOrder =await Payment.findOne({courseId, userId})
-    if (existingOrder) {
-      // e.g., check age or other signals; if invalid, delete it:
-      const orderAge = Date.now() - existingOrder.createdAt.getTime();
-      const fifteenMinutes = 15 * 60 * 1000;
-      if (orderAge < fifteenMinutes) {
-        // Reuse the existing order
-        return res.status(200).json({
-          success: true,
-          message: "Using existing order",
-          orderId: existingOrder.orderId,
-          amount: existingOrder.amount,
-          key_id: process.env.RAZORPAY_KEY_ID,
-          // ...
-        });
-      } else {
-        // Delete stale “created” order
-        await Payment.deleteOne({ _id: existingOrder._id });
-      }
-    }
+    // const existingOrder =await Payment.findOne({courseId, userId})
+    // if (existingOrder) {
+    //   // e.g., check age or other signals; if invalid, delete it:
+    //   const orderAge = Date.now() - existingOrder.createdAt.getTime();
+    //   const fifteenMinutes = 15 * 60 * 1000;
+    //   if (orderAge < fifteenMinutes) {
+    //     // Reuse the existing order
+    //     return res.status(200).json({
+    //       success: true,
+    //       message: "Using existing order",
+    //       orderId: existingOrder.orderId,
+    //       amount: existingOrder.amount,
+    //       key_id: process.env.RAZORPAY_KEY_ID,
+    //       // ...
+    //     });
+    //   } else {
+    //     // Delete stale “created” order
+    //     await Payment.deleteOne({ _id: existingOrder._id });
+    //   }
+    // }
     const order = await instance.orders.create(options);
     if (!order) throw new Error("Order hadn't been created!");
 
