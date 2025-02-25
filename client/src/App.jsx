@@ -14,6 +14,7 @@ import EditCourse from "./pages/admin/course/EditCourse";
 import CreateLecture from "./pages/admin/lecture/CreateLecture";
 import EditLecture from "./pages/admin/lecture/EditLecture";
 import CourseDetails from "./pages/student/CourseDetails";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 const appRouter = createBrowserRouter([
   {
@@ -70,6 +71,10 @@ const appRouter = createBrowserRouter([
           }
         ],
       },
+      {
+        path : '*',
+        element : <ErrorBoundary/>
+      }
     ],
   },
 ]);

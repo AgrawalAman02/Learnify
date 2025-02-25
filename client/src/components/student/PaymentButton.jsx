@@ -54,14 +54,22 @@ const PaymentButton = ({  loggedInUser,courseStatusData , getCoursePaymentStatus
             color: "#F37254",
           },
           handler: function (response) {
-            console.log("Payment Success:", response);
-            getCoursePaymentStatus(courseId);
             toast.success("Payment Successful!");
+            console.log("Payment Success:", response);
+
+             setTimeout(() => {
+              getCoursePaymentStatus(courseId).catch(err => {
+                console.error("Status check failed:", err);
+                toast.error("Failed to verify payment status");
+              });
+            }, 2000);
           },
           modal: {
             ondismiss: function () {
               toast.error("Payment popup closed.");
             },
+            escape: false,      // Prevents closing modal with ESC key
+            confirm_close: true // Shows confirmation dialog when trying to close payment window
           },
         };
         
