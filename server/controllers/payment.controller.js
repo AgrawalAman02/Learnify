@@ -25,6 +25,16 @@ export const createOrder = async (req, res) => {
       },
     };
 
+    const existingOrder =await Payment.findOne({courseId, userId})
+    if(existingOrder) {
+      return res.json({
+        success: true,
+        message: "Using existing order",
+        ...existingOrder.toJSON(),
+        key_id: process.env.RAZORPAY_KEY_ID,
+      });
+    }
+
     const order = await instance.orders.create(options);
     if (!order) throw new Error("Order hadn't been created!");
 

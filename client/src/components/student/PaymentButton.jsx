@@ -62,7 +62,7 @@ const PaymentButton = ({  loggedInUser,courseStatusData , getCoursePaymentStatus
                 console.error("Status check failed:", err);
                 toast.error("Failed to verify payment status");
               });
-            }, 2000);
+            }, 4000);
           },
           modal: {
             ondismiss: function () {
