@@ -22,12 +22,13 @@ export const createOrder = async (req, res) => {
       notes: {
         courseId,
         userId,
+        status: "created"
       },
     };
 
     const existingOrder =await Payment.findOne({courseId, userId})
-    if(existingOrder) {
-      return res.json({
+    if(existingOrder && existingOrder.status === "created") {
+      return res.status(200).json({
         success: true,
         message: "Using existing order",
         ...existingOrder.toJSON(),
@@ -49,7 +50,7 @@ export const createOrder = async (req, res) => {
     });
     const savedPayment = await payment.save();
     
-    res.json({
+    res.status(200).json({
       success: true,
       message: "Order Created Succcessfully",
       ...savedPayment.toJSON(),

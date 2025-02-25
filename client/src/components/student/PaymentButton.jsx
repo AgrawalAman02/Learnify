@@ -57,12 +57,17 @@ const PaymentButton = ({  loggedInUser,courseStatusData , getCoursePaymentStatus
             toast.success("Payment Successful!");
             console.log("Payment Success:", response);
 
-             setTimeout(() => {
-              getCoursePaymentStatus(courseId).catch(err => {
-                console.error("Status check failed:", err);
-                toast.error("Failed to verify payment status");
-              });
-            }, 4000);
+            setTimeout(() => {
+              getCoursePaymentStatus(courseId)
+                .then(() => {
+                  // Force reload to update UI
+                  window.location.reload();
+                })
+                .catch(err => {
+                  console.error("Status check failed:", err);
+                  toast.error("Failed to verify payment status");
+                });
+            }, 200); // Increased to 2 seconds
           },
           modal: {
             ondismiss: function () {
