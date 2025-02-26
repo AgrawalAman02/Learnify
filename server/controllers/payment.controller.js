@@ -120,19 +120,23 @@ export const verifyPayment = async (req, res) => {
 
       const user = await User.findById(payment.userId).select("enrolledAt");
       if(!user) throw new Error("User is not logged in...");
-      user.enrolledAt.push(course._id);
-      course.enrolledStudents.push(user._id);
+      if (!user.enrolledAt.includes(course._id)) {
+        user.enrolledAt.push(course._id);
+      }
+      if (!course.enrolledStudents.includes(user._id)) {
+        course.enrolledStudents.push(user._id);
+      }
 
       await user.save();
       await course.save();
       
-      const previewStatus = paymentDetails.status === "captured";
-      if(payment.courseId && payment.courseId.lectures.length >0) {
-        await Lecture.updateMany(
-          { _id: { $in: course.lectures.map(lecture => lecture._id) } },
-          { $set: { isPreviewFree: previewStatus } }
-        );
-      }
+      // const previewStatus = paymentDetails.status === "captured";
+      // if(payment.courseId && payment.courseId.lectures.length >0) {
+      //   await Lecture.updateMany(
+      //     { _id: { $in: course.lectures.map(lecture => lecture._id) } },
+      //     { $set: { isPreviewFree: previewStatus } }
+      //   );
+      // }
 
       return res.status(200).json({
         success: true,
