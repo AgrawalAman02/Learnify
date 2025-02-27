@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { Button } from "../ui/button";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useCreateOrderMutation } from "@/apis/paymentApi";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
 const PaymentButton = ({  loggedInUser,courseStatusData , getCoursePaymentStatus ,loadingCourseStatus}) => {
   const { courseId } = useParams();
+  const navigate = useNavigate();
   const [createOrder, { data, isLoading, isSuccess, isError, error }] =
     useCreateOrderMutation();
 
@@ -86,6 +87,9 @@ const PaymentButton = ({  loggedInUser,courseStatusData , getCoursePaymentStatus
         console.error("Payment Error:", error);
         toast.error("Something went wrong!");
       }
+    } 
+    else{
+      navigate(`success/video`);
     }
   };
 

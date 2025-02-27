@@ -34,6 +34,7 @@
     "react-player": "^2.16.0",
     "react-quill": "^2.0.0",
     "react-redux": "^9.2.0",
+    "react-resizable-panels": "^2.1.7",
     "react-router-dom": "^7.0.2",
     "sonner": "^1.7.1",
     "tailwind-merge": "^2.5.5",

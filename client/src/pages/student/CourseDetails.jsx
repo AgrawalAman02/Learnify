@@ -9,6 +9,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import LoaderSpinner from "../LoaderSpinner";
 import { useGetCoursePaymentStatusMutation } from "@/apis/paymentApi";
+import ReactPlayer from "react-player";
 
 const CourseDetails = () => {
   const { courseId } = useParams();
@@ -67,7 +68,14 @@ const CourseDetails = () => {
           <div className="w-full  md:w-1/3">
             <Card>
               <CardContent className="p-4 flex flex-col ">
-                <div className="w-full aspect-video mb-4">Video Ayga</div>
+                <div className="w-full aspect-video mb-4">
+                  <ReactPlayer
+                   width={"100%"}
+                   height={"100%"}
+                   url={course?.lectures[0]?.videoUrl}
+                   controls = {true}
+                   />
+                </div>
                 <h1>{course?.lectures[0].lectureTitle}</h1>
                 <Separator className="my-2" />
                 <h1>{course?.price}</h1>

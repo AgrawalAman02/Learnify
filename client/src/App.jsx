@@ -15,6 +15,7 @@ import CreateLecture from "./pages/admin/lecture/CreateLecture";
 import EditLecture from "./pages/admin/lecture/EditLecture";
 import CourseDetails from "./pages/student/CourseDetails";
 import ErrorBoundary from "./components/ErrorBoundary";
+import VideoPlayer from "./pages/student/VideoPlayer";
 
 const appRouter = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/profile",
         element: <EditProfile />,
+      },
+      {
+        path : "/courseDetails/:courseId/success/video",
+        element : <VideoPlayer/>
       },
       {
         path: "/admin",
