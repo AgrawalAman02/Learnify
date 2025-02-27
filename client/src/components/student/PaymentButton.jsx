@@ -54,26 +54,17 @@ const PaymentButton = ({  loggedInUser,courseStatusData , getCoursePaymentStatus
             color: "#F37254",
           },
           handler: function (response) {
-            toast.success("Payment initiated!");
-            console.log("Payment Response:", response);
-          
-            // Add delay to allow webhook processing
-            setTimeout(() => {
-              getCoursePaymentStatus(courseId)
-                .then((result) => {
-                  console.log("Payment Status Check:", result);
-                  if (result?.data?.status === "captured") {
-                    toast.success("Payment confirmed!");
-                    window.location.reload();
-                  } else {
-                    toast.error("Payment status not updated. Please refresh.");
-                  }
-                })
-                .catch(err => {
-                  console.error("Status check failed:", err);
-                  toast.error("Failed to verify payment status");
-                });
-            }, 3000); // 3 second delay
+            toast.success("Payment Successful!");
+            console.log("Payment Success:", response);
+
+            getCoursePaymentStatus(courseId)
+            .then(() => {
+              window.location.reload();
+            })
+            .catch(err => {
+              console.error("Status check failed:", err);
+              toast.error("Failed to verify payment status");
+            });
           },
           modal: {
             ondismiss: function () {
