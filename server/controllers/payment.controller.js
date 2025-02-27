@@ -68,10 +68,10 @@ export const createOrder = async (req, res) => {
 
 export const verifyPayment = async (req, res) => {
   try {
-    console.log('⭐ Webhook Request Received:', {
-      headers: req.headers,
-      signature: req.headers["x-razorpay-signature"]
-    });
+    console.log('⭐ Webhook Request Received at:', new Date().toISOString());
+    console.log('Headers:', JSON.stringify(req.headers, null, 2));
+    console.log('Raw Body Type:', typeof req.body);
+    console.log('Raw Body Length:', req.body?.length);
 
     const webhookSignature = req.headers["x-razorpay-signature"];
     const rawBody = req.body.toString();
