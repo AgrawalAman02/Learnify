@@ -58,9 +58,9 @@ const PaymentButton = ({  loggedInUser,courseStatusData , getCoursePaymentStatus
             console.log("Payment Success:", response);
 
             getCoursePaymentStatus(courseId)
-            .then(() => {
-              window.location.reload();
-            })
+            // .then(() => {
+            //   // window.location.reload();
+            // })
             .catch(err => {
               console.error("Status check failed:", err);
               toast.error("Failed to verify payment status");
