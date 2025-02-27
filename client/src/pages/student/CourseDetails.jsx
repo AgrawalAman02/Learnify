@@ -15,7 +15,10 @@ const CourseDetails = () => {
   const { data, isLoading } = useGetCoursePurchasedDetailsQuery(courseId);
   const course = data?.course;
   const loggedInUser = data?.user;
-  const [getCoursePaymentStatus, {data: courseStatusData , isLoading : loadingCourseStatus}] = useGetCoursePaymentStatusMutation();
+  const [
+    getCoursePaymentStatus,
+    { data: courseStatusData, isLoading: loadingCourseStatus },
+  ] = useGetCoursePaymentStatusMutation();
   // Add useEffect to fetch payment status
   useEffect(() => {
     if (courseId) {
@@ -26,7 +29,7 @@ const CourseDetails = () => {
     course?.description ||
     "<h3>No description available for this course.</h3> </hr> <p> So please help us to update our description based on your experience and comments.Please explore our course because the instructor had done a lots of hardword for your bright future. </hr> Have a nice Experience! </p>";
 
-    if(isLoading || loadingCourseStatus ) return <LoaderSpinner/>
+  if (isLoading || loadingCourseStatus) return <LoaderSpinner />;
   return (
     <div>
       <CourseIntroSection course={course} />
@@ -45,8 +48,16 @@ const CourseDetails = () => {
 
               <div>
                 {course?.lectures.map((lecture) => (
-                  <div key={lecture._id}  className="flex gap-2 items-center mb-2 border p-2 rounded-xl">
-                    {courseStatusData?.status==="captured" ? <PlayCircle size={16} /> : <Lock size={16}/>} <span>{lecture?.lectureTitle}</span>
+                  <div
+                    key={lecture._id}
+                    className="flex gap-2 items-center mb-2 border p-2 rounded-xl"
+                  >
+                    {courseStatusData?.status === "captured" || lecture?.isPreviewFree ? (
+                      <PlayCircle size={16} />
+                    ) : (
+                      <Lock size={16} />
+                    )}
+                    <span>{lecture?.lectureTitle}</span>
                   </div>
                 ))}
               </div>
@@ -63,10 +74,11 @@ const CourseDetails = () => {
               </CardContent>
 
               <CardFooter>
-                <PaymentButton loggedInUser = {loggedInUser} 
-                 courseStatusData ={courseStatusData} 
-                 getCoursePaymentStatus={getCoursePaymentStatus} 
-                 loadingCourseStatus = {loadingCourseStatus}
+                <PaymentButton
+                  loggedInUser={loggedInUser}
+                  courseStatusData={courseStatusData}
+                  getCoursePaymentStatus={getCoursePaymentStatus}
+                  loadingCourseStatus={loadingCourseStatus}
                 />
               </CardFooter>
             </Card>
