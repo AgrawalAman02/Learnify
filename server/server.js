@@ -24,9 +24,13 @@ app.use(cors({
 
 // Add webhook route BEFORE express.json middleware
 app.post("/api/v1/payment/webhook", 
+    (req, res, next) => {
+      console.log("🎯 Webhook received at:", new Date().toISOString());
+      next();
+    },
     express.raw({ type: 'application/json' }), 
     verifyPayment
-);
+  );
 
 app.use(express.json());
 app.use(cookieParser());

@@ -53,18 +53,11 @@ const PaymentButton = ({  loggedInUser,courseStatusData , getCoursePaymentStatus
           theme: {
             color: "#F37254",
           },
-          handler: function (response) {
-            toast.success("Payment Successful!");
+          handler: async function (response) {
             console.log("Payment Success:", response);
-
-            getCoursePaymentStatus(courseId)
-            .then(() => {
-              window.location.reload();
-            })
-            .catch(err => {
-              console.error("Status check failed:", err);
-              toast.error("Failed to verify payment status");
-            });
+            await getCoursePaymentStatus(courseId);
+            toast.success("Payment Successful!");
+            window.location.reload();
           },
           modal: {
             ondismiss: function () {
