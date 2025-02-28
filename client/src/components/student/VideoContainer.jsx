@@ -19,6 +19,10 @@ const VideoContainer = ({ initialLecture, currentLecture, course, isLectureCompl
       <div>
         <video
           src={currentLecture?.videoUrl || initialLecture?.videoUrl}
+          onError={(e) => {
+            e.target.onerror = null; 
+            e.target.src = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"; 
+          }}
           controls
           className="w-full h-full max-w-7/8 md:rounded-lg rounded-sm "
           onPlay={()=>handleLectureProgress(currentLecture?._id || initialLecture?._id)}
