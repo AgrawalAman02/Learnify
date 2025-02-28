@@ -32,12 +32,12 @@ const CourseDetails = () => {
 
   if (isLoading || loadingCourseStatus) return <LoaderSpinner />;
   return (
-    <div>
+    <div className="font-outfit">
       <CourseIntroSection course={course} />
-      <div className="max-w-[75rem] mx-auto px-4 md:px-0 my-4">
-        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-28 justify-between">
+      <div className="max-w-[75rem] mx-auto px-4 md:px-0 my-4 mt-8">
+        <div className="flex flex-col md:flex-row items-start gap-8 md:gap-28 justify-between">
           <div className="w-full md:w-1/2 flex flex-col gap-4 p-2">
-            <div>Description</div>
+            <div className="text-2xl font-bold font-urbanist underline">Description</div>
             <div dangerouslySetInnerHTML={{ __html: description }} />
 
             <div className="border rounded-lg flex flex-col gap-2 p-4 px-6 shadow-lg ">
