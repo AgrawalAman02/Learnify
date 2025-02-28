@@ -10,7 +10,7 @@ const lectureSchema = new mongoose.Schema({
   },
   videoUrl :{
     type : String,
-    default : "https://kconcrete.com/wp-content/uploads/2017/08/product-video-placeholder.jpg",
+    default : "https://res.cloudinary.com/dj5dijps9/video/upload/v1740769070/qxg360yknrpmzf4astvq.mp4",
     validate(value){
       if(!validator.isURL(value)) throw new Error("Invalid Url");
     }
