@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import courseRouter from "./routes/course.routes.js";
 import uploadMediaRoute from "./routes/media.routes.js";
 import paymentRoutes from "./routes/payment.routes.js";
+import courseProgressRoute from "./routes/courseProgress.routes.js";
 import { verifyPayment } from './controllers/payment.controller.js';
 
 const PORT = process.env.PORT || 5000;
@@ -37,6 +38,7 @@ app.use("/api/v1/profile", profileRouter);
 app.use("/api/v1/course", courseRouter);
 app.use("/api/v1/upload", uploadMediaRoute);
 app.use("/api/v1/payment", paymentRoutes);
+app.use("/api/v1/progress",courseProgressRoute);
 
 connectDb()
     .then(()=>{
