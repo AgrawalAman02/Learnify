@@ -67,7 +67,7 @@ export const updateLectureProgress  = async (req, res)=>{
     }
 
     // now if course already exist then update find the course and update it 
-    const lectureIndex = await CourseProgress.lectureProgress.findIndex((lecture)=> lecture.lectureId === lectureId);
+    const lectureIndex = courseProgress.lectureProgress.findIndex((lecture)=> lecture.lectureId.toString() === lectureId);
 
     if(lectureIndex != -1) {// means the lecture exist in the array having lectureId
       courseProgress.lectureProgress[lectureIndex].isViewed = true;
@@ -81,9 +81,10 @@ export const updateLectureProgress  = async (req, res)=>{
 
     // check for the course completion 
     const viewedLectureLength = courseProgress.lectureProgress.filter((lecture)=> lecture.isViewed).length;
-    const course = Course.findById(courseId);
+    const course =await Course.findById(courseId);
     courseProgress.isCompleted = course.lectures.length===viewedLectureLength;
 
+    await courseProgress.save();
     return res.status(200).json({
       message : "lecture is updated successfully...",
       success : true,
