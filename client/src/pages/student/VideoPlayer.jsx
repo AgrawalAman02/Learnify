@@ -6,10 +6,10 @@ import {
 } from "@/components/ui/resizable";
 import { Button } from "@/components/ui/button";
 import VideoContainer from "@/components/student/VideoContainer";
-import { CheckCircle2, PlayCircle } from "lucide-react";
+import { CheckCircle2, Loader2, PlayCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useParams } from "react-router-dom";
-import { useGetCourseProgressQuery } from "@/apis/courseProgressApi";
+import { useGetCourseProgressQuery, useMarkAsCompleteMutation, useMarkAsIncompleteMutation } from "@/apis/courseProgressApi";
 import { toast } from "sonner";
 import LoaderSpinner from "../LoaderSpinner";
 
@@ -18,11 +18,14 @@ const VideoPlayer = () => {
   const [isMobile, setIsMobile] = useState(false);
   const { data, isLoading, isError, error } =
     useGetCourseProgressQuery(courseId);
+  const [localIsCompleted, setLocalIsCompleted] = useState(false);
+  const [markAsComplete,{data:markCompleteData,isLoading:marking, isSuccess:markedCompleteSuccess}] = useMarkAsCompleteMutation();
+  const [markAsIncomplete,{data:markIncompleteData,isLoading:unmarking, isSuccess:markedIncompleteSuccess}] = useMarkAsIncompleteMutation();
   const [currentLecture, setCurrentlecture] = useState(null);
   console.log(data);
 
   const course = data?.data?.courseDetails;
-  const isCompleted = data?.data?.completed;
+  const isCompleted = data?.data?.isCompleted;
   const progress = data?.data?.progress;
   console.log(course);
 
@@ -43,14 +46,41 @@ const VideoPlayer = () => {
     if (isError) toast.error(error?.data?.message || error?.message);
   }, [isError, error]);
 
+  useEffect(() => {
+    setLocalIsCompleted(isCompleted);
+  }, [isCompleted]);
+
   const initialLecture =
     currentLecture || (course?.lectures && course?.lectures[0]);
 
   const isLectureCompleted = (lectureId) => {
     return progress.some(
-      (lecture) => lecture?.lectureId === lectureId && lecture.isViewed
+      (lecture) => lecture?.lectureId === lectureId && lecture.isViewed 
     );
   };
+
+  const handleComplete =async ()=>{
+    try {
+      setLocalIsCompleted(true); 
+      const response = await markAsComplete(courseId);
+      toast.success(response?.message || "Course marked complete successfully...");
+    } catch (error) {
+      setLocalIsCompleted(false); 
+      toast.error('Failed to mark complete');
+    }
+  }
+
+  const handleIncomplete =async ()=>{
+    try {
+      setLocalIsCompleted(false); 
+      const response = await markAsIncomplete(courseId);
+      toast.success(response?.message || "Course marked incomplete successfully...");
+    } catch (error) {
+      setLocalIsCompleted(true); 
+      toast.error('Failed to mark incomplete');
+    }
+  }
+
   if (isLoading) return <LoaderSpinner />;
 
   return (
@@ -66,6 +96,7 @@ const VideoPlayer = () => {
               initialLecture={initialLecture}
               currentLecture={currentLecture}
               course={course}
+              isLectureCompleted={isLectureCompleted}
             />
           </div>
         </ResizablePanel>
@@ -82,7 +113,10 @@ const VideoPlayer = () => {
                   <h1 className="text-3xl font-urbanist font-bold">
                     {course?.courseTitle || "Course Title"}
                   </h1>
-                  <Button>Mark as Complete</Button>
+                  <Button
+                    onClick={isCompleted ? handleIncomplete : handleComplete}
+                  
+                  >{(marking || unmarking )? <><Loader2 className="w-8 h-8 animate-spin"/> Marking...</>:(localIsCompleted ? "Reset" : "Mark as Complete") } </Button>
                 </div>
               </div>
             </ResizablePanel>
