@@ -33,7 +33,6 @@ const EditProfileDialog = ({ name , refetch}) => {
   useEffect(()=>{
     if(isSuccess){
       refetch();
-      console.log(data);
       toast.success(data.message);
       setOpen(false);
     }

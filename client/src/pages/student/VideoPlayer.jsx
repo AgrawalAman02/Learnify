@@ -22,12 +22,10 @@ const VideoPlayer = () => {
   const [markAsComplete,{data:markCompleteData,isLoading:marking, isSuccess:markedCompleteSuccess}] = useMarkAsCompleteMutation();
   const [markAsIncomplete,{data:markIncompleteData,isLoading:unmarking, isSuccess:markedIncompleteSuccess}] = useMarkAsIncompleteMutation();
   const [currentLecture, setCurrentlecture] = useState(null);
-  console.log(data);
 
   const course = data?.data?.courseDetails;
   const isCompleted = data?.data?.isCompleted;
   const progress = data?.data?.progress;
-  console.log(course);
 
   useEffect(() => {
     const checkScreenSize = () => {

@@ -33,7 +33,6 @@ const LectureTab = () => {
   // API Hooks
   const [editLecture, {data, isLoading, isError,isSuccess, error }] = useEditLectureMutation();
   const [removeLecture , {isLoading:deleteLoader, isError: isDeleteError , error : deleteError, isSuccess: deleteSuccess}] = useDeleteLectureMutation();
-  console.log(lectureData);
   
   const MEDIA_API = SERVER_URL+"upload";
 

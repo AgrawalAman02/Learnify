@@ -12,7 +12,6 @@ const GetLectures = () => {
     useGetLectureQuery(courseId);
   const lectures = data?.lectures;
   const navigate = useNavigate();
-  console.log(data);
 
   if(isLoading) return <div className="flex mt-4 justify-center"> <Loader2 className="animate-spin text-blue-900 text-lg "/></div>
  

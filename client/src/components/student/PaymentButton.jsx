@@ -30,9 +30,7 @@ const PaymentButton = ({  loggedInUser,courseStatusData , getCoursePaymentStatus
   const handlePaymentBtn = async () => {
     if (!courseStatusData ||  courseStatusData?.status != "captured") {
       try {
-        const response = await createOrder(courseId);
-        console.log("Order API Response:", response);
-        
+        const response = await createOrder(courseId);        
         if (!response?.data?.orderId) {
           toast.error("Failed to create order. Try again!");
           return;
@@ -56,8 +54,6 @@ const PaymentButton = ({  loggedInUser,courseStatusData , getCoursePaymentStatus
           },
           handler: function (response) {
             toast.success("Payment Successful!");
-            console.log("Payment Success:", response);
-
             getCoursePaymentStatus(courseId)
             // .then(() => {
             //   // window.location.reload();
