@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 const PROGRESS_URL = SERVER_URL+"progress";
 
@@ -11,7 +11,7 @@ export const courseProgressApi = createApi({
 
   endpoints  : (builder)=>({
     getCourseProgress : builder.query({
-      query : ({courseId})=>({
+      query : (courseId)=>({
         url : `/getCourseProgress/${courseId}`,
         method : "GET",
       }),
@@ -27,7 +27,7 @@ export const courseProgressApi = createApi({
     }),
 
     markAsComplete : builder.mutation({
-      query : ({courseId})=>({
+      query : (courseId)=>({
         url : `markAsComplete/${courseId}`,
         method : "POST",
       }),
@@ -35,7 +35,7 @@ export const courseProgressApi = createApi({
     }),
 
     markAsIncomplete : builder.mutation({
-      query : ({courseId}) =>({
+      query : (courseId) =>({
         url : `markAsIncomplete/${courseId}`,
         method : "POST",
       }),
@@ -44,3 +44,10 @@ export const courseProgressApi = createApi({
   })
 
 });
+
+export const {
+  useGetCourseProgressQuery,
+  useUpdateLectureProgressMutation,
+  useMarkAsCompleteMutation,
+  useMarkAsIncompleteMutation,
+} = courseProgressApi;

@@ -1,6 +1,6 @@
 import express from 'express'
 import userAuth from '../middlewares/userAuth.js';
-import { getCourseProgress, markAsComplete, markAsIncomplete, updateLectureProgress } from '../controllers/courseProgress.js';
+import { getCourseProgress, markAsComplete, markAsIncomplete, updateLectureProgress } from '../controllers/courseProgress.controller.js';
 
 const router = express.Router();
 

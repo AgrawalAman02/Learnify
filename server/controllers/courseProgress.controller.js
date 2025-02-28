@@ -3,7 +3,7 @@ import { CourseProgress } from "../models/courseProgress.js";
 
 export const getCourseProgress = async (req, res) => {
   try {
-    const courseId = req.params;
+    const { courseId} = req.params;
     const userId = req.user._id;
     if (!courseId || !userId) throw new Error("user or course not found...");
 
@@ -12,7 +12,7 @@ export const getCourseProgress = async (req, res) => {
       userId,
     }).populate("courseId");
 
-    const courseDetails = Course.findById(courseId);
+    const courseDetails =await Course.findById(courseId).populate("lectures");
     if (!courseDetails) throw new Error("No course exist");
 
     // If no course progress then return the course details with the empty progress...
