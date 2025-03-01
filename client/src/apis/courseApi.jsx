@@ -66,6 +66,35 @@ export const courseApi = createApi({
       }),
     }),
 
+    searchCourse : builder.query({
+      query : ({searchQuery, categories, sortByPrice, difficultyLevel})=>{
+
+        let queryString = `/search?query=${encodeURIComponent(searchQuery)}`;
+
+        // append category 
+        if(categories && categories.length>0 ){
+          const categoryString = categories.map(encodeURIComponent).join(",");
+          queryString += `&categories=${categoryString}`;
+        }
+
+        // append sortByPrice 
+        if(sortByPrice){
+          queryString += `&sortByPrice=${encodeURIComponent(sortByPrice)}`;
+        }
+
+        // append difficultyLevel
+        if(difficultyLevel && difficultyLevel.length > 0){
+          const levelString = difficultyLevel.map(encodeURIComponent).join(",");
+          queryString += `&difficultyLevel=${levelString}`;
+        }
+        
+        return {
+          url : queryString,
+          method : "GET",
+        }
+      },
+    }),
+
     // creating api for lectures here ...
 
     createLecture: builder.mutation({
