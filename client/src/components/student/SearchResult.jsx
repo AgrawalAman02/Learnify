@@ -1,4 +1,5 @@
 import React from "react";
+import { Badge } from "../ui/badge";
 
 const SearchResult = () => {
   return (
@@ -10,12 +11,16 @@ const SearchResult = () => {
               <img
                 src="https://res.cloudinary.com/dj5dijps9/image/upload/v1740070590/nhx2zeg99lrgbuvireoc.webp"
                 alt="coursethumbnail"
-                className="md:w-72 md:h-44 w-36 h-24 rounded-l-lg"
+                className="md:w-80 md:h-44 w-36 h-24 rounded-l-lg"
               />
             </div>
 
-            <div className="flex flex-col gap-2 w-1/2   ">
-              <h2>Course Title</h2>
+            <div className="flex flex-col gap-2 w-1/2  p-4 ">
+              <h2 className="font-urbanist font-bold text-lg md:text-2xl">Course Title</h2>
+              <h3 className="font-outfit font-medium dark:text-gray-300 text-gray-700 text-sm ">subtitle</h3>
+              <p className="text-sm"> Instructor : <span className="font-bold font-outfit underline ">Its me!</span></p>
+              <Badge  className={"w-fit font-outfit text-sm"}>Beginner</Badge>
+
             </div>
           </div>
         ))}
