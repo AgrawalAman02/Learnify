@@ -5,11 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Search as SearchIcon } from "lucide-react";
 import Filter from "@/components/student/Filter";
 import Sort from "@/components/student/Sort";
-import { Separator } from "@/components/ui/separator"
+import { Separator } from "@/components/ui/separator";
+import SearchResult from "@/components/student/SearchResult";
 
 const Search = () => {
   return (
-    <div className="max-w-7xl mx-auto p-4 md:p-8 h-[100vh] ">
+    <div className="max-w-7xl mx-auto p-4 md:p-8 h-[100vh]  ">
       <header>
         <motion.form
           className="flex flex-row items-center justify-center gap-3 mb-6 px-4 w-full max-w-7xl mx-auto mt-4"
@@ -31,12 +32,22 @@ const Search = () => {
         </motion.form>
       </header>
       <Separator />
-      <div className="flex flex-col p-4 border my-4 rounded-2xl ">
-        <div className="flex items-center justify-end gap-10 px-6">
-          <Filter/>
-          <Sort/>
+      <div className="flex flex-col p-4 border my-4 rounded-2xl  mb-20">
+        <div className="flex flex-col md:flex-row items-center justify-between">
+          <span>
+            Search results for :
+            <span className="italic underline">keyword</span>
+          </span>
+
+          <div className="flex items-center justify-end gap-10 px-6">
+            <Filter />
+            <Sort />
+          </div>
         </div>
-        
+
+        <div >
+          <SearchResult/>
+        </div>
       </div>
     </div>
   );

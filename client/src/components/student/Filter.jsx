@@ -20,7 +20,6 @@ const Filter = () => {
   const [selectedFilters, setSelectedFilters] = useState({
     categories: [],
     level: [],
-    rating: 0,
     duration: [0, 20],
   });
   
@@ -117,21 +116,6 @@ const Filter = () => {
               </div>
             </div>
             
-            {/* Rating */}
-            <div className="space-y-4">
-              <div className="flex justify-between">
-                <h3 className="text-base font-medium">Minimum Rating</h3>
-                <span className="text-sm font-medium">{selectedFilters.rating}+ stars</span>
-              </div>
-              <Slider 
-                defaultValue={[0]} 
-                max={5} 
-                step={0.5} 
-                onValueChange={(value) => {
-                  setSelectedFilters({...selectedFilters, rating: value[0]})
-                }}
-              />
-            </div>
             
             {/* Course Duration */}
             <div className="space-y-4">
