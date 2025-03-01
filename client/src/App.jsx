@@ -16,6 +16,7 @@ import EditLecture from "./pages/admin/lecture/EditLecture";
 import CourseDetails from "./pages/student/CourseDetails";
 import ErrorBoundary from "./components/ErrorBoundary";
 import VideoPlayer from "./pages/student/VideoPlayer";
+import Search from "./pages/student/Search";
 
 const appRouter = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
+      },
+      {
+        path : "/search",
+        element : <Search/>
       },
       {
         path : "/courseDetails/:courseId",
