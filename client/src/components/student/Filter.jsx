@@ -16,7 +16,7 @@ import { Slider } from "@/components/ui/slider";
 import { SlidersHorizontal } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
-const Filter = ({handleFilter}) => {
+const Filter = ({ handleFilter }) => {
   const [selectedFilters, setSelectedFilters] = useState({
     categories: [],
     difficultyLevel: [],
@@ -45,24 +45,19 @@ const Filter = ({handleFilter}) => {
 
   const difficultyLevels = ["Beginner", "Intermediate", "Advanced"];
 
-  const handleCheckbox = (checked,categoryId)=>{
+  const handleCheckbox = (checked, categoryId) => {
     if (checked) {
-        setSelectedFilters({
-          ...selectedFilters,
-          categories: [
-            ...selectedFilters.categories,
-            categoryId,
-          ],
-        });
-      } else {
-        setSelectedFilters({
-          ...selectedFilters,
-          categories: selectedFilters.categories.filter(
-            (c) => c !== categoryId
-          ),
-        });
-      }
-  }
+      setSelectedFilters({
+        ...selectedFilters,
+        categories: [...selectedFilters.categories, categoryId],
+      });
+    } else {
+      setSelectedFilters({
+        ...selectedFilters,
+        categories: selectedFilters.categories.filter((c) => c !== categoryId),
+      });
+    }
+  };
 
   return (
     <div>
@@ -70,17 +65,18 @@ const Filter = ({handleFilter}) => {
         <SheetTrigger asChild>
           <Button
             variant="outline"
-            className="flex items-center gap-2 border-dashed"
+            className="flex items-center gap-2 border-dashed hover:bg-slate-100 dark:hover:bg-slate-800 px-4 py-2"
           >
             <SlidersHorizontal className="h-4 w-4" />
-            <span>Filter Courses</span>
-            {(selectedFilters?.categories?.length + selectedFilters?.difficultyLevel?.length >
+            <span>Filter</span>
+            {(selectedFilters?.categories?.length +
+              selectedFilters?.difficultyLevel?.length >
               0 ||
               selectedFilters?.duration[0] > 0 ||
               selectedFilters?.duration[1] < 20) && (
               <Badge
                 variant="secondary"
-                className="ml-2 h-5 w-5 rounded-full p-0 flex items-center justify-center"
+                className="ml-2 h-5 w-5 rounded-full p-0 flex items-center justify-center bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200"
               >
                 {selectedFilters?.categories?.length +
                   selectedFilters?.difficultyLevel?.length +
@@ -115,7 +111,7 @@ const Filter = ({handleFilter}) => {
                     <Checkbox
                       id={category.id || index}
                       onCheckedChange={(checked) => {
-                        handleCheckbox(checked,category.id);
+                        handleCheckbox(checked, category.id);
                       }}
                     />
                     <Label htmlFor={category.id || index}>
@@ -140,17 +136,25 @@ const Filter = ({handleFilter}) => {
                     }
                     size="sm"
                     onClick={() => {
-                      if (selectedFilters.difficultyLevel.includes(difficultyLevel)) {
+                      if (
+                        selectedFilters.difficultyLevel.includes(
+                          difficultyLevel
+                        )
+                      ) {
                         setSelectedFilters({
                           ...selectedFilters,
-                          difficultyLevel: selectedFilters.difficultyLevel.filter(
-                            (l) => l !== difficultyLevel
-                          ),
+                          difficultyLevel:
+                            selectedFilters.difficultyLevel.filter(
+                              (l) => l !== difficultyLevel
+                            ),
                         });
                       } else {
                         setSelectedFilters({
                           ...selectedFilters,
-                          difficultyLevel: [...selectedFilters.difficultyLevel, difficultyLevel],
+                          difficultyLevel: [
+                            ...selectedFilters.difficultyLevel,
+                            difficultyLevel,
+                          ],
                         });
                       }
                     }}
@@ -166,8 +170,8 @@ const Filter = ({handleFilter}) => {
               <div className="flex justify-between">
                 <h3 className="text-base font-medium">Course Duration</h3>
                 <span className="text-sm font-medium">
-                  {selectedFilters.duration[0]}-{selectedFilters.duration[1] || 20}{" "}
-                  hours
+                  {selectedFilters.duration[0]}-
+                  {selectedFilters.duration[1] || 20} hours
                 </span>
               </div>
               <Slider
@@ -197,7 +201,9 @@ const Filter = ({handleFilter}) => {
               Reset All
             </Button>
             <SheetClose asChild>
-              <Button onClick={()=>handleFilter(selectedFilters)} >Apply Filters</Button>
+              <Button onClick={() => handleFilter(selectedFilters)}>
+                Apply Filters
+              </Button>
             </SheetClose>
           </SheetFooter>
         </SheetContent>

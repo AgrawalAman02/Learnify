@@ -3,7 +3,7 @@ import { Card, CardContent } from "../ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Badge } from "../ui/badge";
 import { useNavigate } from "react-router-dom";
-import { Clock, Users, Star } from "lucide-react";
+import { Clock } from "lucide-react";
 import { useSelector } from "react-redux";
 
 const CoursesCard = ({course}) => {

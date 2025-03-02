@@ -75,26 +75,28 @@ const Search = () => {
 
       <Separator />
 
-      <div className="flex flex-col p-4 border my-4 rounded-2xl  mb-20 bg-slate-100/90 dark:bg-slate-900/50 backdrop-blur-xl text-slate-900 dark:text-white">
-        <div className="flex flex-col md:flex-row items-center justify-between">
-          <span className="pl-6 font-semibold font-lekton">
-            {searchQuery.query != "" ? (
+      <div className="flex flex-col p-4 border my-4 rounded-2xl mb-20 bg-slate-100/90 dark:bg-slate-900/50 backdrop-blur-xl text-slate-900 dark:text-white">
+        {/* Header section with result count and filters */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+          <span className="pl-2 md:pl-6 font-semibold font-lekton text-center md:text-left">
+            {searchQuery.query !== "" ? (
               <>
-                Showing search results for :{" "}
+                Showing search results for:{" "}
                 <span className="italic underline">{searchQuery.query}</span>
               </>
             ) : (
-              <>Nothing searched. Showing all published course </>
+              <>All published courses</>
             )}
           </span>
 
-          <div className="flex items-center justify-end gap-10 px-6">
+          <div className="flex flex-wrap items-center justify-center md:justify-end gap-4 px-2 md:px-6 w-full md:w-auto">
             <Filter handleFilter={handleFilter} />
             <Sort handleSort={handleSort} />
           </div>
         </div>
 
-        <div className="max-h-[60vh] overflow-y-auto scrollbar-hide">
+        {/* Results section */}
+        <div className="max-h-[60vh] overflow-y-auto scrollbar-hide px-2">
           {isLoading ? (
             <SearchSkeleton />
           ) : (
