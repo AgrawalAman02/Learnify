@@ -67,9 +67,9 @@ export const courseApi = createApi({
     }),
 
     searchCourse : builder.query({
-      query : ({searchQuery, categories, sortByPrice, difficultyLevel})=>{
-
-        let queryString = `/search?query=${encodeURIComponent(searchQuery)}`;
+      query : ({query, categories, sortByPrice, difficultyLevel})=>{
+        
+        let queryString = `/search?query=${query ? encodeURIComponent(query) : ""}`;
 
         // append category 
         if(categories && categories.length>0 ){

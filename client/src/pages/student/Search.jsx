@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -20,25 +20,36 @@ const Search = () => {
   });
 
   const [searchInput, setSearchInput] = useState("");
-  const [searchValue , setSearchValue] = useState("");
-  const {data,isLoading} = useSearchCourseQuery(searchValue, {
-    skip: searchValue === ""
-  })
+  const {data,isLoading} = useSearchCourseQuery(searchQuery)
 
   const handleFormSubmit = async (e)=>{
     e.preventDefault();
-    setSearchValue(searchInput);
+    setSearchQuery(prev => ({
+      ...prev,
+      query: searchInput || "",
+    }));
+    
     setSearchInput("");
   }
 
-  const handleFilter = ()=>{
-
+  const handleFilter = (filterData)=>{
+    setSearchQuery(prev => ({
+      ...prev,
+      categories: filterData.categories,
+      difficultyLevel: filterData.difficultyLevel,
+    }));
   }
 
-  const handleSort=()=>{
-
+  const handleSort=(sortData)=>{
+    setSearchQuery(prev => ({
+      ...prev,
+      sortByPrice: sortData,
+    }));
+    
   }
 
+  if(data) console.log(data);
+  
 
   return (
     <div className="max-w-7xl mx-auto p-4 md:p-8 h-[100vh]  ">
@@ -70,8 +81,8 @@ const Search = () => {
       <div className="flex flex-col p-4 border my-4 rounded-2xl  mb-20 bg-slate-100/90 dark:bg-slate-900/50 backdrop-blur-xl text-slate-900 dark:text-white">
         <div className="flex flex-col md:flex-row items-center justify-between">
           <span>
-            Search results for :
-            <span className="italic underline">keyword</span>
+            Search results for :{" "}
+            <span className="italic underline">{searchQuery.query}</span>
           </span>
 
           <div className="flex items-center justify-end gap-10 px-6">
@@ -81,7 +92,7 @@ const Search = () => {
         </div>
 
         <div className="max-h-[60vh] overflow-y-auto scrollbar-hide">
-          {isLoading ? <SearchSkeleton/> : <SearchResult/> }
+          {isLoading ? <SearchSkeleton/> : <SearchResult courses={data?.courses || [] } /> }
           
         </div>
       </div>

@@ -16,10 +16,10 @@ import { Slider } from "@/components/ui/slider";
 import { SlidersHorizontal } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
-const Filter = () => {
+const Filter = ({handleFilter}) => {
   const [selectedFilters, setSelectedFilters] = useState({
     categories: [],
-    level: [],
+    difficultyLevel: [],
     // rating : 0,
     duration: [0, 20],
   });
@@ -43,7 +43,7 @@ const Filter = () => {
     { id: "aiml", label: "AIML" },
   ];
 
-  const levels = ["Beginner", "Intermediate", "Advanced"];
+  const difficultyLevels = ["Beginner", "Intermediate", "Advanced"];
 
   const handleCheckbox = (checked,categoryId)=>{
     if (checked) {
@@ -51,14 +51,14 @@ const Filter = () => {
           ...selectedFilters,
           categories: [
             ...selectedFilters.categories,
-            category.id,
+            categoryId,
           ],
         });
       } else {
         setSelectedFilters({
           ...selectedFilters,
           categories: selectedFilters.categories.filter(
-            (c) => c !== category.id
+            (c) => c !== categoryId
           ),
         });
       }
@@ -74,18 +74,18 @@ const Filter = () => {
           >
             <SlidersHorizontal className="h-4 w-4" />
             <span>Filter Courses</span>
-            {(selectedFilters.categories.length + selectedFilters.level.length >
+            {(selectedFilters?.categories?.length + selectedFilters?.difficultyLevel?.length >
               0 ||
-              selectedFilters.duration[0] > 0 ||
-              selectedFilters.duration[1] < 20) && (
+              selectedFilters?.duration[0] > 0 ||
+              selectedFilters?.duration[1] < 20) && (
               <Badge
                 variant="secondary"
                 className="ml-2 h-5 w-5 rounded-full p-0 flex items-center justify-center"
               >
-                {selectedFilters.categories.length +
-                  selectedFilters.level.length +
-                  (selectedFilters.duration[0] > 0 ||
-                  selectedFilters.duration[1] < 20
+                {selectedFilters?.categories?.length +
+                  selectedFilters?.difficultyLevel?.length +
+                  (selectedFilters?.duration[0] > 0 ||
+                  selectedFilters?.duration[1] < 20
                     ? 1
                     : 0)}
               </Badge>
@@ -130,32 +130,32 @@ const Filter = () => {
             <div className="space-y-4">
               <h3 className="text-base font-medium">Difficulty Level</h3>
               <div className="flex flex-wrap gap-3">
-                {levels.map((level) => (
+                {difficultyLevels.map((difficultyLevel) => (
                   <Button
-                    key={level}
+                    key={difficultyLevel}
                     variant={
-                      selectedFilters.level.includes(level)
+                      selectedFilters.difficultyLevel.includes(difficultyLevel)
                         ? "default"
                         : "outline"
                     }
                     size="sm"
                     onClick={() => {
-                      if (selectedFilters.level.includes(level)) {
+                      if (selectedFilters.difficultyLevel.includes(difficultyLevel)) {
                         setSelectedFilters({
                           ...selectedFilters,
-                          level: selectedFilters.level.filter(
-                            (l) => l !== level
+                          difficultyLevel: selectedFilters.difficultyLevel.filter(
+                            (l) => l !== difficultyLevel
                           ),
                         });
                       } else {
                         setSelectedFilters({
                           ...selectedFilters,
-                          level: [...selectedFilters.level, level],
+                          difficultyLevel: [...selectedFilters.difficultyLevel, difficultyLevel],
                         });
                       }
                     }}
                   >
-                    {level}
+                    {difficultyLevel}
                   </Button>
                 ))}
               </div>
@@ -166,7 +166,7 @@ const Filter = () => {
               <div className="flex justify-between">
                 <h3 className="text-base font-medium">Course Duration</h3>
                 <span className="text-sm font-medium">
-                  {selectedFilters.duration[0]}-{selectedFilters.duration[1]}{" "}
+                  {selectedFilters.duration[0]}-{selectedFilters.duration[1] || 20}{" "}
                   hours
                 </span>
               </div>
@@ -188,7 +188,7 @@ const Filter = () => {
               onClick={() =>
                 setSelectedFilters({
                   categories: [],
-                  level: [],
+                  difficultyLevel: [],
                   // rating: 0,
                   duration: [0, 20],
                 })
@@ -197,7 +197,7 @@ const Filter = () => {
               Reset All
             </Button>
             <SheetClose asChild>
-              <Button>Apply Filters</Button>
+              <Button onClick={()=>handleFilter(selectedFilters)} >Apply Filters</Button>
             </SheetClose>
           </SheetFooter>
         </SheetContent>

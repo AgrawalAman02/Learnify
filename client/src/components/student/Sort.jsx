@@ -9,10 +9,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const Sort = () => {
+const Sort = ({handleSort}) => {
   return (
     <div className="bg-white font-semibold dark:bg-gray-950 ">
-      <Select>
+      <Select onValueChange={(val)=>handleSort(val)}>
         <SelectTrigger className="w-[100px] border-dashed">
           <SelectValue placeholder="Sort By" />
         </SelectTrigger>

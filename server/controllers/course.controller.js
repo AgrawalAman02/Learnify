@@ -220,7 +220,7 @@ export const getCoursePurchasedDetails = async (req,res)=>{
 
 export const searchCourse =async (req,res)=>{
   try {
-    const {query="", categories ="", sortByPrice="", difficultyLevel=""} = req.query;
+    const {query="", categories ="", sortByPrice="", difficultyLevel="",page=1, limit=5} = req.query;
 
     const searchCriteria = {
       isPublished  : true,
@@ -263,8 +263,8 @@ export const searchCourse =async (req,res)=>{
     }
 
      // Pagination
-    const pageNum = parseInt(page);
-    const limitNum = parseInt(limit);
+    const pageNum = parseInt(page) || 1;
+    const limitNum = parseInt(limit) || 5;
     const skip = (pageNum - 1) * limitNum;
 
     // Execute query
