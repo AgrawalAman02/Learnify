@@ -13,83 +13,125 @@ const AddCourse = () => {
   const [category, setCategory] = useState("");
   const [courseTitle, setCourseTitle] = useState("");
   const [price, setPrice] = useState("");
-  const [addCourse,{isError, isLoading, isSuccess, error}] = useAddCourseMutation();
-  
+  const [formErrors, setFormErrors] = useState({});
+  const [addCourse, { isError, isLoading, isSuccess, error }] = useAddCourseMutation();
+
+  const validateForm = () => {
+    const errors = {};
+    if (!courseTitle.trim()) errors.courseTitle = "Course title is required";
+    if (!category.trim()) errors.category = "Category is required";
+    if (!price.trim()) errors.price = "Price is required";
+    
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const createCourseBtnHandler = async () => {
-    await addCourse({courseTitle, category,price});
-    navigate("/admin/course");
+    if (!validateForm()) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+    
+    try {
+      await addCourse({ courseTitle, category, price });
+      // Navigation will happen in useEffect after success
+    } catch (err) {
+      console.error("Failed to add course:", err);
+    }
   };
 
   const handleSelectChange = (value) => {
     setCategory(value);
+    if (formErrors.category) {
+      setFormErrors(prev => ({ ...prev, category: "" }));
+    }
   };
 
-  useEffect(()=>{
-    if(isError){
-      toast.error(`${error?.data?.message}`);
+  useEffect(() => {
+    if (isError) {
+      toast.error(`${error?.data?.message || "Failed to add course"}`);
       console.log(error);
-      setPrice("");
-      setCourseTitle("");
-    }
-    else if(isSuccess){
-      toast.success("Course Added successfully...");
+    } else if (isSuccess) {
+      toast.success("Course Added successfully!");
       setCategory("");
       setPrice("");
       setCourseTitle("");
+      navigate("/admin/course");
     }
-  },[isLoading,isSuccess,isError])
+  }, [isLoading, isSuccess, isError, error, navigate]);
   
   return (
-    <div>
-      <div className="p-4 flex flex-col items-start flex-1">
-        <p className="text-2xl font-bold">Do You wanna add new course?</p>
-        <p className="text-sm font-medium mt-2 mb-2">
-          {" "}
-          So you are at right page. Lets add new course. Please provide full
-          description of the course{" "}
+    <div className="max-w-2xl mx-auto">
+      <div className="p-4 flex flex-col items-start">
+        <h1 className="text-2xl font-bold">Add a New Course</h1>
+        <p className="text-sm text-gray-600 mt-2 mb-4">
+          Create your new course by providing the details below
         </p>
       </div>
 
-      <div className="p-2 flex flex-col gap-3 ml-4 flex-1">
-        <Label htmlFor="CourseName">Title</Label>
+      <div className="p-2 flex flex-col gap-2">
+        <Label htmlFor="CourseName" className="text-sm font-medium">
+          Course Title <span className="text-red-500">*</span>
+        </Label>
         <Input
-          type="text "
+          type="text"
           id="CourseName"
-          placeholder="Your Course Name "
+          placeholder="Enter the course title"
           value={courseTitle}
-          onChange={(e) => setCourseTitle(e.target.value)}
+          onChange={(e) => {
+            setCourseTitle(e.target.value);
+            if (formErrors.courseTitle) {
+              setFormErrors(prev => ({ ...prev, courseTitle: "" }));
+            }
+          }}
+          className={formErrors.courseTitle ? "border-red-500" : ""}
         />
+        {formErrors.courseTitle && (
+          <p className="text-red-500 text-xs">{formErrors.courseTitle}</p>
+        )}
       </div>
 
-      <div className="p-2 flex flex-col gap-3 ml-4 flex-1 w-80">
-        <Label htmlFor="CoursePrice">Price</Label>
+      <div className="p-2 flex flex-col gap-2">
+        <Label htmlFor="CoursePrice" className="text-sm font-medium">
+          Price <span className="text-red-500">*</span>
+        </Label>
         <Input
           type="number"
           id="CoursePrice"
-          placeholder="Enter the amount for the course..."
+          placeholder="Enter the course price"
           value={price}
-          onChange={(e) => setPrice(e.target.value)}
+          onChange={(e) => {
+            setPrice(e.target.value);
+            if (formErrors.price) {
+              setFormErrors(prev => ({ ...prev, price: "" }));
+            }
+          }}
+          className={`max-w-xs ${formErrors.price ? "border-red-500" : ""}`}
         />
+        {formErrors.price && (
+          <p className="text-red-500 text-xs">{formErrors.price}</p>
+        )}
       </div>
 
-      <div className="p-2 flex flex-col gap-3 ml-4  mt-2 flex-1">
+      <div className="p-2 flex flex-col gap-2">
         <SelectOne onSelectChange={handleSelectChange} />
+        {formErrors.category && (
+          <p className="text-red-500 text-xs">{formErrors.category}</p>
+        )}
       </div>
 
-      <div className="flex gap-4 p-2 ml-4 mt-2 flex-1">
+      <div className="flex gap-4 p-2 mt-4">
         <Button variant="outline" onClick={() => navigate("/admin/course")}>
           Cancel
         </Button>
         <Button disabled={isLoading} onClick={createCourseBtnHandler}>
-          {" "}
           {isLoading ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
               Please Wait...
             </>
           ) : (
-            "Create"
+            "Create Course"
           )}
         </Button>
       </div>
