@@ -18,11 +18,10 @@ const EditProfile = () => {
     return <p>Error fetching user data: {isError.message}</p>;
   }
   
-  const {name,email,photoUrl,role,enrolledAt} = data;
+  const {name,email,enrolledAt} = data;  
   
   // const email = "aman"
   const myCourses = enrolledAt;
-  const isCourseLoading =false;
   return (
     <div className="max-w-3xl lg:max-w-[55rem]  mx-auto px-4 md:px-0 my-20">
       <h2 className="font-bold text-3xl text-center underline underline-offset-8 decoration-double decoration-1">
@@ -87,12 +86,12 @@ const EditProfile = () => {
             courses to enjoy the learning experience at our platform! {" "}
             <br /> Hehe! Then this page will not look empty...{" "}
           </p>
-        ) : isCourseLoading ? (
+        ) : isLoading ? (
           <ShimmerCard />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
             {myCourses.map((course) => (
-              <CoursesCard key={course._id} />
+              <CoursesCard key={course._id} course={course} />
             ))}
             
           </div>

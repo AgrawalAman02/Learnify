@@ -31,7 +31,7 @@ const CoursesCard = ({ course }) => {
       <CardContent className="p-5 flex flex-col gap-4 flex-grow">
         {/* Course Title */}
         <Link
-          to={isAuthenticated ? `courseDetails/${course?._id}` : "auth"}
+          to={isAuthenticated ? `/courseDetails/${course?._id}` : "auth"}
           className="font-bold text-lg hover:text-indigo-600 dark:hover:text-indigo-400 line-clamp-2 block"
         >
           {course?.courseTitle || "No Course Title Available..."}

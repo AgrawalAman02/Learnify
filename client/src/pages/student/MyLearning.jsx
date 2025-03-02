@@ -1,10 +1,13 @@
+import { useGetUserQuery } from "@/apis/profileApi";
 import CoursesCard from "@/components/student/CoursesCard";
 import ShimmerCard from "@/components/student/ShimmerCard";
 import React from "react";
 
 const MyLearning = () => {
-  const isLoading = false;
-  const myCourses = [];
+
+  const {data,isLoading}  = useGetUserQuery();
+  const myCourses = data?.enrolledAt;
+  console.log(myCourses);
   return (
     <div className="max-w-[75rem] mx-auto px-4 md:px-0 my-20">
       <h2 className="font-bold text-2xl text-center underline underline-offset-8 decoration-double decoration-1">My Learning</h2>
@@ -20,9 +23,13 @@ const MyLearning = () => {
         ) : isLoading ?(
             <ShimmerCard />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <CoursesCard />
-          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+            {myCourses.map((course) => (
+              <CoursesCard key={course._id} course={course} />
+            ))}
+            
+          </div>  
+          
         )}
       </div>
     </div>
