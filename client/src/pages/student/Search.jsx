@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import SearchResult from "@/components/student/SearchResult";
 import { useSearchCourseQuery } from "@/apis/courseApi";
 import SearchSkeleton from "@/components/SearchSkeleton";
+import Paginations from "@/components/student/Paginations";
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState({
@@ -49,7 +50,7 @@ const Search = () => {
   if (data) console.log(data);
 
   return (
-    <div className="max-w-7xl mx-auto p-4 md:p-8 h-[100vh]  ">
+    <div className="max-w-7xl mx-auto p-4 md:p-8 pb-1 h-[100vh]  ">
       <header>
         <motion.form
           className="flex flex-row items-center justify-center gap-3 mb-6 px-4 w-full max-w-7xl mx-auto mt-4"
@@ -75,7 +76,7 @@ const Search = () => {
 
       <Separator />
 
-      <div className="flex flex-col p-4 border my-4 rounded-2xl mb-20 bg-slate-100/90 dark:bg-slate-900/50 backdrop-blur-xl text-slate-900 dark:text-white">
+      <div className="flex flex-col p-4 border my-4 rounded-2xl mb-2 bg-slate-100/90 dark:bg-slate-900/50 backdrop-blur-xl text-slate-900 dark:text-white">
         {/* Header section with result count and filters */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
           <span className="pl-2 md:pl-6 font-semibold font-lekton text-center md:text-left">
@@ -96,14 +97,18 @@ const Search = () => {
         </div>
 
         {/* Results section */}
-        <div className="max-h-[60vh] overflow-y-auto scrollbar-hide px-2">
+        <div className="max-h-[55vh] overflow-y-auto scrollbar-hide px-2">
           {isLoading ? (
             <SearchSkeleton />
           ) : (
             <SearchResult courses={data?.courses || []} />
           )}
         </div>
+
+        <Paginations/>
       </div>
+
+      
     </div>
   );
 };

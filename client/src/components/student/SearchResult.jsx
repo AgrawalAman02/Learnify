@@ -63,7 +63,9 @@ const SearchResult = ({ courses = [] }) => {
                   </Badge>
                 </div>
               </div>
+
             </div>
+
           ))
         )}
       </div>
