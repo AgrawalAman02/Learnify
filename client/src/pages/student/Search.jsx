@@ -11,45 +11,42 @@ import { useSearchCourseQuery } from "@/apis/courseApi";
 import SearchSkeleton from "@/components/SearchSkeleton";
 
 const Search = () => {
-
-  const [searchQuery , setSearchQuery] = useState({
-    query:"",
-    categories : [], 
+  const [searchQuery, setSearchQuery] = useState({
+    query: "",
+    categories: [],
     sortByPrice: "",
     difficultyLevel: [],
   });
 
   const [searchInput, setSearchInput] = useState("");
-  const {data,isLoading} = useSearchCourseQuery(searchQuery)
+  const { data, isLoading } = useSearchCourseQuery(searchQuery);
 
-  const handleFormSubmit = async (e)=>{
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setSearchQuery(prev => ({
+    setSearchQuery((prev) => ({
       ...prev,
       query: searchInput || "",
     }));
-    
-    setSearchInput("");
-  }
 
-  const handleFilter = (filterData)=>{
-    setSearchQuery(prev => ({
+    setSearchInput("");
+  };
+
+  const handleFilter = (filterData) => {
+    setSearchQuery((prev) => ({
       ...prev,
       categories: filterData.categories,
       difficultyLevel: filterData.difficultyLevel,
     }));
-  }
+  };
 
-  const handleSort=(sortData)=>{
-    setSearchQuery(prev => ({
+  const handleSort = (sortData) => {
+    setSearchQuery((prev) => ({
       ...prev,
       sortByPrice: sortData,
     }));
-    
-  }
+  };
 
-  if(data) console.log(data);
-  
+  if (data) console.log(data);
 
   return (
     <div className="max-w-7xl mx-auto p-4 md:p-8 h-[100vh]  ">
@@ -59,13 +56,13 @@ const Search = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          onSubmit={(e)=>handleFormSubmit(e)}
+          onSubmit={(e) => handleFormSubmit(e)}
         >
           <Input
             type="text"
             className="rounded-full bg-slate-100/90 dark:bg-slate-900/50 backdrop-blur-xl text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-gray-300 w-full focus-visible:ring-2 ring-indigo-500/50 text-xs sm:text-base px-4 py-5 sm:px-8 sm:py-6 border-0 shadow-lg"
             placeholder="What do you want to learn today?"
-            onChange={(e)=>setSearchInput(e.target.value)}
+            onChange={(e) => setSearchInput(e.target.value)}
             value={searchInput}
           />
 
@@ -77,12 +74,18 @@ const Search = () => {
       </header>
 
       <Separator />
-      
+
       <div className="flex flex-col p-4 border my-4 rounded-2xl  mb-20 bg-slate-100/90 dark:bg-slate-900/50 backdrop-blur-xl text-slate-900 dark:text-white">
         <div className="flex flex-col md:flex-row items-center justify-between">
-          <span>
-            Search results for :{" "}
-            <span className="italic underline">{searchQuery.query}</span>
+          <span className="pl-6 font-semibold font-lekton">
+            {searchQuery.query != "" ? (
+              <>
+                Showing search results for :{" "}
+                <span className="italic underline">{searchQuery.query}</span>
+              </>
+            ) : (
+              <>Nothing searched. Showing all published course </>
+            )}
           </span>
 
           <div className="flex items-center justify-end gap-10 px-6">
@@ -92,8 +95,11 @@ const Search = () => {
         </div>
 
         <div className="max-h-[60vh] overflow-y-auto scrollbar-hide">
-          {isLoading ? <SearchSkeleton/> : <SearchResult courses={data?.courses || [] } /> }
-          
+          {isLoading ? (
+            <SearchSkeleton />
+          ) : (
+            <SearchResult courses={data?.courses || []} />
+          )}
         </div>
       </div>
     </div>
