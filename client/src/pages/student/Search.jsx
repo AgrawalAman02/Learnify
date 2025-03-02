@@ -105,7 +105,7 @@ const Search = () => {
           )}
         </div>
 
-        <Paginations/>
+        <Paginations data={data?.pagination}/>
       </div>
 
       

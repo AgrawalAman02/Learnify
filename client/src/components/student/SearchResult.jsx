@@ -18,7 +18,7 @@ const SearchResult = ({ courses = [] }) => {
         ) : (
           courses.map((course, index) => (
             <div
-              className="flex flex-col md:flex-row justify-between border rounded-lg w-full bg-gray-50 dark:bg-gray-950"
+              className="flex flex-col md:flex-row justify-between border rounded-lg w-full bg-gray-50 dark:bg-gray-950 cursor-pointer"
               key={course?._id}
               onClick={() => (isAuthenticated ? navigate(`/courseDetails/${course?._id}`): navigate("/auth"))}
             >
