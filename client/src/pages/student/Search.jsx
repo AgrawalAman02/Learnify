@@ -95,7 +95,7 @@ const Search = () => {
 
       <Separator />
 
-      <div className="flex flex-col p-4 border my-4 rounded-2xl mb-2 bg-slate-100/90 dark:bg-slate-900/50 backdrop-blur-xl text-slate-900 dark:text-white">
+      <div className="flex flex-col p-4 border my-4 rounded-2xl mb-2 bg-slate-200/90 dark:bg-slate-900/50 backdrop-blur-xl text-slate-900 dark:text-white">
         {/* Header section with result count and filters */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
           <span className="pl-2 md:pl-6 font-semibold font-lekton text-center md:text-left">
