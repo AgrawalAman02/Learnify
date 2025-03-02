@@ -15,7 +15,6 @@ const Paginations = ({ data , handlePage}) => {
     return <div className="text-center py-4">No results to paginate</div>;
   }
   const {
-    limit,
     page: currPage,
     pages: totalPages,
   } = data;
@@ -24,6 +23,9 @@ const Paginations = ({ data , handlePage}) => {
   for (let i = 1; i <= totalPages; i++) {
     pages.push(i);
   }
+
+  console.log(currPage);
+  
   return (
     <div className="mt-2">
       <Pagination>

@@ -10,6 +10,7 @@ import SearchResult from "@/components/student/SearchResult";
 import { useSearchCourseQuery } from "@/apis/courseApi";
 import SearchSkeleton from "@/components/SearchSkeleton";
 import Paginations from "@/components/student/Paginations";
+import useDebounce from "@/hooks/useDebounce";
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState({
@@ -22,7 +23,12 @@ const Search = () => {
   });
 
   const [searchInput, setSearchInput] = useState("");
-  const { data, isLoading } = useSearchCourseQuery(searchQuery);
+  const debouncedSearchQuery = useDebounce(searchQuery,300);
+  const { data, isLoading ,isError} = useSearchCourseQuery(debouncedSearchQuery);
+
+  if (isError) {
+    return <div className="text-center py-4 text-red-500">Error loading results. Please try again.</div>;
+  }
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
