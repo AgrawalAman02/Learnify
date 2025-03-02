@@ -11,7 +11,7 @@ import {
 
 const Sort = () => {
   return (
-    <div>
+    <div className="bg-white font-semibold dark:bg-gray-950 ">
       <Select>
         <SelectTrigger className="w-[100px] border-dashed">
           <SelectValue placeholder="Sort By" />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -7,8 +7,39 @@ import Filter from "@/components/student/Filter";
 import Sort from "@/components/student/Sort";
 import { Separator } from "@/components/ui/separator";
 import SearchResult from "@/components/student/SearchResult";
+import { useSearchCourseQuery } from "@/apis/courseApi";
+import SearchSkeleton from "@/components/SearchSkeleton";
 
 const Search = () => {
+
+  const [searchQuery , setSearchQuery] = useState({
+    query:"",
+    categories : [], 
+    sortByPrice: "",
+    difficultyLevel: [],
+  });
+
+  const [searchInput, setSearchInput] = useState("");
+  const [searchValue , setSearchValue] = useState("");
+  const {data,isLoading} = useSearchCourseQuery(searchValue, {
+    skip: searchValue === ""
+  })
+
+  const handleFormSubmit = async (e)=>{
+    e.preventDefault();
+    setSearchValue(searchInput);
+    setSearchInput("");
+  }
+
+  const handleFilter = ()=>{
+
+  }
+
+  const handleSort=()=>{
+
+  }
+
+
   return (
     <div className="max-w-7xl mx-auto p-4 md:p-8 h-[100vh]  ">
       <header>
@@ -17,12 +48,14 @@ const Search = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={(e)=>handleFormSubmit(e)}
         >
           <Input
             type="text"
             className="rounded-full bg-slate-100/90 dark:bg-slate-900/50 backdrop-blur-xl text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-gray-300 w-full focus-visible:ring-2 ring-indigo-500/50 text-xs sm:text-base px-4 py-5 sm:px-8 sm:py-6 border-0 shadow-lg"
             placeholder="What do you want to learn today?"
+            onChange={(e)=>setSearchInput(e.target.value)}
+            value={searchInput}
           />
 
           <Button className="rounded-full text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-xs sm:text-base px-4 py-5 sm:px-8 sm:py-6 min-w-[50px] sm:min-w-[120px] whitespace-nowrap transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-indigo-500/25 flex-shrink-0">
@@ -31,8 +64,10 @@ const Search = () => {
           </Button>
         </motion.form>
       </header>
+
       <Separator />
-      <div className="flex flex-col p-4 border my-4 rounded-2xl  mb-20">
+      
+      <div className="flex flex-col p-4 border my-4 rounded-2xl  mb-20 bg-slate-100/90 dark:bg-slate-900/50 backdrop-blur-xl text-slate-900 dark:text-white">
         <div className="flex flex-col md:flex-row items-center justify-between">
           <span>
             Search results for :
@@ -40,13 +75,14 @@ const Search = () => {
           </span>
 
           <div className="flex items-center justify-end gap-10 px-6">
-            <Filter />
-            <Sort />
+            <Filter handleFilter={handleFilter} />
+            <Sort handleSort={handleSort} />
           </div>
         </div>
 
-        <div >
-          <SearchResult/>
+        <div className="max-h-[60vh] overflow-y-auto scrollbar-hide">
+          {isLoading ? <SearchSkeleton/> : <SearchResult/> }
+          
         </div>
       </div>
     </div>

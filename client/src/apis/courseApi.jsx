@@ -162,4 +162,5 @@ export const {
   useDeleteLectureMutation,
   useGetLectureByIdQuery,
   useGetCoursePurchasedDetailsQuery,
+  useSearchCourseQuery,
 } = courseApi;

@@ -6,7 +6,7 @@ const SearchResult = () => {
     <div>
       <div className="mt-4 flex flex-col items-start gap-6 md:p-4 md:px-24 my-4 overflow-y-auto scrollbar-hide">
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 12, 123].map((_, index) => (
-          <div className="flex justify-between border rounded-lg w-full">
+          <div className="flex justify-between border rounded-lg w-full bg-gray-50 dark:bg-gray-950" key={index}>
             <div>
               <img
                 src="https://res.cloudinary.com/dj5dijps9/image/upload/v1740070590/nhx2zeg99lrgbuvireoc.webp"
