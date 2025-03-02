@@ -257,9 +257,9 @@ export const searchCourse =async (req,res)=>{
 
     const sortOptions = {};
     if(sortByPrice === "low"){
-      sortOptions.coursePrice = 1;
+      sortOptions.price = 1;
     }else if(sortByPrice === "high"){
-      sortOptions.coursePrice = -1;
+      sortOptions.price = -1;
     }
 
      // Pagination
@@ -272,7 +272,8 @@ export const searchCourse =async (req,res)=>{
     .populate({path: "creator", select: "name photoUrl"})
     .sort(sortOptions)
     .skip(skip)
-    .limit(limitNum);
+    .limit(limitNum)
+    .collation({ locale: 'en', numericOrdering: true });
 
     const total = await Course.countDocuments(searchCriteria);
 
