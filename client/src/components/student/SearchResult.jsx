@@ -1,8 +1,13 @@
 import React from "react";
 import { Badge } from "../ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const SearchResult = ({ courses = [] }) => {
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector((store)=>store.auth.isAuthenticated);
+
   return (
     <div>
       <div className="mt-4 flex flex-col items-start gap-6 px-4 md:p-4 md:px-24 my-4 overflow-y-auto scrollbar-hide">
@@ -15,6 +20,7 @@ const SearchResult = ({ courses = [] }) => {
             <div
               className="flex flex-col md:flex-row justify-between border rounded-lg w-full bg-gray-50 dark:bg-gray-950"
               key={course?._id}
+              onClick={() => (isAuthenticated ? navigate(`/courseDetails/${course?._id}`): navigate("/auth"))}
             >
               <div>
                 <img
