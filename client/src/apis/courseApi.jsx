@@ -67,7 +67,7 @@ export const courseApi = createApi({
     }),
 
     searchCourse : builder.query({
-      query : ({query, categories, sortByPrice, difficultyLevel})=>{
+      query : ({query, categories, sortByPrice, difficultyLevel,page , limit})=>{
         
         let queryString = `/search?query=${query ? encodeURIComponent(query) : ""}`;
 
@@ -86,6 +86,10 @@ export const courseApi = createApi({
         if(difficultyLevel && difficultyLevel.length > 0){
           const levelString = difficultyLevel.map(encodeURIComponent).join(",");
           queryString += `&difficultyLevel=${levelString}`;
+        }
+
+        if(page){
+          queryString+= `&page=${page}&limit=${limit}`;
         }
         
         return {

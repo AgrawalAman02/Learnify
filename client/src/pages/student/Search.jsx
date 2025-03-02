@@ -17,6 +17,8 @@ const Search = () => {
     categories: [],
     sortByPrice: "",
     difficultyLevel: [],
+    page:1,
+    limit:"",
   });
 
   const [searchInput, setSearchInput] = useState("");
@@ -27,6 +29,7 @@ const Search = () => {
     setSearchQuery((prev) => ({
       ...prev,
       query: searchInput || "",
+      page:1,
     }));
 
     setSearchInput("");
@@ -37,6 +40,7 @@ const Search = () => {
       ...prev,
       categories: filterData.categories,
       difficultyLevel: filterData.difficultyLevel,
+      page:1,
     }));
   };
 
@@ -44,8 +48,17 @@ const Search = () => {
     setSearchQuery((prev) => ({
       ...prev,
       sortByPrice: sortData,
+      page :1,
     }));
   };
+
+  const handlePage = (newPage)=>{
+    setSearchQuery(prev=>({
+      ...prev,
+      page : newPage,
+      limit : 5
+    }))
+  }
 
   if (data) console.log(data);
 
@@ -88,6 +101,9 @@ const Search = () => {
             ) : (
               <>All published courses</>
             )}
+            <div className="text-sm text-gray-600">
+              Showing {(data?.pagination?.page - 1) * data?.pagination?.limit + 1} to {Math.min(data?.pagination?.page * data?.pagination?.limit, data?.pagination?.total)} of {data?.pagination?.total} results
+            </div>
           </span>
 
           <div className="flex flex-wrap items-center justify-center md:justify-end gap-4 px-2 md:px-6 w-full md:w-auto">
@@ -105,7 +121,7 @@ const Search = () => {
           )}
         </div>
 
-        <Paginations data={data?.pagination}/>
+        <Paginations data={data?.pagination} handlePage={handlePage}/>
       </div>
 
       

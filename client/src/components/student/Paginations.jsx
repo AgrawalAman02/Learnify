@@ -10,22 +10,20 @@ import {
 } from "@/components/ui/pagination";
 import SearchSkeleton from "../SearchSkeleton";
 
-const Paginations = ({ data }) => {
-  if (!data) {
-    return <SearchSkeleton />;
+const Paginations = ({ data , handlePage}) => {
+  if (!data || !data.pages || data.pages === 0) {
+    return <div className="text-center py-4">No results to paginate</div>;
   }
   const {
     limit,
     page: currPage,
     pages: totalPages,
-    total: totalCourses,
   } = data;
 
   const pages = [];
   for (let i = 1; i <= totalPages; i++) {
     pages.push(i);
   }
-  console.log("currPage:", currPage, "type:", typeof currPage);
   return (
     <div className="mt-2">
       <Pagination>
@@ -35,11 +33,20 @@ const Paginations = ({ data }) => {
               href="#"
               aria-disabled={currPage === 1}
               className={currPage === 1 ? "pointer-events-none opacity-50" : ""}
+              onClick={(e)=>{
+                e.preventDefault();
+                if(currPage-1>=1 ){
+                  handlePage(currPage-1);
+                }
+              }}
             />
           </PaginationItem>
           {pages.map((page) => (
-            <PaginationItem>
-              <PaginationLink href="#" isActive={page === currPage}>
+            <PaginationItem key={page}>
+              <PaginationLink href="#" isActive={page === currPage} onClick={(e)=>{
+                e.preventDefault();
+                handlePage(page);
+              }} >
                 {page}
               </PaginationLink>
             </PaginationItem>
@@ -54,6 +61,12 @@ const Paginations = ({ data }) => {
               className={
                 currPage === totalPages ? "pointer-events-none opacity-50" : ""
               }
+              onClick={(e)=>{
+                e.preventDefault();
+                if(currPage+1 <= totalPages){
+                  handlePage(currPage+1);
+                }
+              }}
             />
           </PaginationItem>
         </PaginationContent>
