@@ -92,7 +92,10 @@ const DashBoard = () => {
         </Card>
       </div>
 
-      <Card className="  border-gray-500 shadow-gray-400 dark:shadow-gray-900 shadow-lg hover:shadow-xl transition-shadow   duration-300">
+      {
+        courseStats
+        && 
+        <Card className="  border-gray-500 shadow-gray-400 dark:shadow-gray-900 shadow-lg hover:shadow-xl transition-shadow   duration-300">
         <CardHeader>
           <CardTitle className="text-xl font-semibold text-gray-700">
             Course Prices
@@ -117,6 +120,7 @@ const DashBoard = () => {
           </ResponsiveContainer>
         </CardContent>
       </Card>
+      }
     </div>
   );
 };
