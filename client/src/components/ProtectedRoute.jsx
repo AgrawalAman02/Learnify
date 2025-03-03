@@ -31,7 +31,7 @@ export const AdminUser  = ({children})=>{
     return <Navigate to={"/auth"} replace/>;
   }
 
-  if(user.role !=="instructor" ){
+  if(user.role !=="Instructor" ){
     return<Navigate to={"/"} replace />;
   }
 
