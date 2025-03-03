@@ -17,6 +17,8 @@ import CourseDetails from "./pages/student/CourseDetails";
 import ErrorBoundary from "./components/ErrorBoundary";
 import VideoPlayer from "./pages/student/VideoPlayer";
 import Search from "./pages/student/Search";
+import { AdminUser, AuthenticatedUser, ProtectedRoute } from "./components/ProtectedRoute";
+import { ProtectPurchasedPage } from "./components/ProtectPurchasedPage";
 
 const appRouter = createBrowserRouter([
   {
@@ -33,27 +35,27 @@ const appRouter = createBrowserRouter([
       },
       {
         path : "/courseDetails/:courseId",
-        element : <CourseDetails/>
+        element : <ProtectedRoute><CourseDetails/></ProtectedRoute>
       },
       {
         path: "/auth",
-        element: <SignInOut />,
+        element: <AuthenticatedUser><SignInOut /></AuthenticatedUser>,
       },
       {
         path: "/learning",
-        element: <MyLearning />,
+        element: <ProtectedRoute><MyLearning /></ProtectedRoute>,
       },
       {
         path: "/profile",
-        element: <EditProfile />,
+        element: <ProtectedRoute><EditProfile /></ProtectedRoute>,
       },
       {
         path : "/courseDetails/:courseId/success/video",
-        element : <VideoPlayer/>
+        element : <ProtectedRoute><ProtectPurchasedPage><VideoPlayer/></ProtectPurchasedPage> </ProtectedRoute>
       },
       {
         path: "/admin",
-        element: <SideBar />,
+        element: <AdminUser><SideBar /></AdminUser>,
         children: [
           {
             path: "course",
