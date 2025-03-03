@@ -99,6 +99,13 @@ export const courseApi = createApi({
       },
     }),
 
+    getCourseStats : builder.query({
+      query : ()=>({
+        url : "/stats",
+        method : "GET",
+      }),
+    }),
+
     // creating api for lectures here ...
 
     createLecture: builder.mutation({
