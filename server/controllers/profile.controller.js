@@ -55,3 +55,40 @@ export const updateProfile = async (req, res) => {
     });
   }
 };
+
+export const becomeInstructor =async (req, res)=>{
+  try {
+    const userId = req?.user?._id;
+    
+    if(!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "Authentication required"
+      });
+    }
+    
+    // Find user in DB (refresh from database)
+    const user = await User.findById(userId);
+    
+    if(!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found"
+      });
+    } 
+
+    user.role = "Instructor";
+    await user.save();
+  
+    res.status(200).json({
+      success : true,
+      message : "Congrats! You are now an instructor",
+    });
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: `ERROR : ${error.message || "Failed to update profile"} `,
+    });
+  }
+
+}
