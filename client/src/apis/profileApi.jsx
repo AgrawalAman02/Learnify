@@ -15,6 +15,7 @@ export const profileApi = createApi({
                 url : "getProfile",
                 method : "GET",
             }),
+            providesTags : ["refetchProfile"],
             async onQueryStarted(_,{queryFulfilled,dispatch}){
                 try {
                     const result = await queryFulfilled;
@@ -31,6 +32,14 @@ export const profileApi = createApi({
                 body : formData,
                 credentials : "include",
             })
+        }),
+
+        instructor : builder.mutation({
+            query : ()=>({
+                url : "/instructor",
+                method : "POST",
+            }),
+            invalidatesTags: ["refetchProfile"],
         })
     })
 })
@@ -38,4 +47,5 @@ export const profileApi = createApi({
 export const {
     useGetUserQuery,
     useUpdateUserMutation,
+    useInstructorMutation,
 } = profileApi
