@@ -37,7 +37,7 @@ export const profileApi = createApi({
         instructor : builder.mutation({
             query : ()=>({
                 url : "/instructor",
-                method : "POST",
+                method : "PUT",
             }),
             invalidatesTags: ["refetchProfile"],
         })

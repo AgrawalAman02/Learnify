@@ -7,6 +7,7 @@ import { GraduationCap, Moon, Sparkles,BookOpenCheck  } from "lucide-react";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import Instructor from "./Instructor";
 
 const NavBar = () => {
   const isLoggedIn = useSelector((store) => store.auth.isAuthenticated);
@@ -52,15 +53,18 @@ const NavBar = () => {
         </motion.div>
       </Link>
 
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-3 md:gap-6">
         <ThemeChanger />
         {isLoggedIn ? (
-          <NavBarDropDown />
+          <>
+            <Instructor/>
+            <NavBarDropDown />
+          </>
         ) : (
           <motion.div 
-            whileHover={{ scale: 1.05 }} 
-            whileTap={{ scale: 0.95 }}
-            className="relative group"
+          whileHover={{ scale: 1.05 }} 
+          whileTap={{ scale: 0.95 }}
+          className="relative group"
           >
             <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
             <Link to="/auth">

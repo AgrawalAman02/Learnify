@@ -51,7 +51,7 @@ const DashBoard = () => {
           </CardHeader>
 
           <CardContent>
-            <p className="text-3xl font-bold text-blue-600">{"₹"+ stats?.totalRevenue || 0}</p>
+            <p className="text-3xl font-bold text-blue-600">{"₹"+ (stats?.totalRevenue || 0)}</p>
           </CardContent>
         </Card>
 
