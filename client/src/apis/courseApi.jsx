@@ -174,4 +174,5 @@ export const {
   useGetLectureByIdQuery,
   useGetCoursePurchasedDetailsQuery,
   useSearchCourseQuery,
+  useGetCourseStatsQuery,
 } = courseApi;

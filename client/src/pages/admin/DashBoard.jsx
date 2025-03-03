@@ -1,5 +1,6 @@
+import { useGetCourseStatsQuery } from "@/apis/courseApi";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   LineChart,
   Line,
@@ -10,55 +11,26 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import LoaderSpinner from "../LoaderSpinner";
+import { toast } from "sonner";
 
 const DashBoard = () => {
-  const data = [
-    {
-      name: "Page A",
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: "Page B",
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: "Page C",
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: "Page D",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: "Page E",
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: "Page F",
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: "Page G",
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
+
+  const {data, isLoading , isSuccess, isError, error} = useGetCourseStatsQuery();
+  
+  useEffect(()=>{
+    if(isSuccess) toast.success(data?.message || "Stats fetched successfully...");
+    if(isError) toast.error(error?.data?.message || error?.message || "Error while fetching stats");
+  },[isSuccess,isError, error])
+  
+  const stats = data?.stats;
+  const courseStats =   data?.courseStats;
+  
+  if(isLoading) return <LoaderSpinner/>
+
   return (
     <div className="flex flex-col gap-10 p-4 ">
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid gap-6 grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
         <Card className=" border-gray-500 shadow-gray-400 dark:shadow-gray-900 shadow-lg hover:shadow-xl transition-shadow   duration-300  ">
           <CardHeader>
             <CardTitle className="text-xl font-semibold text-gray-700">
@@ -67,7 +39,7 @@ const DashBoard = () => {
           </CardHeader>
 
           <CardContent>
-            <p className="text-3xl font-bold text-blue-600">400</p>
+            <p className="text-3xl font-bold text-blue-600">{stats?.totalCourseSold || 0}</p>
           </CardContent>
         </Card>
 
@@ -79,7 +51,43 @@ const DashBoard = () => {
           </CardHeader>
 
           <CardContent>
-            <p className="text-3xl font-bold text-blue-600">1200</p>
+            <p className="text-3xl font-bold text-blue-600">{"₹"+ stats?.totalRevenue || 0}</p>
+          </CardContent>
+        </Card>
+
+        <Card className="  border-gray-500 shadow-gray-400 dark:shadow-gray-900 shadow-lg hover:shadow-xl transition-shadow   duration-300">
+          <CardHeader>
+            <CardTitle className="text-xl font-semibold text-gray-700">
+              Total Published
+            </CardTitle>
+          </CardHeader>
+
+          <CardContent>
+            <p className="text-3xl font-bold text-blue-600">{stats?.publishedCourse || 0}</p>
+          </CardContent>
+        </Card>
+
+        <Card className="  border-gray-500 shadow-gray-400 dark:shadow-gray-900 shadow-lg hover:shadow-xl transition-shadow   duration-300">
+          <CardHeader>
+            <CardTitle className="text-xl font-semibold text-gray-700">
+              Total Enrollments
+            </CardTitle>
+          </CardHeader>
+
+          <CardContent>
+            <p className="text-3xl font-bold text-blue-600">{stats?.totalEnrollments || 0}</p>
+          </CardContent>
+        </Card>
+
+        <Card className="  border-gray-500 shadow-gray-400 dark:shadow-gray-900 shadow-lg hover:shadow-xl transition-shadow   duration-300">
+          <CardHeader>
+            <CardTitle className="text-xl font-semibold text-gray-700">
+              Unique Enrollments
+            </CardTitle>
+          </CardHeader>
+
+          <CardContent>
+            <p className="text-3xl font-bold text-blue-600">{stats?.uniqueStudents || 0}</p>
           </CardContent>
         </Card>
       </div>
@@ -96,14 +104,15 @@ const DashBoard = () => {
             <LineChart
               width={400}
               height={400}
-              data={data}
+              data={courseStats}
               margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
             >
-              <XAxis dataKey="name" />
+              <XAxis dataKey="title" className="text-xs font-urbanist" />
               <Tooltip />
               <CartesianGrid stroke="#f5f5f5" />
-              <Line type="monotone" dataKey="uv" stroke="#ff7300" yAxisId={0} />
-              <Line type="monotone" dataKey="pv" stroke="#387908" yAxisId={1} />
+              <Line type="monotone" dataKey="enrolledCount" stroke="#ff7300" yAxisId={0} />
+              <Line type="monotone" dataKey="salesCount" stroke="#387908" yAxisId={1} />
+              <Line type="monotone" dataKey="price" stroke="#343249" yAxisId={2} />
             </LineChart>
           </ResponsiveContainer>
         </CardContent>

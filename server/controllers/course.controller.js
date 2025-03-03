@@ -319,8 +319,8 @@ export const getCourseStats = async (req, res) => {
     const courseIds = courses.map((course) => course._id);
     const payments = await Payment.find({
       courseId: { $in: courseIds },
-      status: "completed",
-    }).select("courseTitle amount createdAt ");
+      status: "captured",
+    }).select("courseId amount createdAt ");
 
     const publishedCourse = courses.length;
 
@@ -328,13 +328,13 @@ export const getCourseStats = async (req, res) => {
     payments.forEach((payment) => {
       totalRevenue += parseFloat(payment.amount) || 0;
     });
-
-    const coursePurchased = new Set();
+    
+    const courseSold = new Set();
     payments.forEach((payment) => {
-      coursePurchased.add(payment.courseTitle);
+      courseSold.add(payment.courseId);
     });
 
-    const totalPurchasedCourse = coursePurchased.size();
+    const totalCourseSold = courseSold.size;
 
     let uniqueStudents = new Set();
     courses.forEach((course) => {
@@ -343,6 +343,16 @@ export const getCourseStats = async (req, res) => {
       });
     });
 
+    const salesPerCourse = {};
+    payments.forEach(payment => {
+      const courseId = payment.courseId.toString();
+      if (!salesPerCourse[courseId]) {
+        salesPerCourse[courseId] = 0;
+      }
+      salesPerCourse[courseId]++;
+    });
+
+
     const totalPayments = payments.length;
 
     return res.status(200).json({
@@ -350,11 +360,18 @@ export const getCourseStats = async (req, res) => {
       message : "Stats fetched successfully...",
       stats :{
         publishedCourse,
-        totalPurchasedCourse,
-        uniqueStudents,
+        totalCourseSold,
+        uniqueStudents:uniqueStudents.size,
         totalEnrollments : totalPayments,
         totalRevenue,
-      }
+      },
+      courseStats: courses.map(course => ({
+        id: course._id,
+        title: course.courseTitle,
+        price: course.price,
+        enrolledCount: course.enrolledStudents?.length || 0,
+        salesCount: salesPerCourse[course._id.toString()] || 0
+      }))
     });
 
 
