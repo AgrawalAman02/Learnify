@@ -106,6 +106,15 @@ export const courseApi = createApi({
       }),
     }),
 
+    getSuggestions: builder.query({
+      query: (searchTerm) => ({
+        url: `suggestions?query=${encodeURIComponent(searchTerm)}`,
+        method: "GET"
+      }),
+      // Keep results for a short time to improve UX
+      keepUnusedDataFor: 60
+    }),
+
     // creating api for lectures here ...
 
     createLecture: builder.mutation({
@@ -175,4 +184,5 @@ export const {
   useGetCoursePurchasedDetailsQuery,
   useSearchCourseQuery,
   useGetCourseStatsQuery,
+  useGetSuggestionsQuery,
 } = courseApi;

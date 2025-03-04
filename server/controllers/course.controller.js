@@ -382,3 +382,56 @@ export const getCourseStats = async (req, res) => {
     });
   }
 };
+
+export const getSuggestions = async (req, res) => {
+  try {
+    const { query = "" } = req.query;
+    
+    // Return early if query is too short
+    if (query.length < 2) {
+      return res.status(200).json({ 
+        success: true,
+        suggestions: [] 
+      });
+    }
+    
+    // Find matching course titles
+    // This query is optimized for suggestion performance
+    const courseTitles = await Course.find(
+      { 
+        courseTitle: { $regex: query, $options: "i" },
+        isPublished: true 
+      },
+      { courseTitle: 1, _id: 0 } // Only fetch the title field for efficiency
+    )
+    .sort({ enrolledStudents: -1 }) // Prioritize popular courses
+    .limit(10)
+    .lean(); // Faster than full document instances
+    
+    // Also search by category for broader suggestions
+    const categoryMatches = await Course.find(
+      {
+        category: { $regex: query, $options: "i" },
+        isPublished: true
+      },
+      { courseTitle: 1, _id: 0 }
+    )
+    .sort({ enrolledStudents: -1 })
+    .limit(5)
+    .lean();
+    
+    // Combine and deduplicate suggestions
+    const allTitles = [...courseTitles, ...categoryMatches].map(c => c.courseTitle);
+    const uniqueSuggestions = [...new Set(allTitles)].slice(0, 5);
+    
+    res.status(200).json({
+      success: true,
+      suggestions: uniqueSuggestions
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "Error fetching suggestions: " + error.message
+    });
+  }
+};
