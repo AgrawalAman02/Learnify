@@ -7,13 +7,13 @@ const MyLearning = () => {
 
   const {data,isLoading}  = useGetUserQuery();
   const myCourses = data?.enrolledAt;
-  console.log(myCourses);
+  const length = myCourses?.length || 0;
   return (
     <div className="max-w-[75rem] mx-auto px-4 md:px-0 my-20">
       <h2 className="font-bold text-2xl text-center underline underline-offset-8 decoration-double decoration-1">My Learning</h2>
 
       <div className="my-10">
-        { myCourses.length === 0 ? (
+        { length === 0 ? (
             <p className="font-mono font-semibold text-sm underline underline-offset-4 max-w-3xl  mx-auto">
             You hadn't enrolled to any courses until now! Please enroll to some
             courses to enjoy the learning experience at our platform! <br /> <br />{" "}

@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Loader2 } from "lucide-react";
 import React from "react";
 import { useSelector } from "react-redux";
+import LoaderSpinner from "../LoaderSpinner";
 
 const EditProfile = () => {
   const {data,isLoading,isError,refetch}  = useGetUserQuery();
@@ -18,7 +19,11 @@ const EditProfile = () => {
     return <p>Error fetching user data: {isError.message}</p>;
   }
   
-  const {name,email,enrolledAt} = data;  
+  const userData = data || loggedInUser;
+
+  if(!userData) return <LoaderSpinner/>
+
+  const {name='',email='',enrolledAt=[]} = userData;  
   
   // const email = "aman"
   const myCourses = enrolledAt;
