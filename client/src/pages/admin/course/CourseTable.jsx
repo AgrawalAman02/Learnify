@@ -21,7 +21,7 @@ const CourseTable = () => {
         <div><Button onClick={()=>navigate("create")} >Add Your Own Course </Button></div>
       </div>
 
-      <div className=' flex items-center justify-center'>
+      <div className='w-full flex items-center justify-center'>
         <CourseListTable/>
       </div>
     </div>
