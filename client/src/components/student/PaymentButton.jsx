@@ -57,7 +57,7 @@ const PaymentButton = ({  loggedInUser,courseStatusData , getCoursePaymentStatus
             getCoursePaymentStatus(courseId)
             .then(() => {
               // Navigate to the course videos directly after successful payment verification
-              navigate(`success/video`);
+              navigate(`/courseDetails/${courseId}/success/video`);
             })
             .catch(err => {
               console.error("Status check failed:", err);
