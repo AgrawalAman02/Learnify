@@ -13,6 +13,8 @@ import {
 } from "recharts";
 import LoaderSpinner from "../LoaderSpinner";
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const DashBoard = () => {
 
@@ -21,7 +23,7 @@ const DashBoard = () => {
   useEffect(()=>{
     if(isSuccess) toast.success(data?.message || "Stats fetched successfully...");
     if(isError) toast.error(error?.data?.message || error?.message || "Error while fetching stats");
-  },[isSuccess,isError, error])
+  },[isSuccess])
   
   const stats = data?.stats;
   const courseStats =   data?.courseStats;
@@ -30,6 +32,11 @@ const DashBoard = () => {
 
   return (
     <div className="flex flex-col gap-10 p-4 ">
+      <div className="cursor-pointer lg:hidden -mb-4 -mt-4">
+          <Link to="/admin/course">
+            <Button>Go to Course Page</Button>
+          </Link>
+        </div>
       <div className="grid gap-6 grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
         <Card className=" border-gray-500 shadow-gray-400 dark:shadow-gray-900 shadow-lg hover:shadow-xl transition-shadow   duration-300  ">
           <CardHeader>
