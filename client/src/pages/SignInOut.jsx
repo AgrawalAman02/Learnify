@@ -101,7 +101,7 @@ export function SignInOut() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white to-indigo-50 dark:from-slate-950 dark:to-slate-900 p-4"
+      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white to-indigo-50 dark:from-slate-950 dark:to-slate-900 p-4 -mt-8"
     >
       <div className="absolute inset-0 bg-grid-black/[0.02] dark:bg-grid-white/[0.02] -z-10" />
 
