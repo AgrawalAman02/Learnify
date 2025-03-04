@@ -55,9 +55,10 @@ const PaymentButton = ({  loggedInUser,courseStatusData , getCoursePaymentStatus
           handler: function (response) {
             toast.success("Payment Successful!");
             getCoursePaymentStatus(courseId)
-            // .then(() => {
-            //   // window.location.reload();
-            // })
+            .then(() => {
+              // Navigate to the course videos directly after successful payment verification
+              navigate(`success/video`);
+            })
             .catch(err => {
               console.error("Status check failed:", err);
               toast.error("Failed to verify payment status");
