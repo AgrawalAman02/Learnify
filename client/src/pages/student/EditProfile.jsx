@@ -4,7 +4,7 @@ import EditProfileDialog from "@/components/student/EditProfileDialog";
 import ShimmerCard from "@/components/student/ShimmerCard";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Loader2 } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import LoaderSpinner from "../LoaderSpinner";
 
@@ -18,6 +18,11 @@ const EditProfile = () => {
   if (isError) {
     return <p>Error fetching user data: {isError.message}</p>;
   }
+
+   // Force refetch when component mounts
+   useEffect(() => {
+    refetch();
+  }, [refetch]);
   
   const userData = data || loggedInUser;
 

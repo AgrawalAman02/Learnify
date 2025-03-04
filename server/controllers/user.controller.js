@@ -17,10 +17,18 @@ export const signUp = async (req, res) => {
     });
 
     const savedUser = await user.save();
-    return res.status(200).json({
-      success: true,
-      message: "User registered successfully",
+
+    // Generate JWT token and set cookie after signup
+    const token = await savedUser.getJWT();
+    res.cookie("token", token, {
+      expires: new Date(Date.now() + 8 * 3600000),
+      httpOnly: true,
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      secure: process.env.NODE_ENV === "production",
     });
+
+
+    return res.status(200).send(savedUser);
   } catch (error) {
     return res.status(500).json({
       success: false,

@@ -1,5 +1,6 @@
 import { addLoggedInUser } from "@/store/authSlice";
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
+import { profileApi } from "./profileApi";
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 const USER_URL = SERVER_URL+"user/";
 
@@ -45,6 +46,15 @@ export const authApi = createApi({
                 url:"logout",
                 method : "POST",
             }),
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                try {
+                    await queryFulfilled;
+                    // This will fix both the My Learning and Edit Profile pages
+                    dispatch(profileApi.util.invalidateTags(['refetchProfile']));
+                } catch (error) {
+                    console.log(error);
+                }
+            },
         }),
     })
 })

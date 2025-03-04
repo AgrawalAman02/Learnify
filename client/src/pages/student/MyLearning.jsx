@@ -1,13 +1,19 @@
 import { useGetUserQuery } from "@/apis/profileApi";
 import CoursesCard from "@/components/student/CoursesCard";
 import ShimmerCard from "@/components/student/ShimmerCard";
-import React from "react";
+import React, { useEffect } from "react";
 
 const MyLearning = () => {
 
-  const {data,isLoading}  = useGetUserQuery();
-  const myCourses = data?.enrolledAt;
+  const {data,isLoading,refetch}  = useGetUserQuery();
+  const myCourses = data?.enrolledAt ||[];
   const length = myCourses?.length || 0;
+
+   // Force refetch when component mounts
+   useEffect(() => {
+    refetch();
+  }, [refetch]);
+  
   return (
     <div className="max-w-[75rem] mx-auto px-4 md:px-0 my-20">
       <h2 className="font-bold text-2xl text-center underline underline-offset-8 decoration-double decoration-1">My Learning</h2>
