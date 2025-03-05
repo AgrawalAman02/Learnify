@@ -41,7 +41,7 @@ const DashBoard = () => {
           <Button>Go to Course Page</Button>
         </Link>
       </div>
-      <div className="grid gap-6 grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
+      <div className="grid gap-6 grid-cols-2 md:grid-cols-4 lg:grid-cols-4">
         <Card className=" border-gray-500 shadow-gray-400 dark:shadow-gray-900 shadow-lg hover:shadow-xl transition-shadow   duration-300  ">
           <CardHeader>
             <CardTitle className="text-xl font-semibold text-gray-700">
@@ -87,20 +87,6 @@ const DashBoard = () => {
         <Card className="  border-gray-500 shadow-gray-400 dark:shadow-gray-900 shadow-lg hover:shadow-xl transition-shadow   duration-300">
           <CardHeader>
             <CardTitle className="text-xl font-semibold text-gray-700">
-              Total Enrollments
-            </CardTitle>
-          </CardHeader>
-
-          <CardContent>
-            <p className="text-3xl font-bold text-blue-600">
-              {stats?.totalEnrollments || 0}
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="  border-gray-500 shadow-gray-400 dark:shadow-gray-900 shadow-lg hover:shadow-xl transition-shadow   duration-300">
-          <CardHeader>
-            <CardTitle className="text-xl font-semibold text-gray-700">
               Unique Enrollments
             </CardTitle>
           </CardHeader>
@@ -127,7 +113,7 @@ const DashBoard = () => {
                 width={400}
                 height={400}
                 data={courseStats}
-                margin={{ top: 15, right: 30, left: 20, bottom: 15 }}
+                margin={{ top: 15, right: 0, left: 0, bottom: 15 }}
               >
                 <XAxis
                   dataKey="title"
