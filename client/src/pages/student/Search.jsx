@@ -169,7 +169,7 @@ const handleSelectSuggestion = (suggestion) => {
       <div className="flex flex-col p-4 border my-4 rounded-2xl mb-2 bg-slate-200/90 dark:bg-slate-900/50 backdrop-blur-xl text-slate-900 dark:text-white">
         {/* Header section with result count and filters */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
-          <span className="pl-2 md:pl-6 font-semibold font-lekton text-center md:text-left">
+         {!isLoading && <span className="pl-2 md:pl-6 font-semibold font-lekton text-center md:text-left">
             {searchQuery.query !== "" ? (
               <>
                 Showing search results for:{" "}
@@ -181,7 +181,7 @@ const handleSelectSuggestion = (suggestion) => {
             <div className="text-sm text-gray-600">
               Showing {(data?.pagination?.page - 1) * data?.pagination?.limit + 1} to {Math.min(data?.pagination?.page * data?.pagination?.limit, data?.pagination?.total)} of {data?.pagination?.total} results
             </div>
-          </span>
+          </span>}
 
           <div className="flex flex-wrap items-center justify-center md:justify-end gap-4 px-2 md:px-6 w-full md:w-auto">
             <Filter handleFilter={handleFilter} />
