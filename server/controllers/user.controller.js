@@ -1,4 +1,5 @@
 import { User } from "../models/user.js";
+import { sendMail } from "../utils/email.js";
 import { validateSignUP } from "../utils/validate.js";
 import bcrypt from "bcryptjs";
 import validator from "validator";
@@ -84,3 +85,53 @@ export const logout = (req, res) => {
     });
   }
 };
+
+export const forgotPassword = async (req,res)=>{
+  try {
+    const{ email} = req.body;
+    const user = await User.findOne({
+      email
+    });
+    if(!user) res.status(404).json({
+      success : false ,
+      message : "User don't exist...",
+    });
+  
+    const resetToken = user.createResetPasswordToken();
+  
+    await user.save();
+  
+    const resetLink = `${req.protocol}://${req.get('host')}/api/v1/user/resetPassword/${resetToken}`
+    const message =`Sir/Madam,\n    We have received your pasword reset request. Please use the below link to reset the password.\n\n ${resetLink}\n
+    This reset password link will be valid only for 10 minutes.`;
+  
+    try {
+      await sendMail({
+        email,
+        subject : "Password change request",
+        message,
+      });
+
+      res.status(200).json({
+        success : true,
+        message  : "Passsword reset link has been successfully sent to the user", 
+      })
+    } catch (error) {
+      user.passwordResetToken = undefined,
+      user.passwordResetTokenExpires = undefined,
+
+      await user.save();
+
+      return res.status(500).json({
+        message : error.message + " Please try again"
+      });
+    }
+
+  } catch (error) {
+    
+  }
+}
+
+export const resetPassword = async (req,res)=>{
+
+}

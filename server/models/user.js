@@ -2,6 +2,7 @@ import mongoose, {Error, Schema} from "mongoose";
 import validator from "validator";
 import jwt from "jsonwebtoken"
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+import crypto from "crypto";
 
 const userSchema = new mongoose.Schema({
     name :{
@@ -39,7 +40,10 @@ const userSchema = new mongoose.Schema({
         validate(value){
             if(!validator.isURL(value)) throw new Error("Invalid photo url");
         }
-    }
+    },
+    passwordChangedAt : Date,
+    passwordResetToken : String,
+    passwordResetTokenExpires : Date,
 },{
     timestamps:true,
 });
@@ -50,6 +54,13 @@ userSchema.methods.getJWT= function(){
     return token;
 }
 
+userSchema.methods.createResetPasswordToken = function(){
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+    this.passwordResetTokenExpires = Date.now() + 10 * 60 * 1000;
+    
+    return resetToken;
+}
 
 export const User = mongoose.model("User",userSchema);
 
