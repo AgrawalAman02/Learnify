@@ -1,10 +1,12 @@
 import NavBar from '@/components/NavBar'
+import ScrollToTop from '@/components/ScrollToTop'
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 
 const MainLayout = () => {
   return (
     <div>
+        <ScrollToTop/>
         <NavBar/>
         <div className='mt-16'>
             <Outlet/>

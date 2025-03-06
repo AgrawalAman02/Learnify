@@ -36,35 +36,6 @@ const CourseDetails = () => {
       <CourseIntroSection course={course} />
       <div className="max-w-[75rem] mx-auto px-4 md:px-0 my-4 mt-8">
         <div className="flex flex-col md:flex-row items-start gap-8 md:gap-28 justify-between">
-          <div className="w-full md:w-1/2 flex flex-col gap-4 p-2">
-            <div className="text-2xl font-bold font-urbanist underline">Description</div>
-            <div dangerouslySetInnerHTML={{ __html: description }} />
-
-            <div className="border rounded-lg flex flex-col gap-2 p-4 px-6 shadow-lg ">
-              <h1 className="font-bold text-xl md:text-2xl">Course Content </h1>
-              <h4 className="mb-3 -mt-1 text-sm md:text-base">
-                {course?.lectures.length}{" "}
-                {course?.lectures.length > 1 ? "lectures" : "lecture"}
-              </h4>
-
-              <div>
-                {course?.lectures.map((lecture) => (
-                  <div
-                    key={lecture._id}
-                    className="flex gap-2 items-center mb-2 border p-2 rounded-xl"
-                  >
-                    {courseStatusData?.status === "captured" || lecture?.isPreviewFree ? (
-                      <PlayCircle size={16} />
-                    ) : (
-                      <Lock size={16} />
-                    )}
-                    <span>{lecture?.lectureTitle}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
           <div className="w-full  md:w-1/3">
             <Card>
               <CardContent className="p-4 flex flex-col ">
@@ -91,6 +62,36 @@ const CourseDetails = () => {
               </CardFooter>
             </Card>
           </div>
+
+          <div className="w-full md:w-1/2 flex flex-col gap-4 p-2">
+            <div className="text-2xl font-bold font-urbanist underline">Description</div>
+            <div dangerouslySetInnerHTML={{ __html: description }} />
+
+            <div className="border rounded-lg flex flex-col gap-1 p-4 px-6 shadow-lg ">
+              <h1 className="font-bold text-xl md:text-2xl">Course Content </h1>
+              <h4 className="mb-3 -mt-1 text-sm md:text-base">
+                {course?.lectures.length}{" "}
+                {course?.lectures.length > 1 ? "lectures" : "lecture"}
+              </h4>
+
+              <div className="h-40 overflow-y-auto scrollbar-hide">
+                {course?.lectures.map((lecture) => (
+                  <div
+                    key={lecture._id}
+                    className="flex gap-2 items-center mb-1 border p-2 rounded-xl"
+                  >
+                    {courseStatusData?.status === "captured" || lecture?.isPreviewFree ? (
+                      <PlayCircle size={16} />
+                    ) : (
+                      <Lock size={16} />
+                    )}
+                    <span>{lecture?.lectureTitle}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
