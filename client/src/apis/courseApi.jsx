@@ -52,11 +52,13 @@ export const courseApi = createApi({
       invalidatesTags : ["refetchListOfCourse"],
     }),
 
-    getPublishedCourse : builder.query({
-      query : ()=>({
-        url : "/getPublishedCourse",
-        method : "GET",
-      }),
+    getPublishedCourse: builder.query({
+      query: ({page = 1, limit = 8} = {}) => {
+        return {
+          url: `/getPublishedCourse?page=${page}&limit=${limit}`,
+          method: "GET",
+        };
+      },
     }),
 
     getCoursePurchasedDetails : builder.query({

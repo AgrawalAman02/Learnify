@@ -172,17 +172,33 @@ export const publishCourse = async (req,res)=>{
 
 export const getPublishedCourse = async (req, res) =>{
   try {
-    const courses =await Course.find({isPublished : true}).populate({path : "creator", select : "name photoUrl"});
+    const {page =1 , limit =8} = req.query;
+    const pageNum = parseInt(page) || 1;
+    const limitNum = parseInt(limit) || 8;
+    const skip = (pageNum-1) * limitNum;
+    const courses =await Course.find({isPublished : true})
+      .populate({path : "creator", select : "name photoUrl"})
+      .sort({ price: -1 } || {enrolledStudents :-1})
+      .skip(skip)
+      .limit(limitNum);
     
     if(!courses || courses.length == 0 ) return res.status(404).json({
       success : false,
       message : "No Course found",
     });
     
+    const total = await Course.countDocuments({isPublished: true});
+    
     return res.status(200).json({
       success : true,
       message : "Course Fetched Successfully...",
-      courses
+      courses,
+      pagination : {
+        total,
+        page : pageNum,
+        limit : limitNum,
+        pages : Math.ceil(total/limit),
+      }
     })
   } catch (error) {
     res.status(400).json({

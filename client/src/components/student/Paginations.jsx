@@ -9,10 +9,11 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import SearchSkeleton from "../SearchSkeleton";
+import ShimmerCard from "./ShimmerCard";
 
-const Paginations = ({ data, handlePage }) => {
+const Paginations = ({ data, handlePage,from }) => {
   if (!data) {
-    return <SearchSkeleton />;
+    return from==="home" ? <ShimmerCard/> : <SearchSkeleton />;
   }
   const { page: currPage, pages: totalPages } = data;
 

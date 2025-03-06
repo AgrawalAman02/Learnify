@@ -198,7 +198,7 @@ const handleSelectSuggestion = (suggestion) => {
           )}
         </div>
 
-        <Paginations data={data?.pagination} handlePage={handlePage}/>
+        <Paginations data={data?.pagination} handlePage={handlePage} from="search"/>
       </div>
 
       

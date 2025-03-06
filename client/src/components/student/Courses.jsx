@@ -1,18 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CoursesCard from "./CoursesCard";
 import ShimmerCard from "./ShimmerCard";
 import { useGetPublishedCourseQuery } from "@/apis/courseApi";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
+import Paginations from "./Paginations";
 
 const Courses = () => {
-  const { data, isLoading, error, isError } = useGetPublishedCourseQuery();
+  const [courseQuery , setCourseQuery] = useState({
+    page:1,
+    limit:8,
+  })
+  const { data, isLoading, error, isError } = useGetPublishedCourseQuery(courseQuery);
 
   useEffect(() => {
     if (isError) toast.error(error?.data?.message || "Error while fetching the course ");
   }, [isError, error]);
 
   const courses = data?.courses;
+
+  const handlePage =(newPage)=>{
+    setCourseQuery(prev=>({
+      ...prev,
+      page:newPage,
+    }))
+  }
 
   return (
     <div className="bg-gradient-to-b from-gray-50 to-white dark:from-slate-950 dark:to-slate-900 min-h-screen py-16">
@@ -70,6 +82,7 @@ const Courses = () => {
           ) : (
             <ShimmerCard />
           )}
+          <Paginations data={data?.pagination} handlePage={handlePage} from="home"/>
         </div>
       </div>
     </div>
