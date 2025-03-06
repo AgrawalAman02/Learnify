@@ -106,15 +106,21 @@ const VideoPlayer = () => {
           <ResizablePanelGroup direction="vertical">
             {/* right top panel */}
             <ResizablePanel defaultSize={20}>
-              <div className="flex h-full items-center justify-center my-auto p-6">
+              <div className="flex flex-col h-full items-center justify-start my-auto p-6">
                 <div className="flex justify-between mb-4 w-full max-h-full ">
-                  <h1 className="text-3xl font-urbanist font-bold">
+                  <h1 className="text-3xl font-urbanist font-bold underline underline-offset-2">
                     {course?.courseTitle || "Course Title"}
                   </h1>
                   <Button
                     onClick={isCompleted ? handleIncomplete : handleComplete}
                   
                   >{(marking || unmarking )? <><Loader2 className="w-8 h-8 animate-spin"/> Marking...</>:(localIsCompleted ? "Reset" : "Mark as Complete") } </Button>
+                </div>
+
+                <div className="flex items-center justify-start w-full px-4 font-lekton text-sm text-gray-700 dark:text-gray-300">
+                  <div>
+                    {course?.courseSubTitle? course?.courseSubTitle : ""}
+                  </div>
                 </div>
               </div>
             </ResizablePanel>

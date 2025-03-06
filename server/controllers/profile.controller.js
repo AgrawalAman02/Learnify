@@ -9,8 +9,7 @@ export const getProfile = async (req, res) => {
 
     const user = await User.findById(loggedInUser._id).populate({
       path : "enrolledAt",
-      select : "-password"
-    });
+    }).select("-password");
     res.send(user);
   } catch (error) {
     return res.status(400).json({
