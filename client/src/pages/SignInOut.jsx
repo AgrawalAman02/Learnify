@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import { BookOpenCheck } from "lucide-react";
-import ForgotPassword from "./ForgotPassword";
+import ForgotPassword from "../components/ForgotPassword";
 
 export function SignInOut() {
   const [signUpInput, setSignUpInput] = useState({

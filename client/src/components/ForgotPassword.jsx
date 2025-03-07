@@ -9,22 +9,27 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { Label } from "recharts";
 import { toast } from "sonner";
 
 const ForgotPassword = ({ setIsForget }) => {
-  const [forgetPassword , {data,isLoading , isSuccess, isError, error}] = useForgotPasswordMutation();
+  const [forgetPassword, { data, isLoading, isSuccess, isError, error }] =
+    useForgotPasswordMutation();
   const [email, setEmail] = useState("");
-  const buttonHandler =async()=>{
-    await forgetPassword({email});
-  }
-  useEffect(()=>{
-    if(isError) toast.error(error?.data?.message || error.message || "Error in sending link");
-    if(isSuccess) toast.success(data?.message || "Pssword reset link sent successfully...");
-  },[isSuccess, isError, error]);
+  const buttonHandler = async () => {
+    await forgetPassword({ email });
+  };
+  useEffect(() => {
+    if (isError)
+      toast.error(
+        error?.data?.message || error.message || "Error in sending link"
+      );
+    if (isSuccess)
+      toast.success(data?.message || "Pssword reset link sent successfully...");
+  }, [isSuccess, isError, error]);
 
   return (
     <div>
@@ -80,8 +85,7 @@ const ForgotPassword = ({ setIsForget }) => {
                hover:border-indigo-400 dark:bg-slate-800 dark:border-slate-700"
                   />
                 </div>
-                {
-                  /* {
+                {/* {
                     <div className="space-y-1">
                       <Label
                         htmlFor="newPassword"
@@ -100,8 +104,7 @@ const ForgotPassword = ({ setIsForget }) => {
                           hover:border-indigo-400 dark:bg-slate-800 dark:border-slate-700"
                       />
                     </div>
-                  } */
-                }
+                  } */}
               </CardContent>
               <CardFooter className="flex justify-end">
                 <Button
@@ -109,7 +112,14 @@ const ForgotPassword = ({ setIsForget }) => {
                   onClick={() => buttonHandler()}
                   className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white"
                 >
-                  Send Link
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="w-8 h-8 animate-spin" />{" "}
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    <span>Send Link</span>
+                  )}
                 </Button>
               </CardFooter>
             </Card>

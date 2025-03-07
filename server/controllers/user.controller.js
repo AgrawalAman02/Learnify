@@ -102,7 +102,7 @@ export const forgotPassword = async (req,res)=>{
   
     await user.save();
   
-    const resetLink = `${req.protocol}://${req.get('host')}/api/v1/user/resetPassword/${resetToken}`
+    const resetLink = `${process.env.CLIENT_URL}/resetPassword/${resetToken}`
     const message =`Sir/Madam,\n    We have received your pasword reset request. Please use the below link to reset the password.\n\n ${resetLink}\n
     This reset password link will be valid only for 10 minutes.`;
   
