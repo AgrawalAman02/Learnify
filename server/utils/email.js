@@ -44,11 +44,16 @@ export const sendMail = async (option)=>{
                 .button {
                     display: inline-block;
                     background-color: #4f46e5;
-                    color: white;
+                    color: white !important; /* Force white color with !important */
                     padding: 10px 20px;
                     margin: 20px 0;
                     text-decoration: none;
                     border-radius: 5px;
+                    font-weight: bold; /* Make the text bold for better visibility */
+                }
+                /* Override any client styling for the button text */
+                .button span {
+                    color: white !important;
                 }
                 a {
                     color: #4f46e5;
@@ -64,7 +69,9 @@ export const sendMail = async (option)=>{
                     <p>Dear User,</p>
                     <p>We have received your password reset request. Please click the button below to reset your password:</p>
                     <p style="text-align: center;">
-                        <a href="${option.resetLink || '#'}" class="button">Reset Password</a>
+                        <a href="${option.resetLink || '#'}" class="button" style="color: white !important; background-color: #4f46e5; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-weight: bold;">
+                            <span style="color: white !important;">Reset Password</span>
+                        </a>
                     </p>
                     <p>If the button doesn't work, you can copy and paste this link into your browser:</p>
                     <p><a href="${option.resetLink || '#'}">${option.resetLink || '#'}</a></p>
