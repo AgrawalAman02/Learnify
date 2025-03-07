@@ -19,6 +19,7 @@ import VideoPlayer from "./pages/student/VideoPlayer";
 import Search from "./pages/student/Search";
 import { AdminUser, AuthenticatedUser, ProtectedRoute } from "./components/ProtectedRoute";
 import { ProtectPurchasedPage } from "./components/ProtectPurchasedPage";
+import ForgotPassword from "./pages/ForgotPassword";
 
 const appRouter = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/auth",
         element: <AuthenticatedUser><SignInOut /></AuthenticatedUser>,
+      },
+      {
+        path: "/forgetPassword",
+        element: <AuthenticatedUser><ForgotPassword /></AuthenticatedUser>,
       },
       {
         path: "/learning",

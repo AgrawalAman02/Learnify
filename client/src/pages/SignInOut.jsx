@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import { BookOpenCheck } from "lucide-react";
+import ForgotPassword from "./ForgotPassword";
 
 export function SignInOut() {
   const [signUpInput, setSignUpInput] = useState({
@@ -51,6 +52,12 @@ export function SignInOut() {
   ] = useLoginUserMutation();
 
   const navigate = useNavigate();
+  const [isForget, setIsForget] = useState(false);
+  const handleForgetPassword =()=>{
+    setIsForget(true);
+    // navigate("/forgotPassword");
+  }
+  
   useEffect(() => {
     if (isRegisterSuccess && registerData) {
       toast.success(registerData?.message || "User sign-up successful!");
@@ -129,7 +136,7 @@ export function SignInOut() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4 }}
         >
-          <Tabs defaultValue="signIn" className="w-full">
+          {!isForget ? <Tabs defaultValue="signIn" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-6">
               <TabsTrigger
                 value="signIn"
@@ -176,7 +183,7 @@ export function SignInOut() {
                hover:border-indigo-400 dark:bg-slate-800 dark:border-slate-700"
                       />
                     </div>
-                    <div className="space-y-1">
+                    {<div className="space-y-1">
                       <Label
                         htmlFor="password"
                         className="text-sm font-medium text-gray-700 dark:text-gray-300"
@@ -193,7 +200,13 @@ export function SignInOut() {
                         className="transition-all duration-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 
                hover:border-indigo-400 dark:bg-slate-800 dark:border-slate-700"
                       />
+                    </div>}
+
+                    {/* ***************** FORGET PASSWORD ***********************  */}
+                     <div>
+                      <p className="text-sm font-medium text-blue-700 dark:text-blue-300 hover:underline cursor-pointer" onClick={()=>handleForgetPassword()}>Forgot password?</p>
                     </div>
+
                   </CardContent>
                   <CardFooter className="flex justify-end">
                     <Button
@@ -297,7 +310,7 @@ export function SignInOut() {
                 </Card>
               </TabsContent>
             </div>
-          </Tabs>
+          </Tabs> : <ForgotPassword setIsForget={setIsForget}/>}
         </motion.div>
       </div>
     </motion.div>

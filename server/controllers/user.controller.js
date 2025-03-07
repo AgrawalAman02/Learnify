@@ -93,7 +93,7 @@ export const forgotPassword = async (req,res)=>{
     const user = await User.findOne({
       email
     });
-    if(!user) res.status(404).json({
+    if(!user) return res.status(404).json({
       success : false ,
       message : "User don't exist...",
     });
@@ -113,7 +113,7 @@ export const forgotPassword = async (req,res)=>{
         message,
       });
 
-      res.status(200).json({
+      return res.status(200).json({
         success : true,
         message  : "Passsword reset link has been successfully sent to the user", 
       })
