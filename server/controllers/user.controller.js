@@ -112,6 +112,7 @@ export const forgotPassword = async (req,res)=>{
         email,
         subject : "Password change request",
         message,
+        resetLink
       });
 
       return res.status(200).json({
