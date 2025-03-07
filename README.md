@@ -3,19 +3,19 @@
 ![Learnify Logo](https://img.freepik.com/free-psd/3d-rendering-boy-avatar-emoji_23-2150603408.jpg?w=200)
 
 ## Table of Contents
-- Introduction
-- Features
-- Technology Stack
-- Architecture
-- Installation
-- Environment Variables
-- API Documentation
-- Directory Structure
-- Data Flow
-- Entity Relationships
-- Screenshots
-- Contributing
-- License
+- [Introduction](#introduction)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Architecture & Data Flow](#architecture--data-flow)
+- [API Documentation](#api-documentation)
+- [Entity Relationships](#entity-relationships)
+- [Directory Structure](#directory-structure)
+- [Environment Variables](#environment-variables)
+- [Screenshots](#screenshots)
+- [Contributing](#contributing)
+- [License](#license)
+- [Client Documentation](#client-documentation)
+- [Server Documentation](#server-documentation)
 
 ## Introduction
 
