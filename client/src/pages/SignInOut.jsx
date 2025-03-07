@@ -136,181 +136,185 @@ export function SignInOut() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4 }}
         >
-          {!isForget ? <Tabs defaultValue="signIn" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-6">
-              <TabsTrigger
-                value="signIn"
-                className="data-[state=active]:bg-indigo-600 data-[state=active]:text-white dark:data-[state=active]:bg-indigo-500"
-              >
-                Sign In
-              </TabsTrigger>
-              <TabsTrigger
-                value="signUp"
-                className="data-[state=active]:bg-indigo-600 data-[state=active]:text-white dark:data-[state=active]:bg-indigo-500"
-              >
-                Sign Up
-              </TabsTrigger>
-            </TabsList>
+          {!isForget ? 
+            <Tabs defaultValue="signIn" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 mb-6">
+                <TabsTrigger
+                  value="signIn"
+                  className="data-[state=active]:bg-indigo-600 data-[state=active]:text-white dark:data-[state=active]:bg-indigo-500"
+                >
+                  Sign In
+                </TabsTrigger>
+                <TabsTrigger
+                  value="signUp"
+                  className="data-[state=active]:bg-indigo-600 data-[state=active]:text-white dark:data-[state=active]:bg-indigo-500"
+                >
+                  Sign Up
+                </TabsTrigger>
+              </TabsList>
 
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg blur opacity-10" />
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg blur opacity-10" />
 
-              <TabsContent value="signIn">
-                <Card className="border-0 shadow-xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
-                  {/* ...existing SignIn Card content... */}
-                  <CardHeader>
-                    <CardTitle>Sign In to Your Account</CardTitle>
-                    <CardDescription>
-                    Continue your learning journey and access your enrolled courses.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-2">
-                    <div className="space-y-1">
-                      <Label
-                        htmlFor="email"
-                        className="text-sm font-medium text-gray-700 dark:text-gray-300"
-                      >
-                        Email
-                      </Label>
-                      <Input
-                        type="email"
-                        id="email"
-                        onChange={(e) => changeInputHandler(e, "signIn")}
-                        value={signInInput.email}
-                        placeholder="you@example.com"
-                        name="email"
-                        className="transition-all duration-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 
-               hover:border-indigo-400 dark:bg-slate-800 dark:border-slate-700"
-                      />
-                    </div>
-                    {<div className="space-y-1">
-                      <Label
-                        htmlFor="password"
-                        className="text-sm font-medium text-gray-700 dark:text-gray-300"
-                      >
-                        Password
-                      </Label>
-                      <Input
-                        type="password"
-                        id="password"
-                        placeholder="••••••••"
-                        onChange={(e) => changeInputHandler(e, "signIn")}
-                        value={signInInput.password}
-                        name="password"
-                        className="transition-all duration-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 
-               hover:border-indigo-400 dark:bg-slate-800 dark:border-slate-700"
-                      />
-                    </div>}
+                <TabsContent value="signIn">
+                  <Card className="border-0 shadow-xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
+                    {/* ...existing SignIn Card content... */}
+                    <CardHeader>
+                      <CardTitle>Sign In to Your Account</CardTitle>
+                      <CardDescription>
+                      Continue your learning journey and access your enrolled courses.
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      <div className="space-y-1">
+                        <Label
+                          htmlFor="email"
+                          className="text-sm font-medium text-gray-700 dark:text-gray-300"
+                        >
+                          Email
+                        </Label>
+                        <Input
+                          type="email"
+                          id="email"
+                          onChange={(e) => changeInputHandler(e, "signIn")}
+                          value={signInInput.email}
+                          placeholder="you@example.com"
+                          name="email"
+                          className="transition-all duration-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 
+                hover:border-indigo-400 dark:bg-slate-800 dark:border-slate-700"
+                        />
+                      </div>
+                      {<div className="space-y-1">
+                        <Label
+                          htmlFor="password"
+                          className="text-sm font-medium text-gray-700 dark:text-gray-300"
+                        >
+                          Password
+                        </Label>
+                        <Input
+                          type="password"
+                          id="password"
+                          placeholder="••••••••"
+                          onChange={(e) => changeInputHandler(e, "signIn")}
+                          value={signInInput.password}
+                          name="password"
+                          className="transition-all duration-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 
+                hover:border-indigo-400 dark:bg-slate-800 dark:border-slate-700"
+                        />
+                      </div>}
 
-                    {/* ***************** FORGET PASSWORD ***********************  */}
-                     <div>
-                      <p className="text-sm font-medium text-blue-700 dark:text-blue-300 hover:underline cursor-pointer" onClick={()=>handleForgetPassword()}>Forgot password?</p>
-                    </div>
+                      {/* ***************** FORGET PASSWORD ***********************  */}
+                      <div>
+                        <p className="text-sm font-medium text-blue-700 dark:text-blue-300 hover:underline cursor-pointer" onClick={()=>handleForgetPassword()}>Forgot password?</p>
+                      </div>
 
-                  </CardContent>
-                  <CardFooter className="flex justify-end">
-                    <Button
-                      disabled={isLoginLoading}
-                      onClick={() => buttonHandler("signIn")}
-                      className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white"
-                    >
-                      {isLoginLoading ? (
-                        <div className="flex items-center">
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Signing in...
-                        </div>
-                      ) : (
-                        "Sign In"
-                      )}
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </TabsContent>
+                    </CardContent>
+                    <CardFooter className="flex justify-end">
+                      <Button
+                        disabled={isLoginLoading}
+                        onClick={() => buttonHandler("signIn")}
+                        className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white"
+                      >
+                        {isLoginLoading ? (
+                          <div className="flex items-center">
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Signing in...
+                          </div>
+                        ) : (
+                          "Sign In"
+                        )}
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                </TabsContent>
 
-              <TabsContent value="signUp">
-                <Card className="border-0 shadow-xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
-                  {/* ...existing SignUp Card content... */}
-                  <CardHeader>
-                    <CardTitle>Start Learning Today</CardTitle>
-                    <CardDescription>
-                    Join our community of learners and unlock access to premium courses.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-2">
-                    <div className="space-y-1">
-                      <Label
-                        htmlFor="name"
-                        className="text-sm font-medium text-gray-700 dark:text-gray-300"
+                <TabsContent value="signUp">
+                  <Card className="border-0 shadow-xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
+                    {/* ...existing SignUp Card content... */}
+                    <CardHeader>
+                      <CardTitle>Start Learning Today</CardTitle>
+                      <CardDescription>
+                      Join our community of learners and unlock access to premium courses.
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      <div className="space-y-1">
+                        <Label
+                          htmlFor="name"
+                          className="text-sm font-medium text-gray-700 dark:text-gray-300"
+                        >
+                          Name
+                        </Label>
+                        <Input
+                          id="name"
+                          value={signUpInput.name}
+                          onChange={(e) => changeInputHandler(e, "signUp")}
+                          placeholder="Enter Your Name"
+                          name="name"
+                          className="transition-all duration-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 
+                hover:border-indigo-400 dark:bg-slate-800 dark:border-slate-700"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <Label
+                          htmlFor="email"
+                          className="text-sm font-medium text-gray-700 dark:text-gray-300"
+                        >
+                          Email
+                        </Label>
+                        <Input
+                          type="email"
+                          value={signUpInput.email}
+                          onChange={(e) => changeInputHandler(e, "signUp")}
+                          id="email"
+                          placeholder="you@example.com"
+                          name="email"
+                          className="transition-all duration-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 
+                hover:border-indigo-400 dark:bg-slate-800 dark:border-slate-700"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <Label
+                          htmlFor="password"
+                          className="text-sm font-medium text-gray-700 dark:text-gray-300"
+                        >
+                          Password
+                        </Label>
+                        <Input
+                          type="password"
+                          id="password"
+                          placeholder="••••••••"
+                          value={signUpInput.password}
+                          onChange={(e) => changeInputHandler(e, "signUp")}
+                          name="password"
+                          className="transition-all duration-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 
+                hover:border-indigo-400 dark:bg-slate-800 dark:border-slate-700"
+                        />
+                      </div>
+                    </CardContent>
+                    <CardFooter className="flex justify-end">
+                      <Button
+                        disabled={isRegisterLoading}
+                        onClick={() => buttonHandler("signUp")}
+                        className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white"
                       >
-                        Name
-                      </Label>
-                      <Input
-                        id="name"
-                        value={signUpInput.name}
-                        onChange={(e) => changeInputHandler(e, "signUp")}
-                        placeholder="Enter Your Name"
-                        name="name"
-                        className="transition-all duration-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 
-               hover:border-indigo-400 dark:bg-slate-800 dark:border-slate-700"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <Label
-                        htmlFor="email"
-                        className="text-sm font-medium text-gray-700 dark:text-gray-300"
-                      >
-                        Email
-                      </Label>
-                      <Input
-                        type="email"
-                        value={signUpInput.email}
-                        onChange={(e) => changeInputHandler(e, "signUp")}
-                        id="email"
-                        placeholder="you@example.com"
-                        name="email"
-                        className="transition-all duration-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 
-               hover:border-indigo-400 dark:bg-slate-800 dark:border-slate-700"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <Label
-                        htmlFor="password"
-                        className="text-sm font-medium text-gray-700 dark:text-gray-300"
-                      >
-                        Password
-                      </Label>
-                      <Input
-                        type="password"
-                        id="password"
-                        placeholder="••••••••"
-                        value={signUpInput.password}
-                        onChange={(e) => changeInputHandler(e, "signUp")}
-                        name="password"
-                        className="transition-all duration-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 
-               hover:border-indigo-400 dark:bg-slate-800 dark:border-slate-700"
-                      />
-                    </div>
-                  </CardContent>
-                  <CardFooter className="flex justify-end">
-                    <Button
-                      disabled={isRegisterLoading}
-                      onClick={() => buttonHandler("signUp")}
-                      className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white"
-                    >
-                      {isRegisterLoading ? (
-                        <div className="flex items-center">
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Creating account...
-                        </div>
-                      ) : (
-                        "Create Account"
-                      )}
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </TabsContent>
-            </div>
-          </Tabs> : <ForgotPassword setIsForget={setIsForget}/>}
+                        {isRegisterLoading ? (
+                          <div className="flex items-center">
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Creating account...
+                          </div>
+                        ) : (
+                          "Create Account"
+                        )}
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                </TabsContent>
+              </div>
+            </Tabs> 
+            : 
+            <ForgotPassword setIsForget={setIsForget}/>
+          }
         </motion.div>
       </div>
     </motion.div>

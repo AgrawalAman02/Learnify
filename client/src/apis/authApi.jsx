@@ -67,11 +67,22 @@ export const authApi = createApi({
         }),
 
         resetPassword : builder.mutation({
-            query : (data)=>({
-                url : "resetPassword",
+            query : ({password, cnfPassword, token})=>({
+                url : `resetPassword/${token}`,
                 method : "PATCH",
-                body : data,
+                body : {password, cnfPassword},
             }),
+            async onQueryStarted(_, {queryFulfilled, dispatch}) {
+                try {
+                  const result = await queryFulfilled;
+                  // Check if result has user data
+                  if (result?.data) {
+                    dispatch(addLoggedInUser({ user: result.data }));
+                  }
+                } catch (error) {
+                  console.log(error);
+                }
+              }
         })
     })
 })

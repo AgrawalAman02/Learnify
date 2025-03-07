@@ -1,6 +1,6 @@
 import { User } from "../models/user.js";
 import { sendMail } from "../utils/email.js";
-import { validateSignUP } from "../utils/validate.js";
+import { validateEmail, validateNewPassword, validateSignUP } from "../utils/validate.js";
 import bcrypt from "bcryptjs";
 import validator from "validator";
 import crypto from 'crypto'
@@ -90,6 +90,7 @@ export const logout = (req, res) => {
 export const forgotPassword = async (req,res)=>{
   try {
     const{ email} = req.body;
+    validateEmail(email);
     const user = await User.findOne({
       email
     });
@@ -115,7 +116,7 @@ export const forgotPassword = async (req,res)=>{
 
       return res.status(200).json({
         success : true,
-        message  : "Passsword reset link has been successfully sent to the user", 
+        message  : "Passsword reset link has been successfully sent to the your email", 
       })
     } catch (error) {
       user.passwordResetToken = undefined,
@@ -124,6 +125,7 @@ export const forgotPassword = async (req,res)=>{
       await user.save();
 
       return res.status(500).json({
+        success : false,
         message : error.message + " Please try again"
       });
     }
@@ -138,6 +140,9 @@ export const forgotPassword = async (req,res)=>{
 
 export const resetPassword = async (req,res)=>{
   try {
+    //validating the request
+    validateNewPassword(req);
+
     const token = crypto.createHash('sha256').update(req.params.token).digest("hex");
     const user = await User.findOne({passwordResetToken : token, passwordResetTokenExpires :{$gt : Date.now()}});
   
@@ -145,13 +150,7 @@ export const resetPassword = async (req,res)=>{
       success : false,
       message : "Can't verify your Password. May the link expires Please try again...",
     });
-  
-    const {password , confirmPassword } = req.body;
-    if(password !== confirmPassword) return res.status(400).json({
-      success : false ,
-      message : "Password not matched...",
-    });
-  
+    const { password } = req.body;
     user.password = await bcrypt.hash(password,10);
     user.passwordResetToken = undefined;
     user.passwordResetTokenExpires = undefined;
@@ -171,7 +170,7 @@ export const resetPassword = async (req,res)=>{
 
   
     return res.status(200).json({
-      savedUser,
+      ...savedUser.toJSON(),
       success : true,
       message : "Password Changed Successfully",
       // token
