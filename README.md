@@ -1,6 +1,7 @@
 # Learnify: A Learning Management System
-
-![Learnify Logo](https://img.freepik.com/free-psd/3d-rendering-boy-avatar-emoji_23-2150603408.jpg?w=200)
+<!-- 
+![Learnify Logo](https://img.freepik.com/free-psd/3d-rendering-boy-avatar-emoji_23-2150603408.jpg?w=200) 
+-->
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -99,7 +100,6 @@ Learnify follows a client-server architecture with a RESTful API backend:
 │             │      │             │      │             │
 └─────────────┘      └─────────────┘      └─────────────┘
 ```
-
 - **Frontend**: Single Page Application built with React and Redux
 - **Backend**: RESTful API built with Express.js
 - **Database**: MongoDB document storage with Mongoose schemas
@@ -143,8 +143,8 @@ VITE_SERVER_URL=http://localhost:5000/api/v1/
 
 ### Server (.env)
 ```
-PORT=5000
-MONGODB_URI=mongodb://localhost:27017/learnify
+PORT
+MONGODB_URI=mongodb://yourMongoDb_URI
 JWT_SECRET_KEY=your_jwt_secret_key
 CLIENT_URL=http://localhost:5173
 GMAIL_EMAIL=your_email@gmail.com
@@ -200,7 +200,7 @@ CLOUDINARY_API_SECRET=your_cloudinary_secret
 
 ## Directory Structure
 
-```
+```bash
 learnify/
 │
 ├── client/                # Frontend React application
@@ -233,20 +233,7 @@ learnify/
 
 ## Entity Relationships
 
-```
-┌──────────┐       ┌──────────┐       ┌─────────┐
-│          │       │          │       │         │
-│   User   │───┬───│  Course  │───────│ Lecture │
-│          │   │   │          │       │         │
-└──────────┘   │   └──────────┘       └─────────┘
-    │          │        │                  │
-    │          │        │                  │
-┌──────────┐   │   ┌──────────┐       ┌─────────────────┐
-│          │   │   │          │       │                 │
-│ Payment  │   └───│ Progress │───────│ LectureProgress │
-│          │       │          │       │                 │
-└──────────┘       └──────────┘       └─────────────────┘
-```
+![ER diagram](image.png)
 
 - **User**: Basic profile information, role (Student/Instructor)
 - **Course**: Course details, creator reference, enrolled students, lectures list

@@ -26,7 +26,7 @@ The Learnify server is a Node.js application built with Express.js. It provides 
 
 ## Directory Structure
 
-```
+```bash
 server/
 ├── config/            # Configuration files
 │   └── database.js    # MongoDB connection
@@ -34,15 +34,17 @@ server/
 │   ├── course.controller.js   # Course-related controllers
 │   ├── lecture.controller.js  # Lecture-related controllers
 │   ├── payment.controller.js  # Payment-related controllers
+│   ├── courseProgress.controller.js  # Course Progress-related controllers
 │   ├── profile.controller.js  # User profile-related controllers
 │   └── user.controller.js      # User authentication-related controllers
 ├── middlewares/       # Custom middleware
 │   └── userAuth.js      # User authentication middleware
 ├── models/            # Mongoose models
-│   ├── course.js        # Course model
-│   ├── lecture.js       # Lecture model
-│   ├── payment.js       # Payment model
-│   └── user.js          # User model
+│   ├── course.js           # Course model
+│   ├── courseProgress.js   # Course Progress-related controllers
+│   ├── lecture.js          # Lecture model
+│   ├── payment.js          # Payment model
+│   └── user.js             # User model
 ├── routes/            # API routes
 │   ├── course.routes.js       # Course routes
 │   ├── courseProgress.routes.js # Course progress routes
@@ -51,10 +53,12 @@ server/
 │   ├── profile.routes.js      # User profile routes
 │   └── user.routes.js         # User authentication routes
 ├── utils/             # Utility functions
-│   ├── cloudinary.js    # Cloudinary integration
-│   ├── email.js         # Email sending
-│   ├── multer.js        # Multer configuration for file uploads
-│   └── passwordResetLimiter.js # Rate limiter for password reset
+│   ├── cloudinary.js               # Cloudinary integration
+│   ├── email.js                    # Email sending
+│   ├── multer.js                   # Multer configuration for file uploads
+│   ├── validate.js                 # Validation for user
+│   ├── validateWebhookSignature.js # Webhook Validation
+│   └── passwordResetLimiter.js     # Rate limiter for password reset
 ├── .env               # Environment variables
 ├── .gitignore         # Git ignore file
 ├── package.json       # Dependencies and scripts
@@ -82,7 +86,7 @@ npm install
 Create a `.env` file in the `server` directory and add the following:
 ```
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/learnify
+MONGODB_URI=mongodb://your mongo db uri
 JWT_SECRET_KEY=your_jwt_secret_key
 CLIENT_URL=http://localhost:5173
 GMAIL_EMAIL=your_email@gmail.com

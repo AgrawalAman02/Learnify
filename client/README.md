@@ -26,17 +26,24 @@ The Learnify client is a React-based Single Page Application (SPA) built with Vi
 
 ## Directory Structure
 
-```
+```bash
 client/
 ├── public/            # Static assets
 ├── src/               # Source files
 │   ├── apis/          # API services using RTK Query
+│   ├── assets/        # Assets like images
 │   ├── components/    # Reusable components
+│   ├── hooks/         # Custom hooks
 │   ├── Layout/        # Layout components
 │   ├── lib/           # Utility functions
 │   ├── pages/         # Page components
-│   └── store/         # Redux store configuration
+│   ├── store/         # Redux store configuration
+│   ├── App.css        
+│   ├── App.jsx        
+│   ├── index.css
+│   └── main.jsx       
 ├── .env               # Environment variables
+├── components.json    # Components aliases
 ├── index.html         # Main HTML file
 ├── jsconfig.json      # JSConfig for path aliases
 ├── package.json       # Dependencies and scripts
@@ -81,10 +88,10 @@ yarn dev
 
 ### apis/
 - **authApi.jsx**: Authentication-related API endpoints (register, login, logout, forgotPassword, resetPassword).
-- **profileApi.jsx**: User profile-related API endpoints (getProfile, updateProfile, instructor).
-- **courseApi.jsx**: Course-related API endpoints (addCourse, getCourse, updateCourse, publishCourse, getPublishedCourse, createLecture, getLecture, editLecture, deleteLecture).
-- **paymentApi.jsx**: Payment-related API endpoints (createOrder, verifyPayment, getCoursePaymentStatus).
+- **courseApi.jsx**: Course-related API endpoints (addCourse, getCourse, updateCourse, publishCourse, getPublishedCourse, createLecture, getLecture, editLecture, deleteLecture,etc).
 - **courseProgressApi.jsx**: Course progress-related API endpoints (getCourseProgress, updateLectureProgress, markAsComplete, markAsIncomplete).
+- **paymentApi.jsx**: Payment-related API endpoints (createOrder, getCoursePaymentStatus).
+- **profileApi.jsx**: User profile-related API endpoints (getProfile, updateProfile, instructor).
 
 ### components/
 - **ui/**: Reusable UI components built with shadcn/ui.
@@ -94,7 +101,7 @@ yarn dev
 ### pages/
 - **SignInOut.jsx**: Sign-in and sign-up page.
 - **student/**: Pages for student-related features (HomePage, MyLearning, EditProfile, CourseDetails, VideoPlayer, Search).
-- **admin/**: Pages for admin-related features (SideBar, CourseTable, DashBoard, AddCourse, EditCourse, CreateLecture, EditLecture).
+- **admin/**: Pages for admin-related features (SideBar, CourseTable, DashBoard, AddCourse, EditCourse, CreateLecture, EditLecture,etc).
 
 ### store/
 - **appStore.jsx**: Redux store configuration.
