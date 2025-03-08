@@ -9,14 +9,11 @@
 - [Technology Stack](#technology-stack)
 - [Architecture & Data Flow](#architecture--data-flow)
 - [API Documentation](#api-documentation)
-- [Entity Relationships](#entity-relationships)
+- [Entity Relationships (ER Diagram)](#entity-relationships)
 - [Directory Structure](#directory-structure)
 - [Environment Variables](#environment-variables)
-- [Screenshots](#screenshots)
+- [Glimpse of UI](#glimpse-of-ui)
 - [Contributing](#contributing)
-- [License](#license)
-- [Client Documentation](#client-documentation)
-- [Server Documentation](#server-documentation)
 
 ## Introduction
 
@@ -42,17 +39,19 @@ Learnify is a comprehensive Learning Management System (LMS) designed to provide
 - Edit course details and content
 - Dashboard with sales analytics and statistics
 - Course management tools
-
+<!-- 
 ### Administrative Features
 - User management
 - Course analytics dashboard
-- Statistical insights for revenue tracking
+- Statistical insights for revenue tracking -->
 
 ### System Features
 - JWT-based authentication
 - Role-based access controls
 - Responsive UI with dark/light mode
 - Email notifications for password reset
+
+### `Wait for exciting features in future updates...`
 
 ## Technology Stack
 
@@ -233,7 +232,7 @@ learnify/
 
 ## Entity Relationships
 
-![ER diagram](image.png)
+![ER diagram](./screenshots-and-diagrams/image.png)
 
 - **User**: Basic profile information, role (Student/Instructor)
 - **Course**: Course details, creator reference, enrolled students, lectures list
@@ -241,22 +240,31 @@ learnify/
 - **Payment**: Course purchase records, payment status
 - **Progress**: Course completion status, viewed lectures
 
-## Screenshots
+## Glimpse of UI
 
-![Homepage](https://via.placeholder.com/800x450?text=Homepage)
+![Homepage](./screenshots-and-diagrams/Home.png)
 *Homepage with featured courses*
 
-![Course Details](https://via.placeholder.com/800x450?text=Course+Details)
+![Search Page](./screenshots-and-diagrams/SearchPage.png)
+*Search Page with pagination*
+
+![Course Details](./screenshots-and-diagrams/CourseDetails.png)
 *Course details page with enrollment options*
 
-![Video Player](https://via.placeholder.com/800x450?text=Video+Player)
-*Course video player with progress tracking*
-
-![Instructor Dashboard](https://via.placeholder.com/800x450?text=Instructor+Dashboard)
+![Instructor Dashboard](./screenshots-and-diagrams/InstructorDashboard.png)
 *Instructor dashboard with analytics*
 
-![Course Creation](https://via.placeholder.com/800x450?text=Course+Creation)
-*Course creation interface*
+![AuthPage](./screenshots-and-diagrams/Auth.png)![AuthMobileView](./screenshots-and-diagrams/AuthMobileView.png)
+*AuthPage with responsive layout*
+
+![Edit Profile](./screenshots-and-diagrams/Profile.png)
+*Edit Profile Page*
+
+![Video Player](./screenshots-and-diagrams/VideoPlayer.png)
+*Course video player with progress tracking*
+
+![Course Created By Instructor](./screenshots-and-diagrams/InstructorCourses.png)
+*Course Page created by Instructor*
 
 ## Contributing
 
@@ -270,7 +278,6 @@ Contributions are welcome! Please follow these steps:
 6. Open a Pull Request
 
 Please ensure your code follows the project's style guidelines and includes appropriate tests.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+```
+                                 Thanks
+```
