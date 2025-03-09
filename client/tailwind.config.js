@@ -14,6 +14,8 @@ module.exports = {
 			silkscreen: ['Silkscreen', 'sans-serif'],
 			urbanist: ['Urbanist', 'sans-serif'],
 			outfit: ['Outfit', 'sans-serif'],
+			questrial: ['Questrial', 'sans-serif'],
+            montserrat: ['Montserrat', 'sans-serif'],
 		},
   		borderRadius: {
   			lg: 'var(--radius)',

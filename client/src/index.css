@@ -2,10 +2,26 @@
 @import '@fontsource/outfit/500.css';
 @import '@fontsource/outfit/600.css';
 @import '@fontsource/outfit/700.css';
+/* Add new font imports */
+@import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 /* ... */
+
+/* Add your font classes */
+.questrial {
+  font-family: "Questrial", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.montserrat {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
 
 @layer base {
   :root {
