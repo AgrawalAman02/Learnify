@@ -11,6 +11,11 @@ import LoaderSpinner from "../LoaderSpinner";
 const EditProfile = () => {
   const {data,isLoading,isError,refetch}  = useGetUserQuery();
   const loggedInUser= useSelector((store)=>store.auth.user);
+  // Force refetch when component mounts
+  useEffect(() => {
+   refetch();
+ }, [refetch]);
+ 
   if (isLoading) {
     return <div className="flex justify-center mt-20 animate-spin mx-auto"> <Loader2/> </div> ;
   }
@@ -19,11 +24,6 @@ const EditProfile = () => {
     return <p>Error fetching user data: {isError.message}</p>;
   }
 
-   // Force refetch when component mounts
-   useEffect(() => {
-    refetch();
-  }, [refetch]);
-  
   const userData = data || loggedInUser;
 
   if(!userData) return <LoaderSpinner/>
