@@ -7,9 +7,9 @@
 - [Introduction](#introduction)
 - [Features](#features)
 - [Technology Stack](#technology-stack)
-- [Architecture & Data Flow](#architecture--data-flow)
-- [API Documentation](#api-documentation)
+- [Architecture & Data Flow](#architecture)
 - [Entity Relationships (ER Diagram)](#entity-relationships)
+- [API Documentation](#api-documentation)
 - [Directory Structure](#directory-structure)
 - [Environment Variables](#environment-variables)
 - [Glimpse of UI](#glimpse-of-ui)
@@ -104,56 +104,30 @@ Learnify follows a client-server architecture with a RESTful API backend:
 - **Database**: MongoDB document storage with Mongoose schemas
 - **External Services**: Cloudinary, Razorpay, Gmail
 
-## Installation
+## Data Flow
 
-### Prerequisites
-- Node.js (v16+)
-- MongoDB
-- Git
+1. **Authentication Flow**:
+   - User registers/logs in → JWT token generated → Token stored in cookie
+   - Protected routes check JWT token validity → Access granted/denied
 
-### Clone the Repository
-```bash
-git clone https://github.com/yourusername/learnify.git
-cd learnify
-```
+2. **Course Creation Flow**:
+   - Instructor creates course → Uploads thumbnail → Adds lectures
+   - Videos uploaded to Cloudinary → URLs stored in database
+   - Course published → Available to students
 
-### Setup Server
-```bash
-cd server
-npm install
-cp .env.example .env  # Create and configure your env file
-npm run dev
-```
+3. **Enrollment Flow**:
+   - Student browses courses → Selects course → Creates payment order
+   - Payment processed via Razorpay → Webhook verifies payment
+   - Course added to student's enrolled courses → Progress tracking created
 
-### Setup Client
-```bash
-cd client
-npm install
-cp .env.example .env  # Create and configure your env file
-npm run dev
-```
+4. **Learning Flow**:
+   - Student accesses enrolled course → Watches lectures → Progress tracked
+   - Lecture marked as viewed → Course completion status updated
+   - Student can mark course as complete/incomplete
 
-## Environment Variables
+## Entity Relationships
 
-### Client (.env)
-```
-VITE_SERVER_URL=http://localhost:5000/api/v1/
-```
-
-### Server (.env)
-```
-PORT
-MONGODB_URI=mongodb://yourMongoDb_URI
-JWT_SECRET_KEY=your_jwt_secret_key
-CLIENT_URL=http://localhost:5173
-GMAIL_EMAIL=your_email@gmail.com
-GMAIL_APP_PASSWORD=your_app_password
-RAZORPAY_KEY_ID=your_razorpay_key
-RAZORPAY_KEY_SECRET=your_razorpay_secret
-CLOUDINARY_CLOUD_NAME=your_cloudinary_name
-CLOUDINARY_API_KEY=your_cloudinary_key
-CLOUDINARY_API_SECRET=your_cloudinary_secret
-```
+![ER diagram](./screenshots-and-diagrams/image.png)
 
 ## API Documentation
 
@@ -209,36 +183,33 @@ learnify/
     └── [Server README](./server/README.md)
 ```
 
-## Data Flow
-
-1. **Authentication Flow**:
-   - User registers/logs in → JWT token generated → Token stored in cookie
-   - Protected routes check JWT token validity → Access granted/denied
-
-2. **Course Creation Flow**:
-   - Instructor creates course → Uploads thumbnail → Adds lectures
-   - Videos uploaded to Cloudinary → URLs stored in database
-   - Course published → Available to students
-
-3. **Enrollment Flow**:
-   - Student browses courses → Selects course → Creates payment order
-   - Payment processed via Razorpay → Webhook verifies payment
-   - Course added to student's enrolled courses → Progress tracking created
-
-4. **Learning Flow**:
-   - Student accesses enrolled course → Watches lectures → Progress tracked
-   - Lecture marked as viewed → Course completion status updated
-   - Student can mark course as complete/incomplete
-
-## Entity Relationships
-
-![ER diagram](./screenshots-and-diagrams/image.png)
-
 - **User**: Basic profile information, role (Student/Instructor)
 - **Course**: Course details, creator reference, enrolled students, lectures list
 - **Lecture**: Video content, title, preview settings
 - **Payment**: Course purchase records, payment status
 - **Progress**: Course completion status, viewed lectures
+
+## Environment Variables
+
+### Client (.env)
+```
+VITE_SERVER_URL=http://localhost:5000/api/v1/
+```
+
+### Server (.env)
+```
+PORT
+MONGODB_URI=mongodb://yourMongoDb_URI
+JWT_SECRET_KEY=your_jwt_secret_key
+CLIENT_URL=http://localhost:5173
+GMAIL_EMAIL=your_email@gmail.com
+GMAIL_APP_PASSWORD=your_app_password
+RAZORPAY_KEY_ID=your_razorpay_key
+RAZORPAY_KEY_SECRET=your_razorpay_secret
+CLOUDINARY_CLOUD_NAME=your_cloudinary_name
+CLOUDINARY_API_KEY=your_cloudinary_key
+CLOUDINARY_API_SECRET=your_cloudinary_secret
+```
 
 ## Glimpse of UI
 
@@ -265,6 +236,35 @@ learnify/
 
 ![Course Created By Instructor](./screenshots-and-diagrams/InstructorCourses.png)
 *Course Page created by Instructor*
+## Installation
+
+### Prerequisites
+- Node.js (v16+)
+- MongoDB
+- Git
+
+### Clone the Repository
+```bash
+git clone https://github.com/yourusername/learnify.git
+cd learnify
+```
+
+### Setup Server
+```bash
+cd server
+npm install
+cp .env.example .env  # Create and configure your env file
+npm run dev
+```
+
+### Setup Client
+```bash
+cd client
+npm install
+cp .env.example .env  # Create and configure your env file
+npm run dev
+```
+
 
 ## Contributing
 
@@ -279,5 +279,5 @@ Contributions are welcome! Please follow these steps:
 
 Please ensure your code follows the project's style guidelines and includes appropriate tests.
 ```
-                                 Thanks
+              Thanks
 ```
