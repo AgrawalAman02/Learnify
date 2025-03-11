@@ -90,9 +90,9 @@ const LectureTab = () => {
       setLectureTitle(lectureData.data.lectureTitle || "");
       setIsPreviewFree(lectureData.data.isPreviewFree || false);
     }
-    if(isLectureSuccess){
-      toast.success(lectureData.message);
-    }
+    // if(isLectureSuccess){
+    //   toast.success(lectureData.message);
+    // }
     if(isLectureError) 
       toast.error(lectureError.data.message);
   }, [lectureData, lectureError, isLectureError,isLectureSuccess]);

@@ -20,7 +20,7 @@ const EditCourse = () => {
             </Link>
           <Link to={"lecture"}>
             <Button  className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-urbanist font-bold md:px-6 md:text-lg ">
-              Click to add Lectures
+              Add/Edit Lectures
             </Button>
           </Link>
         </div>

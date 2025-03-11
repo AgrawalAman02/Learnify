@@ -27,7 +27,10 @@ const CreateLecture = () => {
 
   useEffect(() => {
     if (isError) toast.error("Kuch toh gadbad hai! Sayad ", error.message);
-    else if (isSuccess) toast.success("Bravo! Lecture added successfully");
+    else if (isSuccess) {
+      toast.success("Bravo! Lecture added successfully");
+      navigate(`/admin/course/${courseId}/lecture/${data?.lecture?._id}`)
+    }
   }, [isSuccess, error, isError]);
 
   return (
