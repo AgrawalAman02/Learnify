@@ -58,7 +58,7 @@ const CreateLecture = () => {
         <div className="flex gap-4 p-2 ml-4 mt-2 flex-1">
           <Button
             variant="outline"
-            onClick={() => navigate(`/admin/course/${courseId}`)}
+            onClick={() => navigate(`/admin/course`)}
           >
             Back to course
           </Button>
