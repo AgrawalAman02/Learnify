@@ -14,7 +14,7 @@ const AddCourse = () => {
   const [courseTitle, setCourseTitle] = useState("");
   const [price, setPrice] = useState("");
   const [formErrors, setFormErrors] = useState({});
-  const [addCourse, { isError, isLoading, isSuccess, error }] = useAddCourseMutation();
+  const [addCourse, { data, isError, isLoading, isSuccess, error }] = useAddCourseMutation();
 
   const validateForm = () => {
     const errors = {};
@@ -46,6 +46,8 @@ const AddCourse = () => {
       setFormErrors(prev => ({ ...prev, category: "" }));
     }
   };
+  console.log(data);
+  
 
   useEffect(() => {
     if (isError) {
@@ -56,7 +58,7 @@ const AddCourse = () => {
       setCategory("");
       setPrice("");
       setCourseTitle("");
-      navigate("/admin/course");
+      navigate(`/admin/course/${data?.id}`);
     }
   }, [isLoading, isSuccess, isError, error, navigate]);
   

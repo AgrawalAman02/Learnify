@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom'
 
 const MainLayout = () => {
   return (
-    <div className='font-questrial'>
+    <div className='font-montserrat'>
         <ScrollToTop/>
         <NavBar/>
         <div className='mt-16'>

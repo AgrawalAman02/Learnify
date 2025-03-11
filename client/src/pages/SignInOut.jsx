@@ -93,15 +93,17 @@ export function SignInOut() {
     const inputData = type === "signUp" ? signUpInput : signInInput;
     const action = type === "signUp" ? registerUser : loginUser;
     await action(inputData);
-    setSignInInput({
+    if(isSuccess ){
+      setSignInInput({
       email: "",
       password: "",
-    });
-    setSignUpInput({
-      name: "",
-      email: "",
-      password: "",
-    });
+      });
+      setSignUpInput({
+        name: "",
+        email: "",
+        password: "",
+      });
+    }
   };
 
   return (

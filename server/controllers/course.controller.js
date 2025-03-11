@@ -20,7 +20,7 @@ export const createCourse = async (req, res) => {
     });
     if (isPresent)
       throw new Error("Duplicate Course creation is not allowed...");
-    await Course.create({
+    const course = await Course.create({
       courseTitle,
       category,
       price,
@@ -30,6 +30,7 @@ export const createCourse = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "New course has been added successfully!...",
+      id : course?._id.toJSON(),
     });
   } catch (error) {
     res.status(400).json({
