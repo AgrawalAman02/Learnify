@@ -1,18 +1,39 @@
 import { ChartNoAxesColumn, SquareLibrary } from "lucide-react";
-import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, Outlet, useLocation } from "react-router-dom";
 
 const SideBar = () => {
+  const location = useLocation();
+  const getInitialState = ()=>{
+    if(location.pathname.includes("/admin/course")){
+      return "courses";
+    }
+    return "dashboard";
+  }
+
+  const [selected , setSelected] = useState(getInitialState);
+
+  useEffect(()=>{
+    if(location.pathname.includes("/admin/course")){
+      setSelected("courses");
+    }
+    else setSelected("dashboard");
+  },[location.pathname]);
+
+  const handleSidebar = (val)=>{
+    setSelected(val);
+  }
+
   return (
     <div className="flex">
-      <div className="hidden lg:block  w-[250px] sm:w-[300px] space-y-8 border-r border-r-gray-300 dark:border-r-gray-700 p-5 sticky top-0  h-screen    ">
+      <div className="hidden lg:block  w-[250px] sm:w-[300px] space-y-8 border-r border-r-gray-300 dark:border-r-gray-700 p-5 sticky top-0  h-screen">
         <div className="space-y-6">
-          <Link to="dashboard" className="flex gap-2 items-center ">
+          <Link to="dashboard" className={`flex gap-2 items-center  p-2 ${selected=='dashboard' ? "bg-blue-300 dark:bg-blue-700 rounded-s-xl" : ""}`}  onClick={()=>handleSidebar('dashboard')}>
             <ChartNoAxesColumn size={22} />
             <h1>DashBoard</h1>
           </Link>
 
-          <Link to="/admin/course" className="flex gap-2 items-center ">
+          <Link to="/admin/course" className={`flex gap-2 items-center p-2  ${selected=='courses' ? " bg-blue-300 dark:bg-blue-700 rounded-s-xl" : ""}`} onClick={()=>handleSidebar('courses')}>
             <SquareLibrary size={22} />
             <h1>Courses</h1>
           </Link>
