@@ -61,19 +61,25 @@ const NavBarDropDown = () => {
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             {role === "Instructor" && (
-              <DropdownMenuItem className="gap-2">
-                <Layout size={16} />
-                <Link to="/admin/dashboard">Dashboard</Link>
-              </DropdownMenuItem>
+              <Link to="/admin/dashboard" >
+                <DropdownMenuItem className="gap-2 text-blue-700 dark:text-blue-300">
+                  <Layout size={16} />
+                  <div>Dashboard</div>
+                </DropdownMenuItem>
+              </Link>
             )}
-            <DropdownMenuItem className="gap-2">
-              <BookOpen size={16} />
-              <Link to="/learning">My Learning</Link>
+            <Link to="/learning">
+              <DropdownMenuItem className="gap-2 text-blue-700 dark:text-blue-300">
+                <BookOpen size={16} />
+                My Learning
+              </DropdownMenuItem>
+            </Link>
+            <Link to="/profile">
+              <DropdownMenuItem className="gap-2 text-blue-700 dark:text-blue-300">
+                <User size={16} />
+                Edit Profile
             </DropdownMenuItem>
-            <DropdownMenuItem className="gap-2">
-              <User size={16} />
-              <Link to="/profile">Edit Profile</Link>
-            </DropdownMenuItem>
+            </Link>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="gap-2 text-red-500 dark:text-red-400" onClick={handleLogOut}>
