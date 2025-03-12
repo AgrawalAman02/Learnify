@@ -37,6 +37,7 @@ Learnify is a comprehensive Learning Management System (LMS) designed to provide
 - Create and publish courses with rich text descriptions
 - Upload video lectures with preview options
 - Edit course details and content
+- Remove course
 - Dashboard with sales analytics and statistics
 - Course management tools
 <!-- 
@@ -60,23 +61,26 @@ Learnify is a comprehensive Learning Management System (LMS) designed to provide
 - **State Management**: Redux Toolkit with RTK Query
 - **Styling**: Tailwind CSS with shadcn/ui components
 - **Animations**: Framer Motion
-- **Form Handling**: React Hook Form
 - **Rich Text Editing**: React Quill
 - **Media**: React Player for video content
+- **Chart**: Rechart
 
 ### Backend
 - **Runtime**: Node.js
 - **Framework**: Express.js
 - **Database**: MongoDB with Mongoose ODM
 - **Authentication**: JWT (JSON Web Tokens)
+- **Validation**: Validator
+- **File Upload**: Multer
 - **File Storage**: Cloudinary for media
 - **Payment Gateway**: Razorpay
 - **Email Service**: Nodemailer with Gmail
+- **Password Reset Rate Limiter**: Express-rate-limit
 
 ### DevOps & Tools
 - **Deployment**: Vercel for frontend, custom hosting for backend
 - **Version Control**: Git
-- **API Testing**: Thunder Client/Postman
+- **API Testing**: Postman
 
 ## Architecture
 
@@ -152,6 +156,7 @@ Learnify follows a client-server architecture with a RESTful API backend:
 - `GET /api/v1/course/getPublishedCourse` - Get published courses
 - `GET /api/v1/course/search` - Search courses
 - `GET /api/v1/course/stats` - Get course statistics
+- `DELETE /api/v1/course/removeCourse/:courseId` - Remove course
 
 ### Lecture Endpoints
 - `POST /api/v1/course/:courseId/createLecture` - Create lecture
@@ -186,7 +191,7 @@ learnify/
 - **User**: Basic profile information, role (Student/Instructor)
 - **Course**: Course details, creator reference, enrolled students, lectures list
 - **Lecture**: Video content, title, preview settings
-- **Payment**: Course purchase records, payment status
+- **Payment**: Payment status
 - **Progress**: Course completion status, viewed lectures
 
 ## Environment Variables

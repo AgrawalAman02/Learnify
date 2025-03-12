@@ -109,7 +109,7 @@ npm run dev
 - **database.js**: Configures the MongoDB connection using Mongoose.
 
 ### controllers/
-- **course.controller.js**: Handles course-related requests (create, get, update, publish, search).
+- **course.controller.js**: Handles course-related requests (create, get, update, publish, search,delete).
 - **lecture.controller.js**: Handles lecture-related requests (create, get, update, delete).
 - **payment.controller.js**: Handles payment-related requests (create order, verify payment).
 - **profile.controller.js**: Handles user profile-related requests (get profile, update profile).
