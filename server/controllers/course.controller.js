@@ -1,4 +1,5 @@
 import { Course } from "../models/course.js";
+import { Lecture } from "../models/lecture.js";
 import { Payment } from "../models/payment.js";
 import { User } from "../models/user.js";
 import { deleteMediaFromCloud, uploadMedia } from "../utils/cloudinary.js";
@@ -452,3 +453,53 @@ export const getSuggestions = async (req, res) => {
     });
   }
 };
+
+export const removeCourse = async (req,res)=>{
+  try {
+    const { courseId } = req.params;
+    const user = req.user;
+    const course = await Course.findById(courseId);
+    if(!course) return res.status(404).json({
+      success : false,
+      message : "No such course found",
+    });
+
+    if(!user  ) return res.status(401).json({
+      success : false,
+      message : "Please sign in first",
+    });
+
+    if(user.role !=='Instructor' || course.creator.toString() !== user._id.toString()) 
+    return res.status(403).json({
+      success : false,
+      message :  'you are not authorised to delete this course',
+    });
+    
+    await User.updateMany(
+      {_id : {$in : course.enrolledStudents}},
+      { $pull : {enrolledAt : courseId}}
+    );
+
+    await Lecture.deleteMany(
+      {_id : {$in : course.lectures}}
+    );
+
+    if (course.thumbnail) {
+      const publicId = course.thumbnail.split("/").pop().split(".")[0];
+      await deleteMediaFromCloud(publicId);
+    }
+
+    await Course.findByIdAndDelete(courseId);
+
+    return res.status(200).json({
+      success : true,
+      message : "Course Deleted Successfully..."
+    })
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error deleting course: " + error.message
+    });
+  }
+}

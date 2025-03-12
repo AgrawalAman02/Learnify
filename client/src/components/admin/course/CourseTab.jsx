@@ -17,6 +17,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   useGetCourseDetailsQuery,
   usePublishCourseMutation,
+  useRemoveCourseMutation,
   useUpdateCourseMutation,
 } from "@/apis/courseApi";
 import { toast } from "sonner";
@@ -48,6 +49,8 @@ const CourseTab = () => {
   
   const [publishCourse] = usePublishCourseMutation();
 
+  const [removeCourse, {data : deleteData , isLoading : isDeleting, isSuccess : isDeleted , isError: isDeleteError, error: deleteError}] = useRemoveCourseMutation();
+
   useEffect(() => {
     if (courseData?.course) {
       const course = courseData?.course;
@@ -62,6 +65,17 @@ const CourseTab = () => {
       });
     }
   }, [courseData]);
+
+  useEffect(()=>{
+    if(isDeleteError) {
+      toast.error(deleteError?.data?.message || "Deletion Error");
+    }
+    if(isDeleted){
+      toast.success(deleteData?.message || "Course Deleted Successfully..." );
+      navigate("/admin/course");
+    }
+
+  },[isDeleteError, isDeleted, deleteError])
 
   if(CourseLoading) return <LoaderSpinner/>
   const handleInputChange = (e) => {
@@ -107,6 +121,16 @@ const CourseTab = () => {
     }
   }
 
+  const handleRemoveCourse =async ()=>{
+    try {
+      if(window.confirm("Are you sure you want to delete this course?")) {
+        await removeCourse(courseId);
+      }
+    } catch (error) {
+      toast.error(error);
+    }
+  }
+
   return (
     <div>
       <Card className="flex flex-col gap-6 ">
@@ -122,7 +146,11 @@ const CourseTab = () => {
             <Button variant="outline" disabled={courseData?.course.lectures.length===0} onClick={()=>handlePublish(courseData?.course?.isPublished ? false : true)}>
               {courseData?.course?.isPublished ? "Unpublish" : "Publish"}
             </Button>
-            <Button>Remove Course</Button>
+            <Button variant={"destructive"} onClick={handleRemoveCourse} disabled={isDeleting}>
+              {
+                isDeleting ? <div className="flex gap-1"><Loader2 className="animate-spin"/>Removing...</div> : "Remove Course"
+              }
+            </Button>
           </div>
         </CardHeader>
 

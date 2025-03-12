@@ -117,6 +117,14 @@ export const courseApi = createApi({
       keepUnusedDataFor: 60
     }),
 
+    removeCourse : builder.mutation({
+      query: (courseId)=>({
+        url : `removeCourse/${courseId}`,
+        method : 'DELETE',
+      }),
+      invalidatesTags : ['refetchListOfCourse'],
+    }),
+
     // creating api for lectures here ...
 
     createLecture: builder.mutation({
@@ -178,6 +186,7 @@ export const {
   useGetCourseDetailsQuery,
   usePublishCourseMutation,
   useGetPublishedCourseQuery,
+  useRemoveCourseMutation,
   useCreateLectureMutation,
   useGetLectureQuery,
   useEditLectureMutation,
