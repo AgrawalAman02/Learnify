@@ -27,13 +27,13 @@ const Courses = () => {
   }
 
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-white dark:from-slate-950 dark:to-slate-900 min-h-screen py-16">
+    <div className="bg-gradient-to-b from-gray-50 to-white dark:from-slate-950 dark:to-slate-900 min-h-screen py-8 md:py-16">
       <div className="max-w-7xl mx-auto p-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          className="text-center mb-8 md:mb-16"
         >
           <motion.div
             initial={{ scale: 0.9 }}

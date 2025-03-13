@@ -16,7 +16,7 @@ const NavBar = () => {
     <motion.div 
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="h-20 fixed top-0 right-0 left-0 z-20 backdrop-blur-lg bg-white/70 dark:bg-slate-950/80 border-b border-b-gray-200/50 dark:border-b-gray-800/50 flex items-center justify-between px-4 md:px-28"
+      className="h-16 md:h-20 fixed top-0 right-0 left-0 z-20 backdrop-blur-lg bg-white/70 dark:bg-slate-950/80 border-b border-b-gray-200/50 dark:border-b-gray-800/50 flex items-center justify-between px-4 md:px-28"
     >
       <Link to="/">
         <motion.div 

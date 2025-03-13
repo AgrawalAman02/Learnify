@@ -12,10 +12,10 @@ const HeroSection = ({ onExplore }) => {
   }
 
   return (
-    <div className="relative min-h-[90vh] bg-gradient-to-tr from-blue-600 via-purple-600 to-indigo-800 dark:from-slate-900 dark:via-purple-950 dark:to-slate-950 overflow-hidden">
+    <div className="relative min-h-[100vh] md:min-h-[90vh] bg-gradient-to-tr from-blue-600 via-purple-600 to-indigo-800 dark:from-slate-900 dark:via-purple-950 dark:to-slate-950 overflow-hidden">
       {/* Enhanced animated background shapes */}
       <motion.div
-        className="absolute top-20 left-10 w-96 h-96 bg-white/5 dark:bg-white/10 rounded-full blur-3xl"
+        className="absolute top-16 md:top-20 left-12 md:left-10 w-96 h-96 bg-white/5 dark:bg-white/10 rounded-full blur-3xl"
         animate={{
           scale: [1, 1.2, 1],
           rotate: [0, 90, 0],
@@ -53,7 +53,7 @@ const HeroSection = ({ onExplore }) => {
         }}
       />
 
-      <div className="relative px-4 py-24 text-center flex flex-col items-center justify-center min-h-[90vh] backdrop-blur-sm">
+      <div className="relative px-4 py-8 md:py-24 text-center flex flex-col items-center justify-center min-h-[90vh] backdrop-blur-sm">
         <motion.div
           className="max-w-5xl mx-auto"
           initial={{ opacity: 0, y: 20 }}
@@ -61,7 +61,7 @@ const HeroSection = ({ onExplore }) => {
           transition={{ duration: 0.8 }}
         >
           <motion.h1
-            className="text-white text-4xl sm:text-5xl md:text-6xl font-bold mb-8 leading-tight"
+            className="text-white text-4xl sm:text-5xl md:text-6xl font-bold mb-6 md:mb-8 leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -83,7 +83,7 @@ const HeroSection = ({ onExplore }) => {
           </motion.h1>
 
           <motion.p
-            className="text-gray-100 text-lg md:text-xl dark:text-gray-200 mb-12 max-w-2xl mx-auto font-medium"
+            className="text-gray-100 text-md md:text-xl dark:text-gray-200 mb-6 md:mb-12 max-w-2xl mx-auto font-medium"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
@@ -130,7 +130,7 @@ const HeroSection = ({ onExplore }) => {
 
           {/* Enhanced Stats */}
           <motion.div
-            className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl mx-auto"
+            className="mt-10 md:mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1 }}
@@ -148,7 +148,7 @@ const HeroSection = ({ onExplore }) => {
                 transition={{ duration: 0.2 }}
               >
                 <motion.h3
-                  className="text-4xl font-bold bg-gradient-to-r from-white to-gray-100 dark:from-white dark:to-gray-300 text-transparent bg-clip-text"
+                  className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white to-gray-100 dark:from-white dark:to-gray-300 text-transparent bg-clip-text"
                   initial={{ scale: 0.5 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: index * 0.1 }}
