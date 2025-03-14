@@ -43,7 +43,7 @@ const Courses = () => {
             <h1 className="font-bold text-4xl mb-4 bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 text-transparent bg-clip-text">
               Explore Our Courses
             </h1>
-            <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto text-xs md:text-base">
               Discover a wide range of courses taught by expert instructors
             </p>
           </motion.div>
