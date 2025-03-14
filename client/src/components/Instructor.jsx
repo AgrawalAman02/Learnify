@@ -15,16 +15,25 @@ import { useSelector } from "react-redux";
 import { BookOpen, CheckCircle2, GraduationCap, Sparkles } from "lucide-react";
 import { useInstructorMutation } from "@/apis/profileApi";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const Instructor = () => {
   const { user } = useSelector((store) => store.auth);
   const [instructor, { isLoading }] = useInstructorMutation();
+  const navigate = useNavigate();
 
   const handleinstructor = async () => {
     try {
       await instructor().unwrap();
-      toast.success("Congratulations! You're now an instructor");
-      window.location.reload();
+    toast.success("You're now an instructor!", {
+      description: "Check your dashboard in the dropdown menu to start creating courses",
+      duration: 5000,
+      action: {
+        label: "Open Dashboard",
+        onClick: () => navigate("/admin/dashboard")
+      },
+    });
+    // window.location.reload();
     } catch (error) {
       toast.error(error?.data?.message || "Failed to become instructor");
     }

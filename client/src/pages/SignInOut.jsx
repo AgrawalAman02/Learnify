@@ -180,7 +180,7 @@ export function SignInOut() {
                           id="email"
                           onChange={(e) => changeInputHandler(e, "signIn")}
                           value={signInInput.email}
-                          placeholder="you@example.com"
+                          placeholder="demo@example.com"
                           name="email"
                           className="transition-all duration-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 
                 hover:border-indigo-400 dark:bg-slate-800 dark:border-slate-700"
@@ -196,7 +196,7 @@ export function SignInOut() {
                         <Input
                           type="password"
                           id="password"
-                          placeholder="••••••••"
+                          placeholder="Enter Your Password"
                           onChange={(e) => changeInputHandler(e, "signIn")}
                           value={signInInput.password}
                           name="password"
@@ -269,7 +269,7 @@ export function SignInOut() {
                           value={signUpInput.email}
                           onChange={(e) => changeInputHandler(e, "signUp")}
                           id="email"
-                          placeholder="you@example.com"
+                          placeholder="demo@example.com"
                           name="email"
                           className="transition-all duration-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 
                 hover:border-indigo-400 dark:bg-slate-800 dark:border-slate-700"
@@ -285,7 +285,7 @@ export function SignInOut() {
                         <Input
                           type="password"
                           id="password"
-                          placeholder="••••••••"
+                          placeholder="Create your password"
                           value={signUpInput.password}
                           onChange={(e) => changeInputHandler(e, "signUp")}
                           name="password"

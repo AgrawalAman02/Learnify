@@ -60,10 +60,9 @@ const ForgotPassword = ({ setIsForget }) => {
                     <ArrowLeft />
                   </Button>
                 </div>
-                <CardTitle>Reset your password</CardTitle>
+                <CardTitle className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Forgot Your Password?</CardTitle>
                 <CardDescription>
-                  Just provide the email , we will send a reset link to your
-                  email id..
+                  No worries! Enter your email and we'll send you instructions to reset your password.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-2">

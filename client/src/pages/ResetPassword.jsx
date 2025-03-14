@@ -113,8 +113,7 @@ const ResetPassword = () => {
                       </div>
                       <CardTitle>Reset your password</CardTitle>
                       <CardDescription>
-                        Create your new password so that you can continue your
-                        learning experience
+                        Create a secure password to regain access to your courses and learning materials
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-2">
