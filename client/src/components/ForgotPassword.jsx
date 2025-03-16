@@ -60,7 +60,7 @@ const ForgotPassword = ({ setIsForget }) => {
                     <ArrowLeft />
                   </Button>
                 </div>
-                <CardTitle className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Forgot Your Password?</CardTitle>
+                <CardTitle className="text-lg md:text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Forgot Your Password?</CardTitle>
                 <CardDescription>
                   No worries! Enter your email and we'll send you instructions to reset your password.
                 </CardDescription>

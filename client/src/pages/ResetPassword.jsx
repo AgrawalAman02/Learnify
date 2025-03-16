@@ -111,7 +111,7 @@ const ResetPassword = () => {
                           <ArrowLeft />
                         </Button>
                       </div>
-                      <CardTitle>Reset your password</CardTitle>
+                      <CardTitle className="text-lg md:text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Reset your password</CardTitle>
                       <CardDescription>
                         Create a secure password to regain access to your courses and learning materials
                       </CardDescription>
