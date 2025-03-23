@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import Courses from '@/components/student/Courses';
 import HeroSection from '@/components/student/HeroSection';
 import { motion } from 'framer-motion';
+import Footer from '@/components/student/Footer';
 
 const HomePage = () => {
   const coursesRef = useRef(null);
@@ -20,6 +21,7 @@ const HomePage = () => {
       <div ref={coursesRef}>
         <Courses />
       </div>
+      <Footer/>
     </motion.div>
   );
 };
