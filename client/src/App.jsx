@@ -1,9 +1,8 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 import SignInOut from "./pages/SignInOut";
 import MainLayout from "./Layout/MainLayout";
 import HomePage from "./pages/student/HomePage";
-import { RouterProvider } from "react-router";
 import MyLearning from "./pages/student/MyLearning";
 import EditProfile from "./pages/student/EditProfile";
 import SideBar from "./pages/admin/SideBar";
@@ -25,9 +24,10 @@ const appRouter = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: <ErrorBoundary />,
     children: [
       {
-        path: "/",
+        index: true,
         element: <HomePage />,
       },
       {
@@ -88,10 +88,6 @@ const appRouter = createBrowserRouter([
           }
         ],
       },
-      {
-        path : '*',
-        element : <ErrorBoundary/>
-      }
     ],
   },
 ]);
