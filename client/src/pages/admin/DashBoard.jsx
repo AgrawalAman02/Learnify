@@ -21,13 +21,13 @@ const DashBoard = () => {
     useGetCourseStatsQuery();
 
   useEffect(() => {
-    if (isSuccess)
-      toast.success(data?.message || "Stats fetched successfully...");
+    // if (isSuccess)
+    //   toast.success(data?.message || "Stats fetched successfully...");
     if (isError)
       toast.error(
         error?.data?.message || error?.message || "Error while fetching stats"
       );
-  }, [isSuccess]);
+  }, [isError,error]);
 
   const stats = data?.stats;
   const courseStats = data?.courseStats;
