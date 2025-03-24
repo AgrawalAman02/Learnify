@@ -261,7 +261,7 @@ const Footer = () => {
 
         {/* Copyright */}
         <div className="mt-8 border-t border-gray-200 dark:border-gray-700 pt-8 text-center">
-          <p className="text-gray-600 dark:text-gray-300 text-sm flex items-center justify-center gap-1">
+          <p className="text-gray-600 dark:text-gray-300 text-sm flex flex-wrap items-center justify-center gap-1 px-2">
             © {new Date().getFullYear()} Learnify. Made with{" "}
             <Heart
               size={14}
@@ -278,12 +278,13 @@ const Footer = () => {
               Aman Agrawal
             </a>
           </p>
-          <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-            All rights reserved |{" "}
+          <div className="mt-2 text-xs text-gray-500 dark:text-gray-400 flex flex-wrap justify-center gap-x-2">
+            <span>All rights reserved</span>
+            <span className="hidden sm:inline">|</span>
             <Link to="/" className="hover:underline">
               Privacy Policy
-            </Link>{" "}
-            |{" "}
+            </Link>
+            <span className="hidden sm:inline">|</span>
             <Link to="/" className="hover:underline">
               Terms of Service
             </Link>
