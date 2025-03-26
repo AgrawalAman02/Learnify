@@ -180,7 +180,7 @@ export const getPublishedCourse = async (req, res) =>{
     const skip = (pageNum-1) * limitNum;
     const courses =await Course.find({isPublished : true})
       .populate({path : "creator", select : "name photoUrl"})
-      .sort({ price: -1 } || {enrolledStudents :-1})
+      .sort({ price: 1 } || {enrolledStudents : -1})
       .skip(skip)
       .limit(limitNum);
     
